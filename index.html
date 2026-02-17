@@ -100,29 +100,20 @@
 </div>
 
 <script>
-// Fungsi utama untuk format angka dan memicu kalkulasi
 function formatAndCalc(el) {
     let cursor = el.selectionStart;
     let oldLen = el.value.length;
-    
-    // Hanya sisakan angka
     let val = el.value.replace(/\D/g, '');
-    
-    // Format ke ribuan dengan titik
     if (val !== "") {
         el.value = Number(val).toLocaleString('id-ID');
     } else {
         el.value = "";
     }
-
-    // Koreksi posisi kursor setelah penambahan titik
     let newLen = el.value.length;
     el.setSelectionRange(cursor + (newLen - oldLen), cursor + (newLen - oldLen));
-
     hitung();
 }
 
-// Mengambil nilai angka murni dari input ber-format titik
 function getVal(id) {
     let el = document.getElementById(id);
     return parseInt(el.value.replace(/\./g, '')) || 0;
@@ -132,13 +123,11 @@ function hitung() {
     const sKera = {1:1500,2:3000,3:4500,4:6000,5:7500,6:9000,7:10500,8:12000,9:13500,10:15000};
     const sCyrille = {1:3000,2:6000,3:9000,4:12000,5:15000,6:18000,7:21000,8:24000,9:27000,10:30000};
 
-    // Validasi Skill
     let lvK = getVal("kera");
     let lvC = getVal("cyrille");
     document.getElementById("warnKera").innerText = lvK > 10 ? "⚠️ Max 10" : "";
     document.getElementById("warnCyrille").innerText = lvC > 10 ? "⚠️ Max 10" : "";
 
-    // Validasi Rasio
     let vrI = getVal("rInf");
     let vrL = getVal("rLan");
     let vrM = getVal("rMar");
@@ -159,12 +148,10 @@ function hitung() {
         let capReal = baseCap + bonus; 
         if (capReal <= 0) return { iP:0, lP:0, mP:0, iA:0, lA:0, mA:0, sI:0, sL:0, sM:0, cap:0 };
         
-        // 1. Sisa pasukan murni: Total Pasukan - (Kapasitas * Rasio Rally)
         let sInf = Math.max(0, infTotal - (capReal * (vrI / 100)));
         let sLan = Math.max(0, lanTotal - (capReal * (vrL / 100)));
         let sMM  = Math.max(0, mmTotal  - (capReal * (vrM / 100)));
 
-        // 2. Persentase per March
         let perMarchInf = sInf / barisan;
         let perMarchLan = sLan / barisan;
         let perMarchMM  = sMM / barisan;
@@ -189,25 +176,25 @@ function hitung() {
     let resNH = getRes(kNHBase);
 
     document.getElementById("hasil").innerHTML = `
-        <h2 style="border:none; text-align:center; color:white; margin-bottom:15px; letter-spacing: 1px;">HASIL DISTRIBUSI</h2>
+        <h2 style="border:none; text-align:center; color:white; margin-bottom:15px; letter-spacing: 1px;">HASIL KALKULASI</h2>
         
         <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">🛡️ SISA TOTAL PASUKAN (Joiner Pool)</p>
-        <div class="capacity-info"><span>Sisa INF:</span> <span class="val-highlight">${resH.sI.toLocaleString('id-ID')}</span></div>
-        <div class="capacity-info"><span>Sisa LAN:</span> <span class="val-highlight">${resH.sL.toLocaleString('id-ID')}</span></div>
-        <div class="capacity-info"><span>Sisa MM:</span> <span class="val-highlight">${resH.sM.toLocaleString('id-ID')}</span></div>
+        <div class="capacity-info"><span>Sisa INFANTRY:</span> <span class="val-highlight">${resH.sI.toLocaleString('id-ID')}</span></div>
+        <div class="capacity-info"><span>Sisa LANCER:</span> <span class="val-highlight">${resH.sL.toLocaleString('id-ID')}</span></div>
+        <div class="capacity-info"><span>Sisa MARKSMAN:</span> <span class="val-highlight">${resH.sM.toLocaleString('id-ID')}</span></div>
 
         <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">📊 RATIO JOINER (Per March)</p>
         <table>
             <tr><th>MODE</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
-            <tr><td>HERO</td><td>${resH.iP}%</td><td>${resH.lP}%</td><td>${resH.mP}%</td></tr>
-            <tr><td>TANPA</td><td>${resNH.iP}%</td><td>${resNH.lP}%</td><td>${resNH.mP}%</td></tr>
+            <tr><td>WITH HERO</td><td>${resH.iP}%</td><td>${resH.lP}%</td><td>${resH.mP}%</td></tr>
+            <tr><td>NO HERO</td><td>${resNH.iP}%</td><td>${resNH.lP}%</td><td>${resNH.mP}%</td></tr>
         </table>
 
         <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">💂 UNIT PER MARCH (Target)</p>
         <table style="font-family: monospace;">
             <tr><th>MODE</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
-            <tr><td>HERO</td><td>${resH.iA.toLocaleString('id-ID')}</td><td>${resH.lA.toLocaleString('id-ID')}</td><td>${resH.mA.toLocaleString('id-ID')}</td></tr>
-            <tr><td>TANPA</td><td>${resNH.iA.toLocaleString('id-ID')}</td><td>${resNH.lA.toLocaleString('id-ID')}</td><td>${resNH.mA.toLocaleString('id-ID')}</td></tr>
+            <tr><td>WITH HERO</td><td>${resH.iA.toLocaleString('id-ID')}</td><td>${resH.lA.toLocaleString('id-ID')}</td><td>${resH.mA.toLocaleString('id-ID')}</td></tr>
+            <tr><td>NO HERO</td><td>${resNH.iA.toLocaleString('id-ID')}</td><td>${resNH.lA.toLocaleString('id-ID')}</td><td>${resNH.mA.toLocaleString('id-ID')}</td></tr>
         </table>
     `;
 }
