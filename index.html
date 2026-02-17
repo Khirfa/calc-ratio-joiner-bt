@@ -15,9 +15,9 @@
             --border-color: #242b3d;
             --warning-red: #ff4d4d;
             /* Pasukan Colors */
-            --color-inf: #4d94ff; /* Biru */
-            --color-lan: #ff4d4d; /* Merah */
-            --color-mm: #4dff88;  /* Hijau */
+            --color-inf: #4d94ff; 
+            --color-lan: #ff4d4d; 
+            --color-mm: #4dff88;  
         }
 
         body {
@@ -25,15 +25,15 @@
             background-color: var(--bg-color);
             color: var(--text-primary);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             justify-content: center;
         }
 
         .container {
             width: 100%;
-            max-width: 550px;
-            animation: fadeIn 0.6s ease-out;
+            max-width: 500px;
+            animation: fadeIn 0.5s ease-out;
         }
 
         @keyframes fadeIn {
@@ -44,58 +44,67 @@
         h1 {
             text-align: center;
             font-weight: 800;
-            letter-spacing: 3px;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
             color: var(--accent-color);
-            margin-bottom: 30px;
-            text-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
             text-transform: uppercase;
         }
 
         .section-card {
             background: var(--card-bg);
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         h2 {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             color: var(--text-secondary);
-            margin: 0 0 20px 0;
+            margin: 0 0 15px 0;
             border-left: 3px solid var(--accent-color);
-            padding-left: 12px;
+            padding-left: 10px;
         }
 
-        .input-group { margin-bottom: 12px; }
+        /* Responsive Input Layout: 1 Baris 1 Input */
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-group {
+            width: 100%;
+        }
 
         label {
             display: block;
             font-size: 0.75rem;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             color: var(--text-secondary);
             font-weight: 600;
         }
 
         input {
             width: 100%;
-            padding: 12px 14px;
+            padding: 12px;
             background: var(--input-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             color: white;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            transition: all 0.2s ease;
             box-sizing: border-box;
+            outline: none;
         }
 
         input:focus {
-            outline: none;
             border-color: var(--accent-color);
-            box-shadow: 0 0 10px rgba(0, 242, 255, 0.15);
+            background: #0d121a;
         }
 
         .warning-text {
@@ -103,23 +112,29 @@
             font-size: 0.7rem;
             margin-top: 4px;
             height: 12px;
+            font-weight: bold;
+        }
+
+        /* Result Area */
+        .result-container {
+            background: linear-gradient(145deg, #161b26, #0d1117);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 242, 255, 0.4);
+            margin-top: 10px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            font-size: 0.8rem;
-            border-radius: 12px;
-            overflow: hidden;
+            font-size: 0.75rem;
         }
 
         th {
             background-color: #1f2636;
-            padding: 14px;
+            padding: 10px 5px;
             text-align: center;
-            font-weight: bold;
-            letter-spacing: 0.5px;
         }
 
         .th-inf { color: var(--color-inf); }
@@ -128,37 +143,27 @@
 
         td {
             background-color: rgba(255,255,255,0.02);
-            padding: 14px;
+            padding: 12px 5px;
             text-align: center;
             border-top: 1px solid var(--border-color);
-            color: var(--text-primary);
         }
 
-        .result-container {
-            background: linear-gradient(145deg, #161b26, #0d1117);
-            padding: 24px;
-            border-radius: 20px;
-            border: 1px solid rgba(0, 242, 255, 0.5);
-            box-shadow: 0 0 25px rgba(0, 242, 255, 0.1);
-        }
-
-        .est-table td {
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-            font-size: 0.75rem;
-        }
+        .val-highlight { color: var(--accent-color); font-weight: 700; }
 
         .capacity-info {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: var(--text-secondary);
-            margin-top: 6px;
+            margin-top: 8px;
             display: flex;
             justify-content: space-between;
+            border-bottom: 1px solid #242b3d;
+            padding-bottom: 4px;
         }
 
-        .val-highlight { 
-            color: var(--accent-color); 
-            font-weight: 700;
-            text-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+        /* Fix for smaller tables in mobile */
+        @media (max-width: 400px) {
+            table { font-size: 0.7rem; }
+            td, th { padding: 8px 3px; }
         }
     </style>
 </head>
@@ -168,36 +173,42 @@
     <h1>RATIO BEAR TRAP</h1>
 
     <div class="section-card">
-        <h2>Data Pasukan & Skill</h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+        <h2>Data Pasukan Total</h2>
+        <div class="input-wrapper">
             <div class="input-group"><label>Total INFANTRY</label><input type="text" id="infantry"><div id="warnInf" class="warning-text"></div></div>
             <div class="input-group"><label>Total LANCER</label><input type="text" id="lancer"><div id="warnLan" class="warning-text"></div></div>
             <div class="input-group"><label>Total MARKSMAN</label><input type="text" id="marksman"><div id="warnMar" class="warning-text"></div></div>
         </div>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+    </div>
+
+    <div class="section-card">
+        <h2>Kapasitas Barisan</h2>
+        <div class="input-wrapper">
             <div class="input-group"><label>Kaps. HERO</label><input type="text" id="kapasitasHero"><div id="warnKH" class="warning-text"></div></div>
             <div class="input-group"><label>Kaps. TANPA HERO</label><input type="text" id="kapasitasNoHero"><div id="warnKNH" class="warning-text"></div></div>
-            <div class="input-group"><label>Barisan (Max 6)</label><input type="text" id="barisan" value="1"><div id="warnBar" class="warning-text"></div></div>
+            <div class="input-group"><label>Jumlah Barisan (Max 6)</label><input type="text" id="barisan" value="1"><div id="warnBar" class="warning-text"></div></div>
         </div>
+    </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div class="input-group"><label>Lv. Kera Salju</label><input type="text" id="kera" value="0"><div id="warnKera" class="warning-text"></div></div>
-            <div class="input-group"><label>Lv. Cyrille</label><input type="text" id="cyrille" value="0"><div id="warnCyrille" class="warning-text"></div></div>
+    <div class="section-card">
+        <h2>Level Skill Pet/Hero</h2>
+        <div class="input-wrapper">
+            <div class="input-group"><label>Lv. Kera Salju (0-10)</label><input type="text" id="kera" value="0"><div id="warnKera" class="warning-text"></div></div>
+            <div class="input-group"><label>Lv. Cyrille (0-10)</label><input type="text" id="cyrille" value="0"><div id="warnCyrille" class="warning-text"></div></div>
         </div>
     </div>
 
     <div class="section-card">
         <h2>Rasio Open Rally (%)</h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-            <div class="input-group"><label>INF %</label><input type="text" id="rInf" value="0"><div id="warnRInf" class="warning-text"></div></div>
-            <div class="input-group"><label>LAN %</label><input type="text" id="rLan" value="0"><div id="warnRLan" class="warning-text"></div></div>
-            <div class="input-group"><label>MM %</label><input type="text" id="rMar" value="0"><div id="warnRMar" class="warning-text"></div></div>
+        <div class="input-wrapper">
+            <div class="input-group"><label style="color:var(--color-inf)">INFANTRY %</label><input type="text" id="rInf" value="0"><div id="warnRInf" class="warning-text"></div></div>
+            <div class="input-group"><label style="color:var(--color-lan)">LANCER %</label><input type="text" id="rLan" value="0"><div id="warnRLan" class="warning-text"></div></div>
+            <div class="input-group"><label style="color:var(--color-mm)">MARKSMAN %</label><input type="text" id="rMar" value="0"><div id="warnRMar" class="warning-text"></div></div>
         </div>
     </div>
 
     <div class="result-container" id="hasil">
-        <p style="text-align:center; color: var(--text-secondary);">Isi data untuk melihat kalkulasi</p>
+        <p style="text-align:center; color: var(--text-secondary);">Masukkan data untuk kalkulasi</p>
     </div>
 </div>
 
@@ -214,7 +225,7 @@ function validateLogic(id, warnId, min, max) {
     let warnEl = document.getElementById(warnId);
     let val = cleanInput(el);
     if (val === null) { warnEl.innerText = ""; return null; }
-    if (val > max) { warnEl.innerText = `⚠️ Max ${max}`; el.value = max; return max; }
+    if (val > max) { warnEl.innerText = `⚠️ Maksimal ${max}`; el.value = max; return max; }
     warnEl.innerText = ""; return val;
 }
 
@@ -263,34 +274,27 @@ function hitung() {
     let resH = getRes(kHBase), resNH = getRes(kNHBase);
 
     document.getElementById("hasil").innerHTML = `
-        <h2 style="border:none; text-align:center; color:white; margin-bottom:15px; letter-spacing: 2px;">HASIL KALKULASI</h2>
+        <h2 style="border:none; text-align:center; color:white; margin-bottom:15px; letter-spacing: 1px;">HASIL KALKULASI</h2>
         
-        <p style="font-size:0.75rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">📊 PERSENTASE JOINER</p>
+        <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">📊 PERSENTASE JOINER</p>
         <table>
-            <tr><th>MODE</th><th class="th-inf">INFANTRY</th><th class="th-lan">LANCER</th><th class="th-mm">MARKSMAN</th></tr>
+            <tr><th>MODE</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
             <tr><td>HERO</td><td>${resH.iP}%</td><td>${resH.lP}%</td><td>${resH.mP}%</td></tr>
             <tr><td>TANPA HERO</td><td>${resNH.iP}%</td><td>${resNH.lP}%</td><td>${resNH.mP}%</td></tr>
         </table>
 
-        <p style="font-size:0.75rem; color:var(--accent-color); margin: 24px 0 8px 0; font-weight:700;">💂 PASUKAN RATA-RATA</p>
-        <table class="est-table">
-            <tr><th>MODE</th><th class="th-inf">INFANTRY</th><th class="th-lan">LANCER</th><th class="th-mm">MARKSMAN</th></tr>
-            <tr>
-                <td style="font-family:sans-serif;">HERO</td>
-                <td>${resH.iA.toLocaleString()}</td><td>${resH.lA.toLocaleString()}</td><td>${resH.mA.toLocaleString()}</td>
-            </tr>
-            <tr>
-                <td style="font-family:sans-serif;">TANPA HERO</td>
-                <td>${resNH.iA.toLocaleString()}</td><td>${resNH.lA.toLocaleString()}</td><td>${resNH.mA.toLocaleString()}</td>
-            </tr>
+        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">💂 PASUKAN RATA-RATA</p>
+        <table style="font-family: monospace;">
+            <tr><th>MODE</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
+            <tr><td>HERO</td><td>${resH.iA.toLocaleString()}</td><td>${resH.lA.toLocaleString()}</td><td>${resH.mA.toLocaleString()}</td></tr>
+            <tr><td>TANPA HERO</td><td>${resNH.iA.toLocaleString()}</td><td>${resNH.lA.toLocaleString()}</td><td>${resNH.mA.toLocaleString()}</td></tr>
         </table>
 
-        <div style="margin-top:20px; border-top: 1px solid var(--border-color); padding-top:15px;">
-            <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:12px; font-weight:700; text-transform:uppercase;">🛡️ STATUS KAPASITAS</p>
-            <div class="capacity-info"><span>Bonus Skill (Pet/Hero):</span> <span class="val-highlight">+${totalBonus.toLocaleString()}</span></div>
+        <div style="margin-top:15px; border-top: 1px solid var(--border-color); padding-top:10px;">
+            <p style="font-size:0.65rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">🛡️ STATUS KAPASITAS</p>
+            <div class="capacity-info"><span>Bonus Skill:</span> <span class="val-highlight">+${totalBonus.toLocaleString()}</span></div>
             <div class="capacity-info"><span>Total Kaps. (HERO):</span> <span class="val-highlight">${resH.cap.toLocaleString()}</span></div>
-            <div class="capacity-info"><span>Total Kaps. (TANPA HERO):</span> <span class="val-highlight">${resNH.cap.toLocaleString()}</span></div>
-            <div class="capacity-info"><span>Efisiensi Baris (HERO):</span> <span class="val-highlight">${resH.tA.toLocaleString()} / ${resH.cap.toLocaleString()}</span></div>
+            <div class="capacity-info"><span>Efisiensi (HERO):</span> <span class="val-highlight">${resH.tA.toLocaleString()} / ${resH.cap.toLocaleString()}</span></div>
         </div>
     `;
 }
