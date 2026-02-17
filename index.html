@@ -70,7 +70,6 @@
             padding-left: 10px;
         }
 
-        /* Responsive Input Layout: 1 Baris 1 Input */
         .input-wrapper {
             display: flex;
             flex-direction: column;
@@ -115,7 +114,6 @@
             font-weight: bold;
         }
 
-        /* Result Area */
         .result-container {
             background: linear-gradient(145deg, #161b26, #0d1117);
             padding: 20px;
@@ -160,7 +158,6 @@
             padding-bottom: 4px;
         }
 
-        /* Fix for smaller tables in mobile */
         @media (max-width: 400px) {
             table { font-size: 0.7rem; }
             td, th { padding: 8px 3px; }
@@ -175,17 +172,17 @@
     <div class="section-card">
         <h2>Data Pasukan Total</h2>
         <div class="input-wrapper">
-            <div class="input-group"><label>Total INFANTRY</label><input type="text" id="infantry"><div id="warnInf" class="warning-text"></div></div>
-            <div class="input-group"><label>Total LANCER</label><input type="text" id="lancer"><div id="warnLan" class="warning-text"></div></div>
-            <div class="input-group"><label>Total MARKSMAN</label><input type="text" id="marksman"><div id="warnMar" class="warning-text"></div></div>
+            <div class="input-group"><label>Total INFANTRY</label><input type="text" id="infantry" placeholder="0"><div id="warnInf" class="warning-text"></div></div>
+            <div class="input-group"><label>Total LANCER</label><input type="text" id="lancer" placeholder="0"><div id="warnLan" class="warning-text"></div></div>
+            <div class="input-group"><label>Total MARKSMAN</label><input type="text" id="marksman" placeholder="0"><div id="warnMar" class="warning-text"></div></div>
         </div>
     </div>
 
     <div class="section-card">
         <h2>Kapasitas Barisan</h2>
         <div class="input-wrapper">
-            <div class="input-group"><label>Kaps. HERO</label><input type="text" id="kapasitasHero"><div id="warnKH" class="warning-text"></div></div>
-            <div class="input-group"><label>Kaps. TANPA HERO</label><input type="text" id="kapasitasNoHero"><div id="warnKNH" class="warning-text"></div></div>
+            <div class="input-group"><label>Kaps. HERO</label><input type="text" id="kapasitasHero" placeholder="0"><div id="warnKH" class="warning-text"></div></div>
+            <div class="input-group"><label>Kaps. TANPA HERO</label><input type="text" id="kapasitasNoHero" placeholder="0"><div id="warnKNH" class="warning-text"></div></div>
             <div class="input-group"><label>Jumlah Barisan (Max 6)</label><input type="text" id="barisan" value="1"><div id="warnBar" class="warning-text"></div></div>
         </div>
     </div>
@@ -247,13 +244,6 @@ function hitung() {
     let vrL = cleanInput(document.getElementById("rLan")) || 0;
     let vrM = cleanInput(document.getElementById("rMar")) || 0;
 
-    let totalR = vrI + vrL + vrM;
-    if (totalR > 100) {
-        let f = 100 / totalR;
-        vrI = Math.round(vrI * f); vrL = Math.round(vrL * f); vrM = 100 - (vrI + vrL);
-        document.getElementById("rInf").value = vrI; document.getElementById("rLan").value = vrL; document.getElementById("rMar").value = vrM;
-    }
-
     let bKera = sKera[lvK] || 0;
     let bCyrille = sCyrille[lvC] || 0;
     let totalBonus = bKera + bCyrille;
@@ -261,13 +251,37 @@ function hitung() {
     function getRes(cBase) {
         let tCap = cBase + totalBonus;
         if (tCap <= 0) return { iP:0, lP:0, mP:0, iA:0, lA:0, mA:0, tA:0, cap:0 };
-        let oI = tCap * (vrI / 100), oL = tCap * (vrL / 100), oM = tCap * (vrM / 100);
-        let pI = Math.max(0, (inf - oI) / barisan), pL = Math.max(0, (lan - oL) / barisan), pM = Math.max(0, (mm - oM) / barisan);
-        let tAct = pI + pL + pM;
-        if (tAct > tCap) { let r = tCap / tAct; pI *= r; pL *= r; pM *= r; }
+        
+        // Menghitung berapa banyak pasukan yang terpakai di Open Rally
+        let oI = tCap * (vrI / 100);
+        let oL = tCap * (vrL / 100);
+        let oM = tCap * (vrM / 100);
+        
+        // Sisa pasukan dibagi per barisan
+        let pI = Math.max(0, (inf - oI) / barisan);
+        let pL = Math.max(0, (lan - oL) / barisan);
+        let pM = Math.max(0, (mm - oM) / barisan);
+        
+        // Total pasukan murni tanpa dibatasi kapasitas (untuk cek efisiensi)
+        let tActRaw = pI + pL + pM;
+
+        // Hasil persentase murni terhadap kapasitas baris, dimentokkan di 100%
+        // Sesuai permintaan: 55% 40% 100% (total boleh lebih dari 100, tapi tiap kolom max 100)
+        let iP = Math.min(100, Math.round((pI / tCap) * 100));
+        let lP = Math.min(100, Math.round((pL / tCap) * 100));
+        let mP = Math.min(100, Math.round((pM / tCap) * 100));
+
+        // Angka aktual pasukan yang dibawa (tetap dibatasi kapasitas fisik barisan)
+        let factor = (tActRaw > tCap) ? (tCap / tActRaw) : 1;
+        let iA = Math.round(pI * factor);
+        let lA = Math.round(pL * factor);
+        let mA = Math.round(pM * factor);
+
         return {
-            iP: Math.min(100, Math.round((pI/tCap)*100)), lP: Math.min(100, Math.round((pL/tCap)*100)), mP: Math.min(100, Math.round((pM/tCap)*100)),
-            iA: Math.round(pI), lA: Math.round(pL), mA: Math.round(pM), tA: Math.round(pI+pL+pM), cap: tCap
+            iP: iP, lP: lP, mP: mP,
+            iA: iA, lA: lA, mA: mA, 
+            tA: Math.round(iA + lA + mA), 
+            cap: tCap
         };
     }
 
