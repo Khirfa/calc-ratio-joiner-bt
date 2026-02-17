@@ -1,203 +1,304 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Kalkulator Rasio Bear Trap</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ratio Bear Trap</title>
     <style>
-        body {
-            font-family: Arial;
-            background-color: #1e1e2f;
-            color: white;
-            padding: 20px;
+        :root {
+            --bg-color: #0b0e14;
+            --card-bg: #161b26;
+            --accent-color: #00f2ff; /* Ice Blue Neon */
+            --text-primary: #ffffff;
+            --text-secondary: #8a95ad;
+            --input-bg: #090c12;
+            --border-color: #242b3d;
+            --warning-red: #ff4d4d;
+            /* Pasukan Colors */
+            --color-inf: #4d94ff; /* Biru */
+            --color-lan: #ff4d4d; /* Merah */
+            --color-mm: #4dff88;  /* Hijau */
         }
-        input {
-            padding: 5px;
-            margin: 5px 0;
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
             width: 100%;
+            max-width: 550px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            text-transform: uppercase;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin: 0 0 20px 0;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 12px;
+        }
+
+        .input-group { margin-bottom: 12px; }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
             box-sizing: border-box;
         }
-        button {
-            padding: 10px;
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.15);
         }
-        .box {
-            background: #2b2b40;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 10px;
+
+        .warning-text {
+            color: var(--warning-red);
+            font-size: 0.7rem;
+            margin-top: 4px;
+            height: 12px;
         }
-        h2 {
-            margin-top: 0;
-        }
-        .result {
-            background: #111;
-            padding: 15px;
-            border-radius: 10px;
-        }
-        .note {
-            margin-top: 15px;
-            padding: 10px;
-            background: #2e2e2e;
-            border-left: 4px solid #4CAF50;
-            font-size: 14px;
-        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            font-size: 0.8rem;
+            border-radius: 12px;
+            overflow: hidden;
         }
-        th, td {
-            border: 1px solid #444;
-            padding: 8px;
-            text-align: center;
-        }
+
         th {
-            background-color: #333;
+            background-color: #1f2636;
+            padding: 14px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .th-inf { color: var(--color-inf); }
+        .th-lan { color: var(--color-lan); }
+        .th-mm { color: var(--color-mm); }
+
+        td {
+            background-color: rgba(255,255,255,0.02);
+            padding: 14px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .result-container {
+            background: linear-gradient(145deg, #161b26, #0d1117);
+            padding: 24px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 242, 255, 0.5);
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.1);
+        }
+
+        .est-table td {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+        }
+
+        .capacity-info {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .val-highlight { 
+            color: var(--accent-color); 
+            font-weight: 700;
+            text-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
         }
     </style>
 </head>
 <body>
 
-<h1>Kalkulator Rasio Bear Trap</h1>
+<div class="container">
+    <h1>RATIO BEAR TRAP</h1>
 
-<div class="box">
-    <h2>Data Pasukan</h2>
-    <label>Total Infantry</label>
-    <input type="number" id="infantry">
+    <div class="section-card">
+        <h2>Data Pasukan & Skill</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+            <div class="input-group"><label>Total INFANTRY</label><input type="text" id="infantry"><div id="warnInf" class="warning-text"></div></div>
+            <div class="input-group"><label>Total LANCER</label><input type="text" id="lancer"><div id="warnLan" class="warning-text"></div></div>
+            <div class="input-group"><label>Total MARKSMAN</label><input type="text" id="marksman"><div id="warnMar" class="warning-text"></div></div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+            <div class="input-group"><label>Kaps. HERO</label><input type="text" id="kapasitasHero"><div id="warnKH" class="warning-text"></div></div>
+            <div class="input-group"><label>Kaps. TANPA HERO</label><input type="text" id="kapasitasNoHero"><div id="warnKNH" class="warning-text"></div></div>
+            <div class="input-group"><label>Barisan (Max 6)</label><input type="text" id="barisan" value="1"><div id="warnBar" class="warning-text"></div></div>
+        </div>
 
-    <label>Total Lancer</label>
-    <input type="number" id="lancer">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="input-group"><label>Lv. Kera Salju</label><input type="text" id="kera" value="0"><div id="warnKera" class="warning-text"></div></div>
+            <div class="input-group"><label>Lv. Cyrille</label><input type="text" id="cyrille" value="0"><div id="warnCyrille" class="warning-text"></div></div>
+        </div>
+    </div>
 
-    <label>Total Marksman</label>
-    <input type="number" id="marksman">
+    <div class="section-card">
+        <h2>Rasio Open Rally (%)</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+            <div class="input-group"><label>INF %</label><input type="text" id="rInf" value="0"><div id="warnRInf" class="warning-text"></div></div>
+            <div class="input-group"><label>LAN %</label><input type="text" id="rLan" value="0"><div id="warnRLan" class="warning-text"></div></div>
+            <div class="input-group"><label>MM %</label><input type="text" id="rMar" value="0"><div id="warnRMar" class="warning-text"></div></div>
+        </div>
+    </div>
 
-    <label>Kapasitas Penyebaran Hero</label>
-    <input type="number" id="kapasitasHero">
-
-    <label>Kapasitas Penyebaran No Hero</label>
-    <input type="number" id="kapasitasNoHero">
-
-    <label>Total Barisan</label>
-    <input type="number" id="barisan">
+    <div class="result-container" id="hasil">
+        <p style="text-align:center; color: var(--text-secondary);">Isi data untuk melihat kalkulasi</p>
+    </div>
 </div>
-
-<div class="box">
-    <h2>Level Skill</h2>
-    <label>Level Kera Salju (1-10)</label>
-    <input type="number" id="kera" min="1" max="10">
-
-    <label>Level Cyrille (1-10)</label>
-    <input type="number" id="cyrille" min="1" max="10">
-</div>
-
-<div class="box">
-    <h2>Rasio Open Rally (%)</h2>
-    <label>Infantry</label>
-    <input type="number" id="rInf">
-
-    <label>Lancer</label>
-    <input type="number" id="rLan">
-
-    <label>Marksman</label>
-    <input type="number" id="rMar">
-</div>
-
-<button onclick="hitung()">Hitung Rasio Joiner</button>
-
-<div class="result" id="hasil"></div>
 
 <script>
+function cleanInput(el) {
+    let val = el.value.replace(/\D/g, '');
+    if (val.length > 1 && val[0] === '0') val = val.substring(1);
+    el.value = val;
+    return val === "" ? null : parseInt(val);
+}
+
+function validateLogic(id, warnId, min, max) {
+    let el = document.getElementById(id);
+    let warnEl = document.getElementById(warnId);
+    let val = cleanInput(el);
+    if (val === null) { warnEl.innerText = ""; return null; }
+    if (val > max) { warnEl.innerText = `⚠️ Max ${max}`; el.value = max; return max; }
+    warnEl.innerText = ""; return val;
+}
+
 function hitung() {
-    const skillKera = {1:1500,2:3000,3:4500,4:6000,5:7500,6:9000,7:10500,8:12000,9:13500,10:15000};
-    const skillCyrille = {1:3000,2:6000,3:9000,4:12000,5:15000,6:18000,7:21000,8:24000,9:27000,10:30000};
+    const sKera = {1:1500,2:3000,3:4500,4:6000,5:7500,6:9000,7:10500,8:12000,9:13500,10:15000};
+    const sCyrille = {1:3000,2:6000,3:9000,4:12000,5:15000,6:18000,7:21000,8:24000,9:27000,10:30000};
 
-    let infantry = parseFloat(document.getElementById("infantry").value);
-    let lancer = parseFloat(document.getElementById("lancer").value);
-    let marksman = parseFloat(document.getElementById("marksman").value);
-    let kapasitasHero = parseFloat(document.getElementById("kapasitasHero").value);
-    let kapasitasNoHero = parseFloat(document.getElementById("kapasitasNoHero").value);
-    let barisan = parseFloat(document.getElementById("barisan").value);
+    let lvK = validateLogic("kera", "warnKera", 0, 10) || 0;
+    let lvC = validateLogic("cyrille", "warnCyrille", 0, 10) || 0;
+    let inf = validateLogic("infantry", "warnInf", 0, 99999999) || 0;
+    let lan = validateLogic("lancer", "warnLan", 0, 99999999) || 0;
+    let mm = validateLogic("marksman", "warnMar", 0, 99999999) || 0;
+    let kHBase = validateLogic("kapasitasHero", "warnKH", 0, 9999999) || 0;
+    let kNHBase = validateLogic("kapasitasNoHero", "warnKNH", 0, 9999999) || 0;
+    let iBar = validateLogic("barisan", "warnBar", 0, 6);
+    let barisan = (iBar === null || iBar < 1) ? 1 : iBar;
 
-    let levelKera = parseInt(document.getElementById("kera").value);
-    let levelCyrille = parseInt(document.getElementById("cyrille").value);
+    let vrI = cleanInput(document.getElementById("rInf")) || 0;
+    let vrL = cleanInput(document.getElementById("rLan")) || 0;
+    let vrM = cleanInput(document.getElementById("rMar")) || 0;
 
-    let rInf = parseFloat(document.getElementById("rInf").value) / 100;
-    let rLan = parseFloat(document.getElementById("rLan").value) / 100;
-    let rMar = parseFloat(document.getElementById("rMar").value) / 100;
+    let totalR = vrI + vrL + vrM;
+    if (totalR > 100) {
+        let f = 100 / totalR;
+        vrI = Math.round(vrI * f); vrL = Math.round(vrL * f); vrM = 100 - (vrI + vrL);
+        document.getElementById("rInf").value = vrI; document.getElementById("rLan").value = vrL; document.getElementById("rMar").value = vrM;
+    }
 
-    let bonusKera = skillKera[levelKera] || 0;
-    let bonusCyrille = skillCyrille[levelCyrille] || 0;
+    let bKera = sKera[lvK] || 0;
+    let bCyrille = sCyrille[lvC] || 0;
+    let totalBonus = bKera + bCyrille;
 
-    // Total kapasitas hero untuk acuan open rally
-    let totalHero = kapasitasHero + bonusKera + bonusCyrille;
-
-    // Hitung unit open rally awal berdasarkan totalHero
-    let openInf = totalHero * rInf;
-    let openLan = totalHero * rLan;
-    let openMar = totalHero * rMar;
-
-    // Fungsi perhitungan rasio joiner biasa
-    function hitungRasio(kapasitasDasar) {
-        let totalKapasitas = kapasitasDasar + bonusKera + bonusCyrille;
-
-        // Sisa pasukan setelah open rally (menggunakan open rally dari totalHero)
-        let sInf = infantry - openInf;
-        let sLan = lancer - openLan;
-        let sMar = marksman - openMar;
-
-        let Binf = sInf / barisan;
-        let Blan = sLan / barisan;
-        let Bmar = sMar / barisan;
-
+    function getRes(cBase) {
+        let tCap = cBase + totalBonus;
+        if (tCap <= 0) return { iP:0, lP:0, mP:0, iA:0, lA:0, mA:0, tA:0, cap:0 };
+        let oI = tCap * (vrI / 100), oL = tCap * (vrL / 100), oM = tCap * (vrM / 100);
+        let pI = Math.max(0, (inf - oI) / barisan), pL = Math.max(0, (lan - oL) / barisan), pM = Math.max(0, (mm - oM) / barisan);
+        let tAct = pI + pL + pM;
+        if (tAct > tCap) { let r = tCap / tAct; pI *= r; pL *= r; pM *= r; }
         return {
-            total: totalKapasitas,
-            infantry: Math.floor((Binf / totalKapasitas) * 100),
-            lancer: Math.floor((Blan / totalKapasitas) * 100),
-            marksman: Math.floor((Bmar / totalKapasitas) * 100)
+            iP: Math.min(100, Math.round((pI/tCap)*100)), lP: Math.min(100, Math.round((pL/tCap)*100)), mP: Math.min(100, Math.round((pM/tCap)*100)),
+            iA: Math.round(pI), lA: Math.round(pL), mA: Math.round(pM), tA: Math.round(pI+pL+pM), cap: tCap
         };
     }
 
-    let hasilHero = hitungRasio(kapasitasHero);
-    let hasilNoHero = hitungRasio(kapasitasNoHero);
+    let resH = getRes(kHBase), resNH = getRes(kNHBase);
 
     document.getElementById("hasil").innerHTML = `
-        <h2>Hasil Rasio Joiner</h2>
+        <h2 style="border:none; text-align:center; color:white; margin-bottom:15px; letter-spacing: 2px;">HASIL KALKULASI</h2>
+        
+        <p style="font-size:0.75rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">📊 PERSENTASE JOINER</p>
         <table>
+            <tr><th>MODE</th><th class="th-inf">INFANTRY</th><th class="th-lan">LANCER</th><th class="th-mm">MARKSMAN</th></tr>
+            <tr><td>HERO</td><td>${resH.iP}%</td><td>${resH.lP}%</td><td>${resH.mP}%</td></tr>
+            <tr><td>TANPA HERO</td><td>${resNH.iP}%</td><td>${resNH.lP}%</td><td>${resNH.mP}%</td></tr>
+        </table>
+
+        <p style="font-size:0.75rem; color:var(--accent-color); margin: 24px 0 8px 0; font-weight:700;">💂 PASUKAN RATA-RATA</p>
+        <table class="est-table">
+            <tr><th>MODE</th><th class="th-inf">INFANTRY</th><th class="th-lan">LANCER</th><th class="th-mm">MARKSMAN</th></tr>
             <tr>
-                <th></th>
-                <th>Total Kapasitas</th>
-                <th>Infantry</th>
-                <th>Lancer</th>
-                <th>Marksman</th>
+                <td style="font-family:sans-serif;">HERO</td>
+                <td>${resH.iA.toLocaleString()}</td><td>${resH.lA.toLocaleString()}</td><td>${resH.mA.toLocaleString()}</td>
             </tr>
             <tr>
-                <td>Dengan Hero</td>
-                <td>${hasilHero.total.toLocaleString()}</td>
-                <td>${hasilHero.infantry}%</td>
-                <td>${hasilHero.lancer}%</td>
-                <td>${hasilHero.marksman}%</td>
-            </tr>
-            <tr>
-                <td>Tanpa Hero</td>
-                <td>${hasilNoHero.total.toLocaleString()}</td>
-                <td>${hasilNoHero.infantry}%</td>
-                <td>${hasilNoHero.lancer}%</td>
-                <td>${hasilNoHero.marksman}%</td>
+                <td style="font-family:sans-serif;">TANPA HERO</td>
+                <td>${resNH.iA.toLocaleString()}</td><td>${resNH.lA.toLocaleString()}</td><td>${resNH.mA.toLocaleString()}</td>
             </tr>
         </table>
 
-        <div class="note">
-        <b>Note:</b><br>
-        Open rally dihitung hanya dari total kapasitas hero.<br>
-        Lancer bisa disesuaikan, yang penting marksman sesuai hasilnya.<br>
-        Infantry lebih baik isi sekitar <b>1-5%</b> dan lancer <b>5-20%</b>.
+        <div style="margin-top:20px; border-top: 1px solid var(--border-color); padding-top:15px;">
+            <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:12px; font-weight:700; text-transform:uppercase;">🛡️ STATUS KAPASITAS</p>
+            <div class="capacity-info"><span>Bonus Skill (Pet/Hero):</span> <span class="val-highlight">+${totalBonus.toLocaleString()}</span></div>
+            <div class="capacity-info"><span>Total Kaps. (HERO):</span> <span class="val-highlight">${resH.cap.toLocaleString()}</span></div>
+            <div class="capacity-info"><span>Total Kaps. (TANPA HERO):</span> <span class="val-highlight">${resNH.cap.toLocaleString()}</span></div>
+            <div class="capacity-info"><span>Efisiensi Baris (HERO):</span> <span class="val-highlight">${resH.tA.toLocaleString()} / ${resH.cap.toLocaleString()}</span></div>
         </div>
     `;
 }
+
+document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", hitung);
+    input.addEventListener("keydown", e => { if(["e","E","-","+",".",","].includes(e.key)) e.preventDefault(); });
+});
 </script>
 
 </body>
