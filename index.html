@@ -27,6 +27,7 @@
         label { display: block; font-size: 0.75rem; margin-bottom: 5px; color: var(--text-secondary); font-weight: 600; }
         input { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 1rem; box-sizing: border-box; outline: none; transition: 0.2s; }
         input:focus { border-color: var(--accent-color); background: #0d121a; }
+        .warning-text { color: var(--warning-red); font-size: 0.65rem; margin-top: 4px; font-weight: bold; height: 12px; }
         .result-container { background: linear-gradient(145deg, #161b26, #0d1117); padding: 20px; border-radius: 16px; border: 1px solid rgba(0, 242, 255, 0.4); margin-top: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.75rem; }
         th { background-color: #1f2636; padding: 10px 5px; text-align: center; font-weight: bold; }
@@ -43,35 +44,55 @@
     <div class="section-card">
         <h2>Data Pasukan Total</h2>
         <div class="input-wrapper">
-            <div class="input-group"><label>Total INFANTRY</label><input type="text" id="infantry" placeholder="0"></div>
-            <div class="input-group"><label>Total LANCER</label><input type="text" id="lancer" placeholder="0"></div>
-            <div class="input-group"><label>Total MARKSMAN</label><input type="text" id="marksman" placeholder="0"></div>
+            <div class="input-group"><label>Total INFANTRY</label><input type="text" id="infantry" oninput="formatAndCalc(this)"></div>
+            <div class="input-group"><label>Total LANCER</label><input type="text" id="lancer" oninput="formatAndCalc(this)"></div>
+            <div class="input-group"><label>Total MARKSMAN</label><input type="text" id="marksman" oninput="formatAndCalc(this)"></div>
         </div>
     </div>
 
     <div class="section-card">
         <h2>Kapasitas & Barisan</h2>
         <div class="input-wrapper">
-            <div class="input-group"><label>Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" placeholder="0"></div>
-            <div class="input-group"><label>Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" placeholder="0"></div>
-            <div class="input-group"><label>Jumlah Barisan (1-6)</label><input type="text" id="barisan" value="1"></div>
+            <div class="input-group"><label>Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" oninput="formatAndCalc(this)"></div>
+            <div class="input-group"><label>Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" oninput="formatAndCalc(this)"></div>
+            <div class="input-group"><label>Jumlah Barisan (1-6)</label><input type="text" id="barisan" value="1" oninput="formatAndCalc(this)"></div>
         </div>
     </div>
 
     <div class="section-card">
         <h2>Level Skill Bonus</h2>
         <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div class="input-group"><label>Lv. Kera (0-10)</label><input type="text" id="kera" value="0"></div>
-            <div class="input-group"><label>Lv. Cyrille (0-10)</label><input type="text" id="cyrille" value="0"></div>
+            <div class="input-group">
+                <label>Lv. Kera (0-10)</label>
+                <input type="text" id="kera" value="0" oninput="formatAndCalc(this)">
+                <div id="warnKera" class="warning-text"></div>
+            </div>
+            <div class="input-group">
+                <label>Lv. Cyrille (0-10)</label>
+                <input type="text" id="cyrille" value="0" oninput="formatAndCalc(this)">
+                <div id="warnCyrille" class="warning-text"></div>
+            </div>
         </div>
     </div>
 
     <div class="section-card">
         <h2>Rasio Open Rally (%)</h2>
         <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-            <div class="input-group"><label style="color:var(--color-inf)">INF %</label><input type="text" id="rInf" value="0"></div>
-            <div class="input-group"><label style="color:var(--color-lan)">LAN %</label><input type="text" id="rLan" value="0"></div>
-            <div class="input-group"><label style="color:var(--color-mm)">MM %</label><input type="text" id="rMar" value="0"></div>
+            <div class="input-group">
+                <label style="color:var(--color-inf)">INF %</label>
+                <input type="text" id="rInf" value="0" oninput="formatAndCalc(this)">
+                <div id="warnRInf" class="warning-text"></div>
+            </div>
+            <div class="input-group">
+                <label style="color:var(--color-lan)">LAN %</label>
+                <input type="text" id="rLan" value="0" oninput="formatAndCalc(this)">
+                <div id="warnRLan" class="warning-text"></div>
+            </div>
+            <div class="input-group">
+                <label style="color:var(--color-mm)">MM %</label>
+                <input type="text" id="rMar" value="0" oninput="formatAndCalc(this)">
+                <div id="warnRMar" class="warning-text"></div>
+            </div>
         </div>
     </div>
 
@@ -79,89 +100,117 @@
 </div>
 
 <script>
-const cleanInput = (el) => {
+// Fungsi utama untuk format angka dan memicu kalkulasi
+function formatAndCalc(el) {
+    let cursor = el.selectionStart;
+    let oldLen = el.value.length;
+    
+    // Hanya sisakan angka
     let val = el.value.replace(/\D/g, '');
-    if (val.length > 1 && val[0] === '0') val = val.substring(1);
-    el.value = val;
-    return val === "" ? 0 : parseInt(val);
-};
+    
+    // Format ke ribuan dengan titik
+    if (val !== "") {
+        el.value = Number(val).toLocaleString('id-ID');
+    } else {
+        el.value = "";
+    }
+
+    // Koreksi posisi kursor setelah penambahan titik
+    let newLen = el.value.length;
+    el.setSelectionRange(cursor + (newLen - oldLen), cursor + (newLen - oldLen));
+
+    hitung();
+}
+
+// Mengambil nilai angka murni dari input ber-format titik
+function getVal(id) {
+    let el = document.getElementById(id);
+    return parseInt(el.value.replace(/\./g, '')) || 0;
+}
 
 function hitung() {
     const sKera = {1:1500,2:3000,3:4500,4:6000,5:7500,6:9000,7:10500,8:12000,9:13500,10:15000};
     const sCyrille = {1:3000,2:6000,3:9000,4:12000,5:15000,6:18000,7:21000,8:24000,9:27000,10:30000};
 
-    let lvK = Math.min(10, cleanInput(document.getElementById("kera")));
-    let lvC = Math.min(10, cleanInput(document.getElementById("cyrille")));
-    let infTotal = cleanInput(document.getElementById("infantry"));
-    let lanTotal = cleanInput(document.getElementById("lancer"));
-    let mmTotal = cleanInput(document.getElementById("marksman"));
-    let kHBase = cleanInput(document.getElementById("kapasitasHero"));
-    let kNHBase = cleanInput(document.getElementById("kapasitasNoHero"));
-    let iBar = cleanInput(document.getElementById("barisan"));
-    let barisan = Math.min(6, Math.max(1, iBar || 1));
+    // Validasi Skill
+    let lvK = getVal("kera");
+    let lvC = getVal("cyrille");
+    document.getElementById("warnKera").innerText = lvK > 10 ? "⚠️ Max 10" : "";
+    document.getElementById("warnCyrille").innerText = lvC > 10 ? "⚠️ Max 10" : "";
 
-    let vrI = Math.min(100, cleanInput(document.getElementById("rInf")));
-    let vrL = Math.min(100, cleanInput(document.getElementById("rLan")));
-    let vrM = Math.min(100, cleanInput(document.getElementById("rMar")));
+    // Validasi Rasio
+    let vrI = getVal("rInf");
+    let vrL = getVal("rLan");
+    let vrM = getVal("rMar");
+    document.getElementById("warnRInf").innerText = vrI > 100 ? "⚠️ Max 100" : "";
+    document.getElementById("warnRLan").innerText = vrL > 100 ? "⚠️ Max 100" : "";
+    document.getElementById("warnRMar").innerText = vrM > 100 ? "⚠️ Max 100" : "";
+
+    let infTotal = getVal("infantry");
+    let lanTotal = getVal("lancer");
+    let mmTotal = getVal("marksman");
+    let kHBase = getVal("kapasitasHero");
+    let kNHBase = getVal("kapasitasNoHero");
+    let barisan = Math.min(6, Math.max(1, getVal("barisan") || 1));
 
     let bonus = (sKera[lvK] || 0) + (sCyrille[lvC] || 0);
 
     function getRes(baseCap) {
         let capReal = baseCap + bonus; 
-        if (capReal <= 0) return { iP:0, lP:0, mP:0, iA:0, lA:0, mA:0, cap:0 };
+        if (capReal <= 0) return { iP:0, lP:0, mP:0, iA:0, lA:0, mA:0, sI:0, sL:0, sM:0, cap:0 };
         
-        // 1. Hitung sisa murni: Total Pasukan - Jatah Open Rally
+        // 1. Sisa pasukan murni: Total Pasukan - (Kapasitas * Rasio Rally)
         let sInf = Math.max(0, infTotal - (capReal * (vrI / 100)));
         let sLan = Math.max(0, lanTotal - (capReal * (vrL / 100)));
         let sMM  = Math.max(0, mmTotal  - (capReal * (vrM / 100)));
 
-        // 2. Bagi sisa tersebut ke jumlah barisan (misal bagi 6)
+        // 2. Persentase per March
         let perMarchInf = sInf / barisan;
         let perMarchLan = sLan / barisan;
         let perMarchMM  = sMM / barisan;
 
-        // 3. Persentase: Hasil bagi tadi dibandingkan dengan kapasitas baris
-        // Contoh: sisa 98k, kapasitas 176k, barisan 1 -> 56%. Jika barisan 2 -> 28%
         let iP = Math.min(100, Math.round((perMarchInf / capReal) * 100));
         let lP = Math.min(100, Math.round((perMarchLan / capReal) * 100));
         let mP = Math.min(100, Math.round((perMarchMM / capReal) * 100));
 
-        // 4. Nilai Unit Aktual per March
-        let iA = Math.round(perMarchInf);
-        let lA = Math.round(perMarchLan);
-        let mA = Math.round(perMarchMM);
-
-        return { iP, lP, mP, iA, lA, mA, cap: capReal };
+        return { 
+            iP, lP, mP, 
+            iA: Math.round(perMarchInf), 
+            lA: Math.round(perMarchLan), 
+            mA: Math.round(perMarchMM),
+            sI: Math.round(sInf),
+            sL: Math.round(sLan),
+            sM: Math.round(sMM),
+            cap: capReal 
+        };
     }
 
     let resH = getRes(kHBase);
     let resNH = getRes(kNHBase);
 
     document.getElementById("hasil").innerHTML = `
-        <h2 style="border:none; text-align:center; color:white; margin-bottom:15px; letter-spacing: 1px;">HASIL DISTRIBUSI PER MARCH</h2>
+        <h2 style="border:none; text-align:center; color:white; margin-bottom:15px; letter-spacing: 1px;">HASIL DISTRIBUSI</h2>
         
-        <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">📊 RATIO JOINER (Tiap March)</p>
+        <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">🛡️ SISA TOTAL PASUKAN (Joiner Pool)</p>
+        <div class="capacity-info"><span>Sisa INF:</span> <span class="val-highlight">${resH.sI.toLocaleString('id-ID')}</span></div>
+        <div class="capacity-info"><span>Sisa LAN:</span> <span class="val-highlight">${resH.sL.toLocaleString('id-ID')}</span></div>
+        <div class="capacity-info"><span>Sisa MM:</span> <span class="val-highlight">${resH.sM.toLocaleString('id-ID')}</span></div>
+
+        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">📊 RATIO JOINER (Per March)</p>
         <table>
             <tr><th>MODE</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
             <tr><td>HERO</td><td>${resH.iP}%</td><td>${resH.lP}%</td><td>${resH.mP}%</td></tr>
-            <tr><td>TANPA HERO</td><td>${resNH.iP}%</td><td>${resNH.lP}%</td><td>${resNH.mP}%</td></tr>
+            <tr><td>TANPA</td><td>${resNH.iP}%</td><td>${resNH.lP}%</td><td>${resNH.mP}%</td></tr>
         </table>
 
-        <p style="font-size:0.7rem; color:var(--accent-color); margin: 24px 0 8px 0; font-weight:700;">💂 UNIT PER MARCH (REAL)</p>
+        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">💂 UNIT PER MARCH (Target)</p>
         <table style="font-family: monospace;">
             <tr><th>MODE</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
-            <tr><td>HERO</td><td>${resH.iA.toLocaleString()}</td><td>${resH.lA.toLocaleString()}</td><td>${resH.mA.toLocaleString()}</td></tr>
-            <tr><td>TANPA HERO</td><td>${resNH.iA.toLocaleString()}</td><td>${resNH.lA.toLocaleString()}</td><td>${resNH.mA.toLocaleString()}</td></tr>
+            <tr><td>HERO</td><td>${resH.iA.toLocaleString('id-ID')}</td><td>${resH.lA.toLocaleString('id-ID')}</td><td>${resH.mA.toLocaleString('id-ID')}</td></tr>
+            <tr><td>TANPA</td><td>${resNH.iA.toLocaleString('id-ID')}</td><td>${resNH.lA.toLocaleString('id-ID')}</td><td>${resNH.mA.toLocaleString('id-ID')}</td></tr>
         </table>
-
-        <div style="margin-top:20px; border-top: 1px solid var(--border-color); padding-top:10px;">
-            <div class="capacity-info"><span>Target Pembagian:</span> <span class="val-highlight">${barisan} Barisan</span></div>
-            <div class="capacity-info"><span>Kapasitas Baris (+Bonus):</span> <span class="val-highlight">${resH.cap.toLocaleString()}</span></div>
-        </div>
     `;
 }
-
-document.querySelectorAll("input").forEach(input => { input.addEventListener("input", hitung); });
 </script>
 </body>
 </html>
