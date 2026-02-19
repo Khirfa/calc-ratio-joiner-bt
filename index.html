@@ -20,18 +20,32 @@
         }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); margin: 0; padding: 15px; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 500px; position: relative; }
+        .header-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: relative; }
+        h1 { font-weight: 800; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; font-size: 1.4rem; margin: 0; text-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
+        
+        /* Help Icon Style */
+        .tips-icon { cursor: pointer; width: 32px; height: 32px; background: rgba(0, 242, 255, 0.1); border: 1px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-color); font-size: 1.1rem; transition: 0.3s; font-weight: bold; }
+        .tips-icon:hover { background: var(--accent-color); color: #000; box-shadow: 0 0 10px var(--accent-color); }
+
+        /* Modal Style */
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); }
+        .modal-content { background-color: var(--card-bg); margin: 15% auto; padding: 25px; border: 1px solid var(--accent-color); border-radius: 16px; width: 85%; max-width: 400px; color: var(--text-primary); position: relative; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2); }
+        .close-btn { position: absolute; top: 10px; right: 15px; color: var(--text-secondary); font-size: 24px; cursor: pointer; }
+        .close-btn:hover { color: var(--warning-red); }
+
         .section-card { background: var(--card-bg); padding: 18px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border-color); }
-        h1 { text-align: center; font-weight: 800; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; font-size: 1.4rem; margin-bottom: 25px; text-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
         h2 { font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); border-left: 3px solid var(--accent-color); padding-left: 10px; margin-bottom: 15px; }
         .input-wrapper { display: flex; flex-direction: column; gap: 12px; }
         label { display: block; font-size: 0.75rem; margin-bottom: 5px; color: var(--text-secondary); font-weight: 600; }
         input { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 1rem; box-sizing: border-box; outline: none; transition: 0.2s; }
         input:focus { border-color: var(--accent-color); background: #0d121a; }
-        .result-container { background: linear-gradient(145deg, #161b26, #0d1117); padding: 20px; border-radius: 16px; border: 1px solid rgba(0, 242, 255, 0.4); margin-top: 10px; }
+        
+        .result-container { background: linear-gradient(145deg, #161b26, #0d1117); padding: 20px; border-radius: 16px; border: 1px solid rgba(0, 242, 255, 0.4); margin-top: 10px; min-height: 50px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.75rem; }
         th { background-color: #1f2636; padding: 10px 5px; text-align: center; font-weight: bold; }
         .th-inf { color: var(--color-inf); } .th-lan { color: var(--color-lan); } .th-mm { color: var(--color-mm); }
         td { background-color: rgba(255,255,255,0.02); padding: 12px 5px; text-align: center; border-top: 1px solid var(--border-color); }
+        
         .capacity-info { font-size: 0.7rem; color: var(--text-secondary); margin-top: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #242b3d; padding-bottom: 5px; }
         .val-highlight { color: var(--accent-color); font-weight: 700; }
         .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
@@ -39,34 +53,53 @@
         .btn-reset { background: #333; color: white; }
         .btn-save { background: var(--accent-color); color: #000; }
         button:active { transform: scale(0.95); }
-
+        
         .calc-detail { background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px dashed var(--border-color); }
         .calc-line { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 4px; font-family: monospace; }
         .calc-total { border-top: 1px solid var(--text-secondary); margin-top: 5px; padding-top: 5px; font-weight: bold; color: var(--accent-color); }
+        .error-msg { color: var(--warning-red); text-align: center; font-size: 0.8rem; font-weight: bold; padding: 10px; border: 1px dashed var(--warning-red); border-radius: 8px; }
         
-        /* Watermark Style */
         .watermark { text-align: center; font-size: 0.65rem; color: var(--text-secondary); margin-top: 30px; opacity: 0.6; letter-spacing: 1px; }
         .watermark b { color: var(--accent-color); }
     </style>
 </head>
 <body>
+
 <div class="container">
-    <h1>RATIO BEAR TRAP</h1>
-    
+    <div class="header-area">
+        <h1>RATIO BEAR TRAP</h1>
+        <div class="tips-icon" onclick="toggleModal()">?</div>
+    </div>
+
+    <div id="tipsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal()">&times;</span>
+            <h2 style="color:var(--accent-color); border:none; padding:0; margin-bottom:15px; font-size:1rem;">❓ Panduan Penggunaan</h2>
+            <div style="font-size:0.8rem; line-height:1.6; color:var(--text-secondary);">
+                1. <b>Data Pasukan:</b> Isi total pasukan yang kalian miliki di pratinjau skuad.<br>
+                2. <b>Kapasitas Base:</b> Cek di menu barisan. Input kapasitas saat memakai hero dan tanpa hero.<br>
+                3. <b>Rasio Open:</b> Isi berapa % pasukan yang kalian pakai untuk membuka rally sendiri (Max 100%).<br>
+                4. <b>Joiner:</b> Setting sesuai hasil kalkulasi di bawah ke dalam skuad kalian.<br><br>
+                <b>🔥 Tips Crazy Joe:</b><br>
+                Kalian juga bisa menghitung untuk Crazy Joe, atur <b>rasio open menjadi 0%</b> dan <b>0</b> juga pada bagian Cyrille, lalu hanya isi level kera jika kalian ingin menggunakan buff pet.
+            </div>
+        </div>
+    </div>
+
     <div class="section-card">
         <h2>Data Pasukan Total</h2>
         <div class="input-wrapper">
-            <div class="input-group"><label>Total INFANTRY</label><input type="text" id="infantry" oninput="handleInput(this)"></div>
-            <div class="input-group"><label>Total LANCER</label><input type="text" id="lancer" oninput="handleInput(this)"></div>
-            <div class="input-group"><label>Total MARKSMAN</label><input type="text" id="marksman" oninput="handleInput(this)"></div>
+            <div class="input-group"><label>Total INFANTRY</label><input type="text" id="infantry" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label>Total LANCER</label><input type="text" id="lancer" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label>Total MARKSMAN</label><input type="text" id="marksman" placeholder="0" oninput="handleInput(this)"></div>
         </div>
     </div>
 
     <div class="section-card">
         <h2>Kapasitas & Barisan</h2>
         <div class="input-wrapper">
-            <div class="input-group"><label>Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" oninput="handleInput(this)"></div>
-            <div class="input-group"><label>Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" oninput="handleInput(this)"></div>
+            <div class="input-group"><label>Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label>Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" placeholder="0" oninput="handleInput(this)"></div>
             <div class="input-group"><label>Jumlah Barisan (Max 6)</label><input type="text" id="barisan" value="1" oninput="handleInput(this, 6)"></div>
         </div>
     </div>
@@ -81,6 +114,7 @@
 
     <div class="section-card">
         <h2>Rasio Open Rally (%)</h2>
+        <div style="text-align: right; font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 5px;">Total: <span id="totalRasioDisp">0</span>% / Max 100%</div>
         <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
             <div class="input-group"><label style="color:var(--color-inf)">INF %</label><input type="text" id="rInf" value="0" oninput="handleInput(this, 100)"></div>
             <div class="input-group"><label style="color:var(--color-lan)">LAN %</label><input type="text" id="rLan" value="0" oninput="handleInput(this, 100)"></div>
@@ -90,7 +124,7 @@
 
     <div class="btn-group">
         <button class="btn-reset" onclick="resetData()">Reset</button>
-        <button class="btn-save" onclick="saveData()">Save Data</button>
+        <button class="btn-save" onclick="saveData()">Copy Data</button>
     </div>
 
     <div class="result-container" id="hasil"></div>
@@ -99,21 +133,23 @@
 </div>
 
 <script>
+function toggleModal() {
+    const modal = document.getElementById("tipsModal");
+    modal.style.display = (modal.style.display === "block") ? "none" : "block";
+}
+window.onclick = function(event) {
+    const modal = document.getElementById("tipsModal");
+    if (event.target == modal) modal.style.display = "none";
+}
+
 function handleInput(el, maxVal = null) {
     let cursor = el.selectionStart;
     let oldLen = el.value.length;
     let raw = el.value.replace(/\D/g, '');
-    
     if (maxVal !== null && raw !== "") {
         if (parseInt(raw) > maxVal) raw = maxVal.toString();
     }
-
-    if (raw !== "") {
-        el.value = Number(raw).toLocaleString('id-ID');
-    } else {
-        el.value = "";
-    }
-
+    el.value = (raw !== "") ? Number(raw).toLocaleString('id-ID') : "";
     let newLen = el.value.length;
     el.setSelectionRange(cursor + (newLen - oldLen), cursor + (newLen - oldLen));
     hitung();
@@ -137,7 +173,6 @@ let lastSaveText = "";
 
 function saveData() {
     if (!lastSaveText) return alert("Belum ada data untuk disimpan.");
-    // Menambahkan kredit di teks yang disalin
     const textToCopy = lastSaveText + "\n\nCalculated by Khirfa Tool";
     navigator.clipboard.writeText(textToCopy).then(() => {
         alert("Data berhasil disalin ke clipboard!");
@@ -149,78 +184,78 @@ function hitung() {
     const sCyrille = {1:3000,2:6000,3:9000,4:12000,5:15000,6:18000,7:21000,8:24000,9:27000,10:30000};
 
     let lvK = getVal("kera"), lvC = getVal("cyrille");
-    let infTotal = getVal("infantry"), lanTotal = getVal("lancer"), mmTotal = getVal("marksman");
+    let infT = getVal("infantry"), lanT = getVal("lancer"), mmT = getVal("marksman");
     let kHBase = getVal("kapasitasHero"), kNHBase = getVal("kapasitasNoHero");
     let barisan = Math.max(1, getVal("barisan"));
+    
     let vrI = getVal("rInf"), vrL = getVal("rLan"), vrM = getVal("rMar");
+    let totalRasio = vrI + vrL + vrM;
+    document.getElementById("totalRasioDisp").innerText = totalRasio;
+    document.getElementById("totalRasioDisp").style.color = (totalRasio <= 100) ? "var(--color-mm)" : "var(--warning-red)";
 
-    let bKera = sKera[lvK] || 0;
-    let bCyrille = sCyrille[lvC] || 0;
-    let bonus = bKera + bCyrille;
-
-    function getRes(baseCap) {
-        let capReal = baseCap + bonus; 
-        if (capReal <= 0) return { iP:0, lP:0, mP:0, iA:0, lA:0, mA:0, sI:0, sL:0, sM:0, cap:0 };
-        
-        let sI = Math.max(0, infTotal - (capReal * (vrI / 100)));
-        let sL = Math.max(0, lanTotal - (capReal * (vrL / 100)));
-        let sM = Math.max(0, mmTotal  - (capReal * (vrM / 100)));
-
-        let pI = sI / barisan, pL = sL / barisan, pM = sM / barisan;
-
-        return { 
-            iP: Math.min(100, Math.round((pI / capReal) * 100)),
-            lP: Math.min(100, Math.round((pL / capReal) * 100)),
-            mP: Math.min(100, Math.round((pM / capReal) * 100)),
-            iA: Math.round(pI), lA: Math.round(pL), mA: Math.round(pM),
-            sI: Math.round(sI), sL: Math.round(sL), sM: Math.round(sM),
-            cap: capReal
-        };
+    if (totalRasio > 100) {
+        document.getElementById("hasil").innerHTML = `<div class="error-msg">⚠️ TOTAL RASIO MELEBIHI 100%<br>(Sekarang: ${totalRasio}%)</div>`;
+        lastSaveText = "";
+        return;
     }
 
-    let resH = getRes(kHBase), resNH = getRes(kNHBase);
+    let rI = vrI / 100, rL = vrL / 100, rM = vrM / 100;
+    let bKera = sKera[lvK] || 0, bCyrille = sCyrille[lvC] || 0;
+    let capRealH = kHBase + bKera + bCyrille, capRealNH = kNHBase + bKera + bCyrille;
 
-    lastSaveText = `HASIL RATIO BEAR TRAP\n\nWITH HERO:\nRatio: ${resH.iP}/${resH.lP}/${resH.mP}\nUnits: ${resH.iA.toLocaleString()}/${resH.lA.toLocaleString()}/${resH.mA.toLocaleString()}\n\nNO HERO:\nRatio: ${resNH.iP}/${resNH.lP}/${resNH.mP}\nUnits: ${resNH.iA.toLocaleString()}/${resNH.lA.toLocaleString()}/${resNH.mA.toLocaleString()}`;
+    let sI_total = Math.max(0, infT - (capRealH * rI));
+    let sL_total = Math.max(0, lanT - (capRealH * rL));
+    let sM_total = Math.max(0, mmT - (capRealH * rM));
+
+    let pI = Math.floor(sI_total / barisan), pL = Math.floor(sL_total / barisan), pM = Math.floor(sM_total / barisan);
+
+    function getRangeStr(unit, cap) {
+        if (cap <= 0) return "0%";
+        let raw = (unit / cap) * 100;
+        let down = Math.min(100, Math.floor(raw)), up = Math.min(100, Math.ceil(raw));
+        return (down === up) ? `${down}%` : `${down}% - ${up}%`;
+    }
+
+    let rInfH = getRangeStr(pI, capRealH), rLanH = getRangeStr(pL, capRealH), rMarH = getRangeStr(pM, capRealH);
+    let rInfNH = getRangeStr(pI, capRealNH), rLanNH = getRangeStr(pL, capRealNH), rMarNH = getRangeStr(pM, capRealNH);
+
+    lastSaveText = `HASIL RATIO BEAR TRAP\n\nWITH HERO:\nRatio: ${rInfH}/${rLanH}/${rMarH}\nUnits: ${pI.toLocaleString()}/${pL.toLocaleString()}/${pM.toLocaleString()}\n\nNO HERO:\nRatio: ${rInfNH}/${rLanNH}/${rMarNH}\nUnits: ${pI.toLocaleString()}/${pL.toLocaleString()}/${pM.toLocaleString()}`;
 
     document.getElementById("hasil").innerHTML = `
         <h2 style="border:none; text-align:center; color:white; margin-bottom:15px;">HASIL KALKULASI</h2>
-        
         <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">🛡️ SISA TOTAL PASUKAN</p>
-        <div class="capacity-info"><span>Sisa INFANTRY:</span> <span class="val-highlight">${resH.sI.toLocaleString('id-ID')}</span></div>
-        <div class="capacity-info"><span>Sisa LANCER:</span> <span class="val-highlight">${resH.sL.toLocaleString('id-ID')}</span></div>
-        <div class="capacity-info"><span>Sisa MARKSMAN:</span> <span class="val-highlight">${resH.sM.toLocaleString('id-ID')}</span></div>
+        <div class="capacity-info"><span>Sisa INFANTRY:</span> <span class="val-highlight">${Math.floor(sI_total).toLocaleString('id-ID')}</span></div>
+        <div class="capacity-info"><span>Sisa LANCER:</span> <span class="val-highlight">${Math.floor(sL_total).toLocaleString('id-ID')}</span></div>
+        <div class="capacity-info"><span>Sisa MARKSMAN:</span> <span class="val-highlight">${Math.floor(sM_total).toLocaleString('id-ID')}</span></div>
 
         <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">📊 RASIO JOINER PER BARIS</p>
         <table>
             <tr><th>MODE</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
-            <tr><td>WITH HERO</td><td>${resH.iP}%</td><td>${resH.lP}%</td><td>${resH.mP}%</td></tr>
-            <tr><td>NO HERO</td><td>${resNH.iP}%</td><td>${resNH.lP}%</td><td>${resNH.mP}%</td></tr>
+            <tr><td>WITH HERO</td><td>${rInfH}</td><td>${rLanH}</td><td>${rMarH}</td></tr>
+            <tr><td>NO HERO</td><td>${rInfNH}</td><td>${rLanNH}</td><td>${rMarNH}</td></tr>
         </table>
 
-        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">💂 PASUKAN PER BARISAN</p>
+        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">💂 PASUKAN PER BARIS</p>
         <table style="font-family: monospace;">
-            <tr><th>MODE</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
-            <tr><td>WITH HERO</td><td>${resH.iA.toLocaleString('id-ID')}</td><td>${resH.lA.toLocaleString('id-ID')}</td><td>${resH.mA.toLocaleString('id-ID')}</td></tr>
-            <tr><td>NO HERO</td><td>${resNH.iA.toLocaleString('id-ID')}</td><td>${resNH.lA.toLocaleString('id-ID')}</td><td>${resNH.mA.toLocaleString('id-ID')}</td></tr>
+            <tr><th>JENIS</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
+            <tr><td>JUMLAH</td><td>${pI.toLocaleString('id-ID')}</td><td>${pL.toLocaleString('id-ID')}</td><td>${pM.toLocaleString('id-ID')}</td></tr>
         </table>
 
         <div style="margin-top:20px;">
             <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">🔍 DETAIL KAPASITAS PER BARIS</p>
-            
             <div class="calc-detail">
                 <div style="color: var(--text-secondary); font-size: 0.65rem; margin-bottom: 8px; font-weight: bold;">[ MODE WITH HERO ]</div>
                 <div class="calc-line"><span>Kaps. Base Hero:</span> <span>${kHBase.toLocaleString('id-ID')}</span></div>
                 <div class="calc-line"><span>Bonus Kera:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
                 <div class="calc-line"><span>Bonus Cyrille:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
-                <div class="calc-line calc-total"><span>Total Kapasitas:</span> <span>${resH.cap.toLocaleString('id-ID')}</span></div>
+                <div class="calc-total calc-line"><span>Total:</span> <span>${capRealH.toLocaleString('id-ID')}</span></div>
             </div>
-
             <div class="calc-detail" style="margin-top: 10px;">
                 <div style="color: var(--text-secondary); font-size: 0.65rem; margin-bottom: 8px; font-weight: bold;">[ MODE NO HERO ]</div>
                 <div class="calc-line"><span>Kaps. Base Non-Hero:</span> <span>${kNHBase.toLocaleString('id-ID')}</span></div>
                 <div class="calc-line"><span>Bonus Kera:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
                 <div class="calc-line"><span>Bonus Cyrille:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
-                <div class="calc-line calc-total"><span>Total Kapasitas:</span> <span>${resNH.cap.toLocaleString('id-ID')}</span></div>
+                <div class="calc-total calc-line"><span>Total:</span> <span>${capRealNH.toLocaleString('id-ID')}</span></div>
             </div>
         </div>
     `;
