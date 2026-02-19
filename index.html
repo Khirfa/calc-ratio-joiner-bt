@@ -39,6 +39,11 @@
         .btn-reset { background: #333; color: white; }
         .btn-save { background: var(--accent-color); color: #000; }
         button:active { transform: scale(0.95); }
+
+        /* Detail Perhitungan Styling */
+        .calc-detail { background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px dashed var(--border-color); }
+        .calc-line { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 4px; font-family: monospace; }
+        .calc-total { border-top: 1px solid var(--text-secondary); margin-top: 5px; padding-top: 5px; font-weight: bold; color: var(--accent-color); }
     </style>
 </head>
 <body>
@@ -142,11 +147,13 @@ function hitung() {
     let barisan = Math.max(1, getVal("barisan"));
     let vrI = getVal("rInf"), vrL = getVal("rLan"), vrM = getVal("rMar");
 
-    let bonus = (sKera[lvK] || 0) + (sCyrille[lvC] || 0);
+    let bKera = sKera[lvK] || 0;
+    let bCyrille = sCyrille[lvC] || 0;
+    let bonus = bKera + bCyrille;
 
     function getRes(baseCap) {
         let capReal = baseCap + bonus; 
-        if (capReal <= 0) return { iP:0, lP:0, mP:0, iA:0, lA:0, mA:0, sI:0, sL:0, sM:0 };
+        if (capReal <= 0) return { iP:0, lP:0, mP:0, iA:0, lA:0, mA:0, sI:0, sL:0, sM:0, cap:0 };
         
         let sI = Math.max(0, infTotal - (capReal * (vrI / 100)));
         let sL = Math.max(0, lanTotal - (capReal * (vrL / 100)));
@@ -159,7 +166,8 @@ function hitung() {
             lP: Math.min(100, Math.round((pL / capReal) * 100)),
             mP: Math.min(100, Math.round((pM / capReal) * 100)),
             iA: Math.round(pI), lA: Math.round(pL), mA: Math.round(pM),
-            sI: Math.round(sI), sL: Math.round(sL), sM: Math.round(sM)
+            sI: Math.round(sI), sL: Math.round(sL), sM: Math.round(sM),
+            cap: capReal
         };
     }
 
@@ -182,12 +190,32 @@ function hitung() {
             <tr><td>NO HERO</td><td>${resNH.iP}%</td><td>${resNH.lP}%</td><td>${resNH.mP}%</td></tr>
         </table>
 
-        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">💂 PASUKAN PER BARIS</p>
+        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">💂 PASUKAN PER BARISAN</p>
         <table style="font-family: monospace;">
             <tr><th>MODE</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
             <tr><td>WITH HERO</td><td>${resH.iA.toLocaleString('id-ID')}</td><td>${resH.lA.toLocaleString('id-ID')}</td><td>${resH.mA.toLocaleString('id-ID')}</td></tr>
             <tr><td>NO HERO</td><td>${resNH.iA.toLocaleString('id-ID')}</td><td>${resNH.lA.toLocaleString('id-ID')}</td><td>${resNH.mA.toLocaleString('id-ID')}</td></tr>
         </table>
+
+        <div style="margin-top:20px;">
+            <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">🔍 DETAIL KAPASITAS PER BARIS</p>
+            
+            <div class="calc-detail">
+                <div style="color: var(--text-secondary); font-size: 0.65rem; margin-bottom: 8px; font-weight: bold;">[ MODE WITH HERO ]</div>
+                <div class="calc-line"><span>Kaps. Base Hero:</span> <span>${kHBase.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus Kera:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus Cyrille:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line calc-total"><span>Total Kapasitas:</span> <span>${resH.cap.toLocaleString('id-ID')}</span></div>
+            </div>
+
+            <div class="calc-detail" style="margin-top: 10px;">
+                <div style="color: var(--text-secondary); font-size: 0.65rem; margin-bottom: 8px; font-weight: bold;">[ MODE NO HERO ]</div>
+                <div class="calc-line"><span>Kaps. Base Non-Hero:</span> <span>${kNHBase.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus Kera:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus Cyrille:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line calc-total"><span>Total Kapasitas:</span> <span>${resNH.cap.toLocaleString('id-ID')}</span></div>
+            </div>
+        </div>
     `;
 }
 </script>
