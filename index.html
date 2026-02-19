@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ratio Bear Trap | By Khirfa</title>
+    <title>Global Ratio Bear Trap | By Khirfa</title>
     <style>
         :root {
             --bg-color: #0b0e14;
@@ -20,101 +20,116 @@
         }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); margin: 0; padding: 15px; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 500px; position: relative; }
-        .header-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: relative; }
-        h1 { font-weight: 800; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; font-size: 1.4rem; margin: 0; text-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
         
-        /* Help Icon Style */
-        .tips-icon { cursor: pointer; width: 32px; height: 32px; background: rgba(0, 242, 255, 0.1); border: 1px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-color); font-size: 1.1rem; transition: 0.3s; font-weight: bold; }
-        .tips-icon:hover { background: var(--accent-color); color: #000; box-shadow: 0 0 10px var(--accent-color); }
+        .header-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { font-weight: 800; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; font-size: 1.1rem; margin: 0; text-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
+        
+        .header-controls { display: flex; gap: 8px; align-items: center; }
+        
+        select.lang-select { background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: 5px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; outline: none; }
+        select.lang-select:focus { border-color: var(--accent-color); }
 
-        /* Modal Style */
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(4px); }
-        .modal-content { background-color: var(--card-bg); margin: 15% auto; padding: 25px; border: 1px solid var(--accent-color); border-radius: 16px; width: 85%; max-width: 400px; color: var(--text-primary); position: relative; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2); }
+        .tips-icon { cursor: pointer; width: 30px; height: 30px; background: rgba(0, 242, 255, 0.1); border: 1px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-color); font-size: 1rem; transition: 0.3s; font-weight: bold; }
+
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
+        .modal-content { background-color: var(--card-bg); margin: 10% auto; padding: 25px; border: 1px solid var(--accent-color); border-radius: 16px; width: 85%; max-width: 400px; color: var(--text-primary); position: relative; max-height: 80vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 10px; right: 15px; color: var(--text-secondary); font-size: 24px; cursor: pointer; }
-        .close-btn:hover { color: var(--warning-red); }
 
         .section-card { background: var(--card-bg); padding: 18px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border-color); }
         h2 { font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); border-left: 3px solid var(--accent-color); padding-left: 10px; margin-bottom: 15px; }
         .input-wrapper { display: flex; flex-direction: column; gap: 12px; }
-        label { display: block; font-size: 0.75rem; margin-bottom: 5px; color: var(--text-secondary); font-weight: 600; }
-        input { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 1rem; box-sizing: border-box; outline: none; transition: 0.2s; }
-        input:focus { border-color: var(--accent-color); background: #0d121a; }
+        label { display: block; font-size: 0.7rem; margin-bottom: 5px; color: var(--text-secondary); font-weight: 600; }
+        input { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 1rem; box-sizing: border-box; outline: none; }
         
-        .result-container { background: linear-gradient(145deg, #161b26, #0d1117); padding: 20px; border-radius: 16px; border: 1px solid rgba(0, 242, 255, 0.4); margin-top: 10px; min-height: 50px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.75rem; }
-        th { background-color: #1f2636; padding: 10px 5px; text-align: center; font-weight: bold; }
-        .th-inf { color: var(--color-inf); } .th-lan { color: var(--color-lan); } .th-mm { color: var(--color-mm); }
-        td { background-color: rgba(255,255,255,0.02); padding: 12px 5px; text-align: center; border-top: 1px solid var(--border-color); }
+        .result-container { background: linear-gradient(145deg, #161b26, #0d1117); padding: 20px; border-radius: 16px; border: 1px solid rgba(0, 242, 255, 0.4); margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.7rem; }
+        
+        th { background-color: #1f2636; padding: 10px 5px; text-align: center; color: var(--text-primary); font-weight: 800; text-transform: uppercase; }
+        .th-inf { color: var(--color-inf) !important; } 
+        .th-lan { color: var(--color-lan) !important; } 
+        .th-mm { color: var(--color-mm) !important; }
+        
+        td { background-color: rgba(255,255,255,0.02); padding: 12px 5px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-primary); font-weight: 400; }
         
         .capacity-info { font-size: 0.7rem; color: var(--text-secondary); margin-top: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #242b3d; padding-bottom: 5px; }
         .val-highlight { color: var(--accent-color); font-weight: 700; }
         .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        button { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; transition: 0.3s; }
+        button { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; }
         .btn-reset { background: #333; color: white; }
         .btn-save { background: var(--accent-color); color: #000; }
-        button:active { transform: scale(0.95); }
         
         .calc-detail { background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px dashed var(--border-color); }
-        .calc-line { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 4px; font-family: monospace; }
+        .calc-line { display: flex; justify-content: space-between; font-size: 0.65rem; margin-bottom: 4px; font-family: monospace; }
         .calc-total { border-top: 1px solid var(--text-secondary); margin-top: 5px; padding-top: 5px; font-weight: bold; color: var(--accent-color); }
-        .error-msg { color: var(--warning-red); text-align: center; font-size: 0.8rem; font-weight: bold; padding: 10px; border: 1px dashed var(--warning-red); border-radius: 8px; }
+        .error-msg { color: var(--warning-red); text-align: center; font-size: 0.75rem; font-weight: bold; padding: 10px; border: 1px dashed var(--warning-red); border-radius: 8px; }
         
-        .watermark { text-align: center; font-size: 0.65rem; color: var(--text-secondary); margin-top: 30px; opacity: 0.6; letter-spacing: 1px; }
-        .watermark b { color: var(--accent-color); }
+        /* Watermark Styled Nama Khirfa */
+        .watermark { text-align: center; font-size: 0.65rem; color: var(--text-secondary); margin-top: 30px; opacity: 0.8; letter-spacing: 1px; }
+        .watermark b { color: var(--accent-color); text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); }
+        
+        .rtl { direction: rtl; text-align: right; }
+        .rtl h2 { border-left: none; border-right: 3px solid var(--accent-color); padding-left: 0; padding-right: 10px; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="mainContainer">
     <div class="header-area">
-        <h1>RATIO BEAR TRAP</h1>
-        <div class="tips-icon" onclick="toggleModal()">?</div>
+        <h1 id="appTitle">RATIO BEAR TRAP</h1>
+        <div class="header-controls">
+            <select class="lang-select" id="langSelect" onchange="changeLang()">
+                <option value="id">Bahasa Indonesia</option>
+                <option value="en">English</option>
+                <option value="zh">中文 (Chinese)</option>
+                <option value="ja">日本語 (Japanese)</option>
+                <option value="ko">한국어 (Korean)</option>
+                <option value="pl">Polski (Polish)</option>
+                <option value="tr">Türkçe (Turkish)</option>
+                <option value="ar">العربية (Arabic)</option>
+                <option value="de">Deutsch (German)</option>
+                <option value="pt">Português (Brazil)</option>
+            </select>
+            <div class="tips-icon" onclick="toggleModal()">?</div>
+        </div>
     </div>
 
     <div id="tipsModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="toggleModal()">&times;</span>
-            <h2 style="color:var(--accent-color); border:none; padding:0; margin-bottom:15px; font-size:1rem;">❓ Panduan Penggunaan</h2>
-            <div style="font-size:0.8rem; line-height:1.6; color:var(--text-secondary);">
-                1. <b>Data Pasukan:</b> Isi total pasukan yang kalian miliki di pratinjau skuad.<br>
-                2. <b>Kapasitas Base:</b> Cek di menu barisan. Input kapasitas saat memakai hero dan tanpa hero.<br>
-                3. <b>Rasio Open:</b> Isi berapa % pasukan yang kalian pakai untuk membuka rally sendiri (Max 100%).<br>
-                4. <b>Joiner:</b> Setting sesuai hasil kalkulasi di bawah ke dalam skuad kalian.<br><br>
-                <b>🔥 Tips Crazy Joe:</b><br>
-                Kalian juga bisa menghitung untuk Crazy Joe, atur <b>rasio open menjadi 0%</b> dan <b>0</b> juga pada bagian Cyrille, lalu hanya isi level kera jika kalian ingin menggunakan buff pet.
-            </div>
+            <h2 id="modalTitle">❓ Panduan Penggunaan</h2>
+            <div id="modalBody" style="font-size:0.8rem; line-height:1.6; color:var(--text-secondary);"></div>
         </div>
     </div>
 
     <div class="section-card">
-        <h2>Data Pasukan Total</h2>
+        <h2 id="titlePasukan">Data Pasukan Total</h2>
         <div class="input-wrapper">
-            <div class="input-group"><label>Total INFANTRY</label><input type="text" id="infantry" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label>Total LANCER</label><input type="text" id="lancer" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label>Total MARKSMAN</label><input type="text" id="marksman" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelInf">Total INFANTRY</label><input type="text" id="infantry" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelLan">Total LANCER</label><input type="text" id="lancer" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelMar">Total MARKSMAN</label><input type="text" id="marksman" placeholder="0" oninput="handleInput(this)"></div>
         </div>
     </div>
 
     <div class="section-card">
-        <h2>Kapasitas & Barisan</h2>
+        <h2 id="titleKaps">Kapasitas & Barisan</h2>
         <div class="input-wrapper">
-            <div class="input-group"><label>Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label>Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label>Jumlah Barisan (Max 6)</label><input type="text" id="barisan" value="1" oninput="handleInput(this, 6)"></div>
+            <div class="input-group"><label id="labelKapsH">Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelKapsNH">Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelBaris">Jumlah Barisan (Max 6)</label><input type="text" id="barisan" value="1" oninput="handleInput(this, 6)"></div>
         </div>
     </div>
 
     <div class="section-card">
-        <h2>Level Skill Bonus</h2>
+        <h2 id="titleSkill">Level Skill Bonus</h2>
         <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div class="input-group"><label>Lv. Kera (0-10)</label><input type="text" id="kera" value="0" oninput="handleInput(this, 10)"></div>
-            <div class="input-group"><label>Lv. Cyrille (0-10)</label><input type="text" id="cyrille" value="0" oninput="handleInput(this, 10)"></div>
+            <div class="input-group"><label id="labelKera">Lv. Kera (0-10)</label><input type="text" id="kera" value="0" oninput="handleInput(this, 10)"></div>
+            <div class="input-group"><label id="labelCyrille">Lv. Cyrille (0-10)</label><input type="text" id="cyrille" value="0" oninput="handleInput(this, 10)"></div>
         </div>
     </div>
 
     <div class="section-card">
-        <h2>Rasio Open Rally (%)</h2>
-        <div style="text-align: right; font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 5px;">Total: <span id="totalRasioDisp">0</span>% / Max 100%</div>
+        <h2 id="titleRasioOpen">Rasio Open Rally (%)</h2>
+        <div style="text-align: right; font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 5px;"><span id="txtTotal">Total</span>: <span id="totalRasioDisp">0</span>% / Max 100%</div>
         <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
             <div class="input-group"><label style="color:var(--color-inf)">INF %</label><input type="text" id="rInf" value="0" oninput="handleInput(this, 100)"></div>
             <div class="input-group"><label style="color:var(--color-lan)">LAN %</label><input type="text" id="rLan" value="0" oninput="handleInput(this, 100)"></div>
@@ -123,8 +138,8 @@
     </div>
 
     <div class="btn-group">
-        <button class="btn-reset" onclick="resetData()">Reset</button>
-        <button class="btn-save" onclick="saveData()">Copy Data</button>
+        <button class="btn-reset" onclick="resetData()" id="btnReset">Reset</button>
+        <button class="btn-save" onclick="saveData()" id="btnSave">Save Data</button>
     </div>
 
     <div class="result-container" id="hasil"></div>
@@ -133,10 +148,176 @@
 </div>
 
 <script>
+let currentLang = 'id';
+let lastSaveText = "";
+
+const i18n = {
+    id: {
+        modalTitle: "❓ Panduan Penggunaan",
+        modalBody: "1. <b>Data Pasukan:</b> Isi total pasukan yang kamu miliki di pratinjau skuad.<br>2. <b>Kapasitas Base:</b> Cek di menu barisan. Input kapasitas saat memakai hero dan tanpa hero.<br>3. <b>Rasio Open:</b> Isi berapa % pasukan yang kamu pakai untuk membuka rally sendiri (Max 100%).<br>4. <b>Joiner:</b> Setting sesuai hasil kalkulasi di bawah ke dalam skuad kalian.<br><br><b>🔥 Tips Crazy Joe:</b><br>Kalian juga bisa menghitung untuk Crazy Joe, tinggal atur rasio open menjadi 0% dan 0 juga pada bagian Cyrille, lalu hanya isi level kera jika kalian ingin menggunakan buff pet.",
+        titlePasukan: "Data Pasukan Total", titleKaps: "Kapasitas & Barisan", titleRasioOpen: "Rasio Open Rally (%)",
+        labelInf: "Total INFANTRY", labelLan: "Total LANCER", labelMar: "Total MARKSMAN",
+        labelKapsH: "Kaps. HERO (Base)", labelKapsNH: "Kaps. TANPA HERO (Base)", labelBaris: "Jumlah Barisan (Max 6)",
+        labelKera: "Lv. Kera (0-10)", labelCyrille: "Lv. Cyrille (0-10)",
+        btnReset: "Reset", btnSave: "Save Data", txtTotal: "Total",
+        resTitle: "HASIL KALKULASI", resSisa: "🛡️ SISA TOTAL PASUKAN", resRasio: "📊 RASIO JOINER PER BARIS (RANGE)",
+        resUnit: "💂 PASUKAN PER BARISAN", resDetail: "🔍 DETAIL KAPASITAS PER BARIS",
+        errRasio: "⚠️ TOTAL RASIO MELEBIHI 100%", copySuccess: "Data berhasil disalin!",
+        withH: "WITH HERO", noH: "NO HERO", type: "JENIS", units: "JUMLAH", mode: "MODE"
+    },
+    en: {
+        modalTitle: "❓ User Guide",
+        modalBody: "1. <b>Troop Data:</b> Fill total troops from squad preview.<br>2. <b>Base Capacity:</b> Input hero and no-hero capacity from march menu.<br>3. <b>Open Ratio:</b> % of troops for your own rally (Max 100%).<br>4. <b>Joiner:</b> Set squad based on results below.<br><br><b>🔥 Crazy Joe Tips:</b><br>Set Open Ratio and Cyrille to 0. Only fill Ape level if using pet buffs.",
+        titlePasukan: "Total Troop Data", titleKaps: "Capacity & March", titleRasioOpen: "Open Rally Ratio (%)",
+        labelInf: "Total INFANTRY", labelLan: "Total LANCER", labelMar: "Total MARKSMAN",
+        labelKapsH: "HERO Cap. (Base)", labelKapsNH: "NO HERO Cap. (Base)", labelBaris: "Total March (Max 6)",
+        labelKera: "Ape Lv. (0-10)", labelCyrille: "Cyrille Lv. (0-10)",
+        btnReset: "Reset", btnSave: "Save Data", txtTotal: "Total",
+        resTitle: "CALCULATION RESULT", resSisa: "🛡️ REMAINING TROOPS", resRasio: "📊 JOINER RATIO PER MARCH (RANGE)",
+        resUnit: "💂 TROOPS PER MARCH", resDetail: "🔍 CAPACITY DETAIL",
+        errRasio: "⚠️ RATIO EXCEEDS 100%", copySuccess: "Data copied!",
+        withH: "WITH HERO", noH: "NO HERO", type: "TYPE", units: "UNITS", mode: "MODE"
+    },
+    zh: {
+        modalTitle: "❓ 使用指南",
+        modalBody: "1. <b>部队数据:</b> 填写部队预览中的总兵力。<br>2. <b>基础容量:</b> 填写出征菜单中的英雄和无英雄容量。<br>3. <b>开集结比例:</b> 用于自己开启集结的兵力百分比。<br>4. <b>加入者:</b> 根据下方结果设置部队。<br><br><b>🔥 疯狂乔技巧:</b><br>将开集结比例和Cyrille设为0。仅在使用宠物增益时填写大猩猩等级。",
+        titlePasukan: "部队总数", titleKaps: "容量与队列", titleRasioOpen: "集结比例 (%)",
+        labelInf: "步兵总量", labelLan: "矛兵总量", labelMar: "射手总量",
+        labelKapsH: "英雄容量 (基础)", labelKapsNH: "无英雄容量 (基础)", labelBaris: "队列数量 (最高 6)",
+        labelKera: "大猩猩等级 (0-10)", labelCyrille: "Cyrille等级 (0-10)",
+        btnReset: "重置", btnSave: "保存数据", txtTotal: "总计",
+        resTitle: "计算结果", resSisa: "🛡️ 剩余总兵力", resRasio: "📊 每队加入比例 (范围)",
+        resUnit: "💂 每队兵力", resDetail: "🔍 容量详情",
+        errRasio: "⚠️ 比例超过 100%", copySuccess: "数据已复制!",
+        withH: "带英雄", noH: "不带英雄", type: "类型", units: "数量", mode: "模式"
+    },
+    ja: {
+        modalTitle: "❓ 使用ガイド",
+        modalBody: "1. <b>兵力データ:</b> プレビューの総兵力を入力。<br>2. <b>基本容量:</b> 出撃メニューの英雄あり/なしの容量を入力。<br>3. <b>集結比率:</b> 自分が集結を開く際の兵力割合。<br>4. <b>参加者:</b> 下記の結果に基づいて部隊を設定。<br><br><b>🔥 クレイジー・ジョー:</b><br>集結比率とCyrilleを0に設定。ペットバフを使用する場合のみ猿レベルを入力。",
+        titlePasukan: "総兵力データ", titleKaps: "容量と行軍", titleRasioOpen: "集結比率 (%)",
+        labelInf: "歩兵総数", labelLan: "槍兵総数", labelMar: "弓兵総数",
+        labelKapsH: "英雄容量 (基本)", labelKapsNH: "英雄なし容量 (基本)", labelBaris: "部隊数 (最大 6)",
+        labelKera: "猿レベル (0-10)", labelCyrille: "Cyrilleレベル (0-10)",
+        btnReset: "リセット", btnSave: "保存", txtTotal: "合計",
+        resTitle: "計算結果", resSisa: "🛡️ 残り兵力合計", resRasio: "📊 参加比率 (範囲)",
+        resUnit: "💂 1部隊あたりの兵数", resDetail: "🔍 容量詳細",
+        errRasio: "⚠️ 比率が100%を超えています", copySuccess: "コピーしました!",
+        withH: "英雄あり", noH: "英雄なし", type: "兵種", units: "兵数", mode: "モード"
+    },
+    ko: {
+        modalTitle: "❓ 사용 가이드",
+        modalBody: "1. <b>병력 데이터:</b> 분대 미리보기의 총 병력을 입력하세요.<br>2. <b>기본 용량:</b> 행군 메뉴의 영웅 포함/미포함 용량을 입력하세요.<br>3. <b>집결 비율:</b> 직접 집결을 열 때 사용할 병력 백분율입니다.<br>4. <b>참가자:</b> 아래 결과에 따라 부대를 설정하세요.<br><br><b>🔥 크레이지 조 팁:</b><br>집결 비율과 Cyrille을 0으로 설정하세요. 펫 버프를 사용하는 경우에만 유인원 레벨을 입력하세요.",
+        titlePasukan: "총 병력 데이터", titleKaps: "용량 및 행군", titleRasioOpen: "집결 비율 (%)",
+        labelInf: "보병 총수", labelLan: "궁병 총수", labelMar: "사수 총수",
+        labelKapsH: "영웅 용량 (기본)", labelKapsNH: "영웅 미포함 용량 (기본)", labelBaris: "행군 수 (최대 6)",
+        labelKera: "유인원 레벨 (0-10)", labelCyrille: "Cyrille 레벨 (0-10)",
+        btnReset: "초기화", btnSave: "저장", txtTotal: "합계",
+        resTitle: "계산 결과", resSisa: "🛡️ 남은 총 병력", resRasio: "📊 부대별 참가 비율 (범위)",
+        resUnit: "💂 부대별 병력", resDetail: "🔍 용량 상세 정보",
+        errRasio: "⚠️ 비율이 100%를 초과했습니다", copySuccess: "복사되었습니다!",
+        withH: "영웅 포함", noH: "영웅 미포함", type: "유형", units: "수량", mode: "모드"
+    },
+    pl: {
+        modalTitle: "❓ Instrukcja",
+        modalBody: "1. <b>Dane wojsk:</b> Wpisz całkowitą liczbę wojsk z podglądu.<br>2. <b>Pojemność:</b> Wpisz pojemność z bohaterem i bez z menu marszu.<br>3. <b>Ratio Open:</b> % wojsk użytych do otwarcia własnej rally.<br>4. <b>Joiner:</b> Ustaw oddział według poniższych wyników.<br><br><b>🔥 Tip Crazy Joe:</b><br>Ustaw Ratio Open i Cyrille na 0. Wpisz poziom Małpy tylko jeśli używasz buffów zwierzaka.",
+        titlePasukan: "Dane wojsk", titleKaps: "Pojemność i Marsz", titleRasioOpen: "Ratio Rally (%)",
+        labelInf: "Piechota", labelLan: "Lansjerzy", labelMar: "Strzelcy",
+        labelKapsH: "Pojemność Hero (Baza)", labelKapsNH: "Pojemność No-Hero (Baza)", labelBaris: "Liczba marszów (Max 6)",
+        labelKera: "Małpa (0-10)", labelCyrille: "Cyrille (0-10)",
+        btnReset: "Reset", btnSave: "Zapisz", txtTotal: "Suma",
+        resTitle: "WYNIK", resSisa: "🛡️ POZOSTAŁE WOJSKA", resRasio: "📊 RATIO NA MARSZ (ZAKRES)",
+        resUnit: "💂 WOJSKA NA MARSZ", resDetail: "🔍 SZCZEGÓŁY POJEMNOŚCI",
+        errRasio: "⚠️ RATIO PRZEKRACZA 100%", copySuccess: "Skopiowano!",
+        withH: "Z HERO", noH: "BEZ HERO", type: "TYP", units: "JEDNOSTKI", mode: "TRYB"
+    },
+    tr: {
+        modalTitle: "❓ Kullanım Kılavuzu",
+        modalBody: "1. <b>Birlik Verileri:</b> Kadro önizlemesindeki toplam birliği girin.<br>2. <b>Kapasite:</b> Kahramanlı ve kahramansız kapasiteyi girin.<br>3. <b>Açılış Oranı:</b> Kendi rallinizi açmak için kullandığınız birlik %'si.<br>4. <b>Katılımcı:</b> Kadroyu aşağıdaki sonuçlara göre ayarlayın.<br><br><b>🔥 Crazy Joe İpucu:</b><br>Açılış Oranını ve Cyrille'i 0 yapın. Sadece pet bonusu kullanıyorsanız maymun seviyesini girin.",
+        titlePasukan: "Toplam Birlik", titleKaps: "Kapasite & Yürüyüş", titleRasioOpen: "Ralli Oranı (%)",
+        labelInf: "Piyade", labelLan: "Mızrakçı", labelMar: "Keskin Nişancı",
+        labelKapsH: "Kahraman Kap. (Temel)", labelKapsNH: "Kahramansız Kap. (Temel)", labelBaris: "Yürüyüş Sayısı (Maks 6)",
+        labelKera: "Maymun Sv. (0-10)", labelCyrille: "Cyrille Sv. (0-10)",
+        btnReset: "Sıfırla", btnSave: "Kaydet", txtTotal: "Toplam",
+        resTitle: "HESAPLAMA SONUCU", resSisa: "🛡️ KALAN BİRLİKLER", resRasio: "📊 KATILIM ORANI (ARALIK)",
+        resUnit: "💂 YÜRÜYÜŞ BAŞINA BİRLİK", resDetail: "🔍 KAPASİTE DETAYI",
+        errRasio: "⚠️ ORAN %100'Ü AŞIYOR", copySuccess: "Kopyalandı!",
+        withH: "KAHRAMANLI", noH: "KAHRAMANSIZ", type: "TÜR", units: "BİRİM", mode: "MOD"
+    },
+    ar: {
+        modalTitle: "❓ دليل الاستخدام",
+        modalBody: "1. <b>بيانات القوات:</b> أدخل إجمالي القوات من معاينة الفرقة.<br>2. <b>السعة الأساسية:</b> أدخل السعة مع وبدون بطل من قائمة المسيرة.<br>3. <b>نسبة الفتح:</b> نسبة القوات المستخدمة لفتح الحشد الخاص بك.<br>4. <b>المنضمين:</b> اضبط الفرقة بناءً على النتائج أدناه.<br><br><b>🔥 نصيحة جو المجنون:</b><br>اضبط نسبة الفتح وسيريل على 0. املأ مستوى القرد فقط إذا كنت تستخدم بوفات الحيوانات الأليفة.",
+        titlePasukan: "إجمالي بيانات القوات", titleKaps: "السعة والمسيرة", titleRasioOpen: "نسبة الحشد (%)",
+        labelInf: "إجمالي المشاة", labelLan: "إجمالي الرماح", labelMar: "إجمالي القناصة",
+        labelKapsH: "سعة البطل (أساسي)", labelKapsNH: "سعة بدون بطل (أساسي)", labelBaris: "عدد المسيرات (أقصى 6)",
+        labelKera: "مستوى القرد (0-10)", labelCyrille: "مستوى سيريل (0-10)",
+        btnReset: "إعادة تعيين", btnSave: "حفظ", txtTotal: "الإجمالي",
+        resTitle: "نتيجة الحساب", resSisa: "🛡️ القوات المتبقية", resRasio: "📊 نسبة المنضمين (نطاق)",
+        resUnit: "💂 القوات لكل مسيرة", resDetail: "🔍 تفاصيل السعة",
+        errRasio: "⚠️ النسبة تتجاوز 100%", copySuccess: "تم النسخ!",
+        withH: "مع بطل", noH: "بدون بطل", type: "النوع", units: "الوحدات", mode: "الوضع"
+    },
+    de: {
+        modalTitle: "❓ Anleitung",
+        modalBody: "1. <b>Truppendaten:</b> Gesamtzahl der Truppen aus der Vorschau eingeben.<br>2. <b>Kapazität:</b> Kapazität mit/ohne Helden aus dem Marschmenü eingeben.<br>3. <b>Open Ratio:</b> % der Truppen für die eigene Rally.<br>4. <b>Joiner:</b> Trupp gemäß den Ergebnissen unten einstellen.<br><br><b>🔥 Crazy Joe Tipp:</b><br>Setze Open Ratio und Cyrille auf 0. Affen-Level nur bei Pet-Buffs ausfüllen.",
+        titlePasukan: "Truppendaten", titleKaps: "Kapazität & Marsch", titleRasioOpen: "Rally-Verhältnis (%)",
+        labelInf: "Infanterie", labelLan: "Lanzenreiter", labelMar: "Scharfschützen",
+        labelKapsH: "Helden-Kap. (Basis)", labelKapsNH: "Ohne-Held-Kap. (Basis)", labelBaris: "Anzahl Märsche (Max 6)",
+        labelKera: "Affen (0-10)", labelCyrille: "Cyrille (0-10)",
+        btnReset: "Reset", btnSave: "Speichern", txtTotal: "Gesamt",
+        resTitle: "ERGEBNIS", resSisa: "🛡️ VERBLEIBENDE TRUPPEN", resRasio: "📊 JOINER-RATIO (BEREICH)",
+        resUnit: "💂 TRUPPEN PRO MARSCH", resDetail: "🔍 KAPAZITÄTSDETAILS",
+        errRasio: "⚠️ VERHÄLTNIS ÜBER 100%", copySuccess: "Kopiert!",
+        withH: "MIT HELD", noH: "OHNE HELD", type: "TYP", units: "EINHEITEN", mode: "MODUS"
+    },
+    pt: {
+        modalTitle: "❓ Guia do Usuário",
+        modalBody: "1. <b>Dados de Tropas:</b> Preencha o total de tropas da visualização.<br>2. <b>Capacidade:</b> Insira a capacidade com e sem herói do menu de marcha.<br>3. <b>Ratio Open:</b> % de tropas para abrir seu próprio rally.<br>4. <b>Joiner:</b> Configure o esquadrão com base nos resultados abaixo.<br><br><b>🔥 Dica Crazy Joe:</b><br>Defina Ratio Open e Cyrille como 0. Preencha o nível do Macaco apenas se usar buffs de pet.",
+        titlePasukan: "Dados das Tropas", titleKaps: "Capacidade e Marcha", titleRasioOpen: "Proporção de Rally (%)",
+        labelInf: "Total Infantaria", labelLan: "Total Lanceiros", labelMar: "Total Atiradores",
+        labelKapsH: "Cap. Herói (Base)", labelKapsNH: "Cap. Sem Herói (Base)", labelBaris: "Número de Marchas (Máx 6)",
+        labelKera: "Macaco (0-10)", labelCyrille: "Cyrille (0-10)",
+        btnReset: "Resetar", btnSave: "Salvar", txtTotal: "Total",
+        resTitle: "RESULTADO", resSisa: "🛡️ TROPAS RESTANTES", resRasio: "📊 RATIO POR MARCHA (RANGE)",
+        resUnit: "💂 TROPAS POR MARCHA", resDetail: "🔍 DETALHES DE CAPACIDADE",
+        errRasio: "⚠️ RATIO EXCEDE 100%", copySuccess: "Copiado!",
+        withH: "COM HERÓI", noH: "SEM HERÓI", type: "TIPO", units: "UNIDADES", mode: "MODO"
+    }
+};
+
+function changeLang() {
+    currentLang = document.getElementById('langSelect').value;
+    const container = document.getElementById('mainContainer');
+    if (currentLang === 'ar') container.classList.add('rtl');
+    else container.classList.remove('rtl');
+    updateUI();
+}
+
+function updateUI() {
+    const t = i18n[currentLang] || i18n['en'];
+    document.getElementById('modalTitle').innerText = t.modalTitle;
+    document.getElementById('modalBody').innerHTML = t.modalBody;
+    document.getElementById('titlePasukan').innerText = t.titlePasukan;
+    document.getElementById('titleKaps').innerText = t.titleKaps;
+    document.getElementById('titleRasioOpen').innerText = t.titleRasioOpen;
+    document.getElementById('labelInf').innerText = t.labelInf;
+    document.getElementById('labelLan').innerText = t.labelLan;
+    document.getElementById('labelMar').innerText = t.labelMar;
+    document.getElementById('labelKapsH').innerText = t.labelKapsH;
+    document.getElementById('labelKapsNH').innerText = t.labelKapsNH;
+    document.getElementById('labelBaris').innerText = t.labelBaris;
+    document.getElementById('labelKera').innerText = t.labelKera;
+    document.getElementById('labelCyrille').innerText = t.labelCyrille;
+    document.getElementById('btnReset').innerText = t.btnReset;
+    document.getElementById('btnSave').innerText = t.btnSave;
+    document.getElementById('txtTotal').innerText = t.txtTotal;
+    hitung();
+}
+
 function toggleModal() {
     const modal = document.getElementById("tipsModal");
     modal.style.display = (modal.style.display === "block") ? "none" : "block";
 }
+
 window.onclick = function(event) {
     const modal = document.getElementById("tipsModal");
     if (event.target == modal) modal.style.display = "none";
@@ -169,17 +350,15 @@ function resetData() {
     hitung();
 }
 
-let lastSaveText = "";
-
 function saveData() {
-    if (!lastSaveText) return alert("Belum ada data untuk disimpan.");
-    const textToCopy = lastSaveText + "\n\nCalculated by Khirfa Tool";
-    navigator.clipboard.writeText(textToCopy).then(() => {
-        alert("Data berhasil disalin ke clipboard!");
+    if (!lastSaveText) return;
+    navigator.clipboard.writeText(lastSaveText).then(() => {
+        alert(i18n[currentLang].copySuccess);
     });
 }
 
 function hitung() {
+    const t = i18n[currentLang] || i18n['en'];
     const sKera = {1:1500,2:3000,3:4500,4:6000,5:7500,6:9000,7:10500,8:12000,9:13500,10:15000};
     const sCyrille = {1:3000,2:6000,3:9000,4:12000,5:15000,6:18000,7:21000,8:24000,9:27000,10:30000};
 
@@ -194,7 +373,7 @@ function hitung() {
     document.getElementById("totalRasioDisp").style.color = (totalRasio <= 100) ? "var(--color-mm)" : "var(--warning-red)";
 
     if (totalRasio > 100) {
-        document.getElementById("hasil").innerHTML = `<div class="error-msg">⚠️ TOTAL RASIO MELEBIHI 100%<br>(Sekarang: ${totalRasio}%)</div>`;
+        document.getElementById("hasil").innerHTML = `<div class="error-msg">${t.errRasio} (${totalRasio}%)</div>`;
         lastSaveText = "";
         return;
     }
@@ -219,47 +398,49 @@ function hitung() {
     let rInfH = getRangeStr(pI, capRealH), rLanH = getRangeStr(pL, capRealH), rMarH = getRangeStr(pM, capRealH);
     let rInfNH = getRangeStr(pI, capRealNH), rLanNH = getRangeStr(pL, capRealNH), rMarNH = getRangeStr(pM, capRealNH);
 
-    lastSaveText = `HASIL RATIO BEAR TRAP\n\nWITH HERO:\nRatio: ${rInfH}/${rLanH}/${rMarH}\nUnits: ${pI.toLocaleString()}/${pL.toLocaleString()}/${pM.toLocaleString()}\n\nNO HERO:\nRatio: ${rInfNH}/${rLanNH}/${rMarNH}\nUnits: ${pI.toLocaleString()}/${pL.toLocaleString()}/${pM.toLocaleString()}`;
+    lastSaveText = `${t.resTitle}\n\n${t.withH}:\nRatio: ${rInfH}/${rLanH}/${rMarH}\nUnits: ${pI.toLocaleString()}/${pL.toLocaleString()}/${pM.toLocaleString()}\n\n${t.noH}:\nRatio: ${rInfNH}/${rLanNH}/${rMarNH}\nUnits: ${pI.toLocaleString()}/${pL.toLocaleString()}/${pM.toLocaleString()}`;
 
     document.getElementById("hasil").innerHTML = `
-        <h2 style="border:none; text-align:center; color:white; margin-bottom:15px;">HASIL KALKULASI</h2>
-        <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">🛡️ SISA TOTAL PASUKAN</p>
-        <div class="capacity-info"><span>Sisa INFANTRY:</span> <span class="val-highlight">${Math.floor(sI_total).toLocaleString('id-ID')}</span></div>
-        <div class="capacity-info"><span>Sisa LANCER:</span> <span class="val-highlight">${Math.floor(sL_total).toLocaleString('id-ID')}</span></div>
-        <div class="capacity-info"><span>Sisa MARKSMAN:</span> <span class="val-highlight">${Math.floor(sM_total).toLocaleString('id-ID')}</span></div>
+        <h2 style="border:none; text-align:center; color:white; margin-bottom:15px;">${t.resTitle}</h2>
+        <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">${t.resSisa}</p>
+        <div class="capacity-info"><span>INFANTRY:</span> <span class="val-highlight">${Math.floor(sI_total).toLocaleString('id-ID')}</span></div>
+        <div class="capacity-info"><span>LANCER:</span> <span class="val-highlight">${Math.floor(sL_total).toLocaleString('id-ID')}</span></div>
+        <div class="capacity-info"><span>MARKSMAN:</span> <span class="val-highlight">${Math.floor(sM_total).toLocaleString('id-ID')}</span></div>
 
-        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">📊 RASIO JOINER PER BARIS</p>
+        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">${t.resRasio}</p>
         <table>
-            <tr><th>MODE</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
-            <tr><td>WITH HERO</td><td>${rInfH}</td><td>${rLanH}</td><td>${rMarH}</td></tr>
-            <tr><td>NO HERO</td><td>${rInfNH}</td><td>${rLanNH}</td><td>${rMarNH}</td></tr>
+            <tr><th style="text-align:center;">${t.mode}</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
+            <tr><td>${t.withH}</td><td>${rInfH}</td><td>${rLanH}</td><td>${rMarH}</td></tr>
+            <tr><td>${t.noH}</td><td>${rInfNH}</td><td>${rLanNH}</td><td>${rMarNH}</td></tr>
         </table>
 
-        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">💂 PASUKAN PER BARIS</p>
+        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">${t.resUnit} (${(pI+pL+pM).toLocaleString('id-ID')})</p>
         <table style="font-family: monospace;">
-            <tr><th>JENIS</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
-            <tr><td>JUMLAH</td><td>${pI.toLocaleString('id-ID')}</td><td>${pL.toLocaleString('id-ID')}</td><td>${pM.toLocaleString('id-ID')}</td></tr>
+            <tr><th style="text-align:center;">${t.type}</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
+            <tr><td>${t.units}</td><td>${pI.toLocaleString('id-ID')}</td><td>${pL.toLocaleString('id-ID')}</td><td>${pM.toLocaleString('id-ID')}</td></tr>
         </table>
 
         <div style="margin-top:20px;">
-            <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">🔍 DETAIL KAPASITAS PER BARIS</p>
+            <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">${t.resDetail}</p>
             <div class="calc-detail">
-                <div style="color: var(--text-secondary); font-size: 0.65rem; margin-bottom: 8px; font-weight: bold;">[ MODE WITH HERO ]</div>
-                <div class="calc-line"><span>Kaps. Base Hero:</span> <span>${kHBase.toLocaleString('id-ID')}</span></div>
-                <div class="calc-line"><span>Bonus Kera:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
-                <div class="calc-line"><span>Bonus Cyrille:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
+                <div style="color: var(--text-secondary); font-size: 0.65rem; margin-bottom: 8px; font-weight: bold;">[ ${t.withH} ]</div>
+                <div class="calc-line"><span>Base:</span> <span>${kHBase.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus 1:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus 2:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
                 <div class="calc-total calc-line"><span>Total:</span> <span>${capRealH.toLocaleString('id-ID')}</span></div>
             </div>
             <div class="calc-detail" style="margin-top: 10px;">
-                <div style="color: var(--text-secondary); font-size: 0.65rem; margin-bottom: 8px; font-weight: bold;">[ MODE NO HERO ]</div>
-                <div class="calc-line"><span>Kaps. Base Non-Hero:</span> <span>${kNHBase.toLocaleString('id-ID')}</span></div>
-                <div class="calc-line"><span>Bonus Kera:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
-                <div class="calc-line"><span>Bonus Cyrille:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
+                <div style="color: var(--text-secondary); font-size: 0.65rem; margin-bottom: 8px; font-weight: bold;">[ ${t.noH} ]</div>
+                <div class="calc-line"><span>Base:</span> <span>${kNHBase.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus 1:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus 2:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
                 <div class="calc-total calc-line"><span>Total:</span> <span>${capRealNH.toLocaleString('id-ID')}</span></div>
             </div>
         </div>
     `;
 }
+
+updateUI();
 </script>
 </body>
 </html>
