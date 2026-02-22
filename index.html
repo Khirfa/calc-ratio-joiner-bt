@@ -18,57 +18,100 @@
             --color-lan: #ff4d4d; 
             --color-mm: #4dff88;  
         }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); margin: 0; padding: 15px; display: flex; justify-content: center; }
+        body, input, select, button, table, div, span { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+        }
+        body { background-color: var(--bg-color); color: var(--text-primary); margin: 0; padding: 15px; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 500px; position: relative; }
         
+        /* ... CSS lainnya tetap sama ... */
         .header-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         h1 { font-weight: 800; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; font-size: 1.1rem; margin: 0; text-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
-        
         .header-controls { display: flex; gap: 8px; align-items: center; }
-        
         select.lang-select { background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: 5px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; outline: none; }
-        select.lang-select:focus { border-color: var(--accent-color); }
-
         .tips-icon { cursor: pointer; width: 30px; height: 30px; background: rgba(0, 242, 255, 0.1); border: 1px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-color); font-size: 1rem; transition: 0.3s; font-weight: bold; }
-
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
         .modal-content { background-color: var(--card-bg); margin: 10% auto; padding: 25px; border: 1px solid var(--accent-color); border-radius: 16px; width: 85%; max-width: 400px; color: var(--text-primary); position: relative; max-height: 80vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 10px; right: 15px; color: var(--text-secondary); font-size: 24px; cursor: pointer; }
-
         .section-card { background: var(--card-bg); padding: 18px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border-color); }
         h2 { font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); border-left: 3px solid var(--accent-color); padding-left: 10px; margin-bottom: 15px; }
         .input-wrapper { display: flex; flex-direction: column; gap: 12px; }
         label { display: block; font-size: 0.7rem; margin-bottom: 5px; color: var(--text-secondary); font-weight: 600; }
         input { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 1rem; box-sizing: border-box; outline: none; }
-        
         .result-container { background: linear-gradient(145deg, #161b26, #0d1117); padding: 20px; border-radius: 16px; border: 1px solid rgba(0, 242, 255, 0.4); margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.7rem; }
-        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.75rem; }
         th { background-color: #1f2636; padding: 10px 5px; text-align: center; color: var(--text-primary); font-weight: 800; text-transform: uppercase; }
         .th-inf { color: var(--color-inf) !important; } 
         .th-lan { color: var(--color-lan) !important; } 
         .th-mm { color: var(--color-mm) !important; }
-        
-        td { background-color: rgba(255,255,255,0.02); padding: 12px 5px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-primary); font-weight: 400; }
-        
-        .capacity-info { font-size: 0.7rem; color: var(--text-secondary); margin-top: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #242b3d; padding-bottom: 5px; }
+        td { background-color: rgba(255,255,255,0.02); padding: 12px 5px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-primary); font-weight: 500; }
+        .capacity-info { font-size: 0.75rem; color: var(--text-secondary); margin-top: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #242b3d; padding-bottom: 5px; }
         .val-highlight { color: var(--accent-color); font-weight: 700; }
         .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         button { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; }
         .btn-reset { background: #333; color: white; }
         .btn-save { background: var(--accent-color); color: #000; }
-        
         .calc-detail { background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px dashed var(--border-color); }
-        .calc-line { display: flex; justify-content: space-between; font-size: 0.65rem; margin-bottom: 4px; font-family: monospace; }
+        .calc-line { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 4px; }
         .calc-total { border-top: 1px solid var(--text-secondary); margin-top: 5px; padding-top: 5px; font-weight: bold; color: var(--accent-color); }
         .error-msg { color: var(--warning-red); text-align: center; font-size: 0.75rem; font-weight: bold; padding: 10px; border: 1px dashed var(--warning-red); border-radius: 8px; }
-        
-        /* Watermark Styled Nama Khirfa */
+
+        /* Watermark & Copy Tooltip */
         .watermark { text-align: center; font-size: 0.65rem; color: var(--text-secondary); margin-top: 30px; opacity: 0.8; letter-spacing: 1px; }
-        .watermark b { color: var(--accent-color); text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); }
+        .author-name { 
+            color: var(--accent-color); 
+            text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); 
+            cursor: pointer; 
+            position: relative; 
+            transition: 0.3s;
+            display: inline-block;
+        }
+        
+        /* Kotak ID yang muncul saat hover */
+        .author-name::after {
+            content: "ID: 165313484 (Click to Copy)";
+            position: absolute;
+            bottom: 180%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            color: var(--accent-color);
+            padding: 5px 10px;
+            border: 1px solid var(--accent-color);
+            border-radius: 6px;
+            font-size: 0.65rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+
+        .author-name:hover::after {
+            opacity: 1;
+            visibility: visible;
+            bottom: 150%;
+        }
+
+        /* Notifikasi Kecil (Toast) */
+        .copy-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-color);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 242, 255, 0.4);
+        }
         
         .rtl { direction: rtl; text-align: right; }
-        .rtl h2 { border-left: none; border-right: 3px solid var(--accent-color); padding-left: 0; padding-right: 10px; }
     </style>
 </head>
 <body>
@@ -144,10 +187,23 @@
 
     <div class="result-container" id="hasil"></div>
 
-    <div class="watermark">Created by <b>Khirfa</b></div>
+    <div class="watermark">Created by <b class="author-name" onclick="copyID()">Khirfa</b></div>
 </div>
 
+<div id="copyToast" class="copy-toast">ID 165313484 copied!</div>
+
 <script>
+// Fungsi baru untuk Copy ID
+function copyID() {
+    const idText = "165313484";
+    navigator.clipboard.writeText(idText).then(() => {
+        const toast = document.getElementById("copyToast");
+        toast.style.display = "block";
+        setTimeout(() => { toast.style.display = "none"; }, 2000);
+    });
+}
+
+// ... Siswa JavaScript tetap sama ...
 let currentLang = 'id';
 let lastSaveText = "";
 
@@ -219,7 +275,7 @@ const i18n = {
     },
     pl: {
         modalTitle: "❓ Instrukcja",
-        modalBody: "1. <b>Dane wojsk:</b> Wpisz całkowitą liczbę wojsk z podglądu.<br>2. <b>Pojemność:</b> Wpisz pojemność z bohaterem i bez z menu marszu.<br>3. <b>Ratio Open:</b> % wojsk użytych do otwarcia własnej rally.<br>4. <b>Joiner:</b> Ustaw oddział według poniższych wyników.<br><br><b>🔥 Tip Crazy Joe:</b><br>Ustaw Ratio Open i Cyrille na 0. Wpisz poziom Małpy tylko jeśli używasz buffów zwierzaka.",
+        modalBody: "1. <b>Dane wojsk:</b> Wpisz całkowitą liczbę wojsk z podglądu.<br>2. <b>Pojemność:</b> Wpisz pojemność z bohaterem i bez z menu marszu.<br>3. <b>Ratio Open:</b> % wojsk użytych do otwarcia własnej rally.<br>4. <b>Joiner:</b> Ustaw oddział według poniższych wyników.<br><br><b>🔥 Tip Crazy Joe:</b><br>Ustaw Ratio Open i Cyrille na 0. Wpisz poziom Małpy tylko jika używasz buffów zwierzaka.",
         titlePasukan: "Dane wojsk", titleKaps: "Pojemność i Marsz", titleRasioOpen: "Ratio Rally (%)",
         labelInf: "Piechota", labelLan: "Lansjerzy", labelMar: "Strzelcy",
         labelKapsH: "Pojemność Hero (Baza)", labelKapsNH: "Pojemność No-Hero (Baza)", labelBaris: "Liczba marszów (Max 6)",
@@ -232,7 +288,7 @@ const i18n = {
     },
     tr: {
         modalTitle: "❓ Kullanım Kılavuzu",
-        modalBody: "1. <b>Birlik Verileri:</b> Kadro önizlemesindeki toplam birliği girin.<br>2. <b>Kapasite:</b> Kahramanlı ve kahramansız kapasiteyi girin.<br>3. <b>Açılış Oranı:</b> Kendi rallinizi açmak için kullandığınız birlik %'si.<br>4. <b>Katılımcı:</b> Kadroyu aşağıdaki sonuçlara göre ayarlayın.<br><br><b>🔥 Crazy Joe İpucu:</b><br>Açılış Oranını ve Cyrille'i 0 yapın. Sadece pet bonusu kullanıyorsanız maymun seviyesini girin.",
+        modalBody: "1. <b>Birlik Verileri:</b> Kadro önizlemesindeki toplam birliği girin.<br>2. <b>Kapasite:</b> Kahramanlı ve kahramansız kapasiteyi girin.<br>3. <b>Açılış Oranı:</b> Kendi rallinizi açmak untuk kullandığınız birlik %'si.<br>4. <b>Katılımcı:</b> Kadroyu aşağıdaki sonuçlara göre ayarlayın.<br><br><b>🔥 Crazy Joe İpucu:</b><br>Açılış Oranını ve Cyrille'i 0 yapın. Sadece pet bonusu kullanıyorsanız maymun seviyesini girin.",
         titlePasukan: "Toplam Birlik", titleKaps: "Kapasite & Yürüyüş", titleRasioOpen: "Ralli Oranı (%)",
         labelInf: "Piyade", labelLan: "Mızrakçı", labelMar: "Keskin Nişancı",
         labelKapsH: "Kahraman Kap. (Temel)", labelKapsNH: "Kahramansız Kap. (Temel)", labelBaris: "Yürüyüş Sayısı (Maks 6)",
@@ -271,7 +327,7 @@ const i18n = {
     },
     pt: {
         modalTitle: "❓ Guia do Usuário",
-        modalBody: "1. <b>Dados de Tropas:</b> Preencha o total de tropas da visualização.<br>2. <b>Capacidade:</b> Insira a capacidade com e sem herói do menu de marcha.<br>3. <b>Ratio Open:</b> % de tropas para abrir seu próprio rally.<br>4. <b>Joiner:</b> Configure o esquadrão com base nos resultados abaixo.<br><br><b>🔥 Dica Crazy Joe:</b><br>Defina Ratio Open e Cyrille como 0. Preencha o nível do Macaco apenas se usar buffs de pet.",
+        modalBody: "1. <b>Dados de Tropas:</b> Preencha o total de tropas da visualização.<br>2. <b>Capacidade:</b> Insira a kapasitas dengan e sem herói do menu de marcha.<br>3. <b>Ratio Open:</b> % de tropas para abrir seu próprio rally.<br>4. <b>Joiner:</b> Configure o esquadrão com base nos resultados bawah.<br><br><b>🔥 Dica Crazy Joe:</b><br>Defina Ratio Open e Cyrille sebagai 0. Preencha o nível do Macaco apenas se usar buffs de pet.",
         titlePasukan: "Dados das Tropas", titleKaps: "Capacidade e Marcha", titleRasioOpen: "Proporção de Rally (%)",
         labelInf: "Total Infantaria", labelLan: "Total Lanceiros", labelMar: "Total Atiradores",
         labelKapsH: "Cap. Herói (Base)", labelKapsNH: "Cap. Sem Herói (Base)", labelBaris: "Número de Marchas (Máx 6)",
@@ -402,35 +458,35 @@ function hitung() {
 
     document.getElementById("hasil").innerHTML = `
         <h2 style="border:none; text-align:center; color:white; margin-bottom:15px;">${t.resTitle}</h2>
-        <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">${t.resSisa}</p>
+        <p style="font-size:0.75rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">${t.resSisa}</p>
         <div class="capacity-info"><span>INFANTRY:</span> <span class="val-highlight">${Math.floor(sI_total).toLocaleString('id-ID')}</span></div>
         <div class="capacity-info"><span>LANCER:</span> <span class="val-highlight">${Math.floor(sL_total).toLocaleString('id-ID')}</span></div>
         <div class="capacity-info"><span>MARKSMAN:</span> <span class="val-highlight">${Math.floor(sM_total).toLocaleString('id-ID')}</span></div>
 
-        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">${t.resRasio}</p>
+        <p style="font-size:0.75rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">${t.resRasio}</p>
         <table>
             <tr><th style="text-align:center;">${t.mode}</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
             <tr><td>${t.withH}</td><td>${rInfH}</td><td>${rLanH}</td><td>${rMarH}</td></tr>
             <tr><td>${t.noH}</td><td>${rInfNH}</td><td>${rLanNH}</td><td>${rMarNH}</td></tr>
         </table>
 
-        <p style="font-size:0.7rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">${t.resUnit} (${(pI+pL+pM).toLocaleString('id-ID')})</p>
-        <table style="font-family: monospace;">
+        <p style="font-size:0.75rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">${t.resUnit} (${(pI+pL+pM).toLocaleString('id-ID')})</p>
+        <table>
             <tr><th style="text-align:center;">${t.type}</th><th class="th-inf">INF</th><th class="th-lan">LAN</th><th class="th-mm">MM</th></tr>
             <tr><td>${t.units}</td><td>${pI.toLocaleString('id-ID')}</td><td>${pL.toLocaleString('id-ID')}</td><td>${pM.toLocaleString('id-ID')}</td></tr>
         </table>
 
         <div style="margin-top:20px;">
-            <p style="font-size:0.7rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">${t.resDetail}</p>
+            <p style="font-size:0.75rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">${t.resDetail}</p>
             <div class="calc-detail">
-                <div style="color: var(--text-secondary); font-size: 0.65rem; margin-bottom: 8px; font-weight: bold;">[ ${t.withH} ]</div>
+                <div style="color: var(--text-secondary); font-size: 0.7rem; margin-bottom: 8px; font-weight: bold;">[ ${t.withH} ]</div>
                 <div class="calc-line"><span>Base:</span> <span>${kHBase.toLocaleString('id-ID')}</span></div>
                 <div class="calc-line"><span>Bonus 1:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
                 <div class="calc-line"><span>Bonus 2:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
                 <div class="calc-total calc-line"><span>Total:</span> <span>${capRealH.toLocaleString('id-ID')}</span></div>
             </div>
             <div class="calc-detail" style="margin-top: 10px;">
-                <div style="color: var(--text-secondary); font-size: 0.65rem; margin-bottom: 8px; font-weight: bold;">[ ${t.noH} ]</div>
+                <div style="color: var(--text-secondary); font-size: 0.7rem; margin-bottom: 8px; font-weight: bold;">[ ${t.noH} ]</div>
                 <div class="calc-line"><span>Base:</span> <span>${kNHBase.toLocaleString('id-ID')}</span></div>
                 <div class="calc-line"><span>Bonus 1:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
                 <div class="calc-line"><span>Bonus 2:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
