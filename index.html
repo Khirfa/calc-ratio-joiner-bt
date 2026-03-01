@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Ratio Bear Trap | By Khirfa</title>
+    <title>RBT | By Khirfa</title>
     <style>
         :root {
             --bg-color: #0b0e14;
@@ -19,7 +19,6 @@
             --color-mm: #4dff88;  
         }
 
-        /* Memastikan seluruh elemen menggunakan satu jenis font (Inter) */
         body, input, select, button, table, div, span, b { 
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
         }
@@ -33,8 +32,7 @@
         .header-controls { display: flex; gap: 8px; align-items: center; }
         
         select.lang-select { background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: 5px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; outline: none; }
-        select.lang-select:focus { border-color: var(--accent-color); }
-
+        
         .tips-icon { cursor: pointer; width: 30px; height: 30px; background: rgba(0, 242, 255, 0.1); border: 1px solid var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-color); font-size: 1rem; transition: 0.3s; font-weight: bold; }
 
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
@@ -45,16 +43,34 @@
         h2 { font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); border-left: 3px solid var(--accent-color); padding-left: 10px; margin-bottom: 15px; }
         .input-wrapper { display: flex; flex-direction: column; gap: 12px; }
         label { display: block; font-size: 0.7rem; margin-bottom: 5px; color: var(--text-secondary); font-weight: 600; }
-        input { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 1rem; box-sizing: border-box; outline: none; }
         
+        /* Input diperbaiki untuk mobile */
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            background: var(--input-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            color: white; 
+            font-size: 1rem; 
+            box-sizing: border-box; 
+            outline: none; 
+            -webkit-appearance: none; /* Menghapus style bawaan iOS */
+        }
+        
+        /* Mencegah auto-zoom di iOS (font minimal 16px) */
+        @media screen and (max-width: 768px) {
+            input { font-size: 16px; }
+        }
+
+        input:focus { border-color: var(--accent-color); }
+
         .result-container { background: linear-gradient(145deg, #161b26, #0d1117); padding: 20px; border-radius: 16px; border: 1px solid rgba(0, 242, 255, 0.4); margin-top: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.75rem; }
-        
         th { background-color: #1f2636; padding: 10px 5px; text-align: center; color: var(--text-primary); font-weight: 800; text-transform: uppercase; }
         .th-inf { color: var(--color-inf) !important; } 
         .th-lan { color: var(--color-lan) !important; } 
         .th-mm { color: var(--color-mm) !important; }
-        
         td { background-color: rgba(255,255,255,0.02); padding: 12px 5px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-primary); font-weight: 500; }
         
         .capacity-info { font-size: 0.75rem; color: var(--text-secondary); margin-top: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #242b3d; padding-bottom: 5px; }
@@ -69,62 +85,11 @@
         .calc-total { border-top: 1px solid var(--text-secondary); margin-top: 5px; padding-top: 5px; font-weight: bold; color: var(--accent-color); }
         .error-msg { color: var(--warning-red); text-align: center; font-size: 0.75rem; font-weight: bold; padding: 10px; border: 1px dashed var(--warning-red); border-radius: 8px; }
         
-        /* Watermark & Tooltip Styles */
         .watermark { text-align: center; font-size: 0.65rem; color: var(--text-secondary); margin-top: 30px; opacity: 0.8; letter-spacing: 1px; }
-        .author-name { 
-            color: var(--accent-color); 
-            text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); 
-            cursor: pointer; 
-            position: relative; 
-            transition: 0.3s;
-            display: inline-block;
-            -webkit-tap-highlight-color: transparent;
-        }
+        .author-name { color: var(--accent-color); text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); cursor: pointer; position: relative; transition: 0.3s; display: inline-block; -webkit-tap-highlight-color: transparent; }
         
-        .author-name::after {
-            content: "UID: 165313484 (Double Click to Copy)";
-            position: absolute;
-            bottom: 180%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--card-bg);
-            color: var(--accent-color);
-            padding: 5px 10px;
-            border: 1px solid var(--accent-color);
-            border-radius: 6px;
-            font-size: 0.65rem;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.3s;
-            white-space: nowrap;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-            z-index: 10;
-        }
-
-        .author-name:hover::after {
-            opacity: 1;
-            visibility: visible;
-            bottom: 150%;
-        }
-
-        .copy-toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent-color);
-            color: #000;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            display: none;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 242, 255, 0.4);
-        }
-        
+        .copy-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--accent-color); color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; display: none; z-index: 1000; box-shadow: 0 4px 12px rgba(0, 242, 255, 0.4); }
         .rtl { direction: rtl; text-align: right; }
-        .rtl h2 { border-left: none; border-right: 3px solid var(--accent-color); padding-left: 0; padding-right: 10px; }
     </style>
 </head>
 <body>
@@ -160,26 +125,26 @@
     <div class="section-card">
         <h2 id="titlePasukan">Data Pasukan Total</h2>
         <div class="input-wrapper">
-            <div class="input-group"><label id="labelInf">Total INFANTRY</label><input type="text" id="infantry" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label id="labelLan">Total LANCER</label><input type="text" id="lancer" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label id="labelMar">Total MARKSMAN</label><input type="text" id="marksman" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelInf">Total INFANTRY</label><input type="text" id="infantry" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelLan">Total LANCER</label><input type="text" id="lancer" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelMar">Total MARKSMAN</label><input type="text" id="marksman" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
         </div>
     </div>
 
     <div class="section-card">
         <h2 id="titleKaps">Kapasitas & Barisan</h2>
         <div class="input-wrapper">
-            <div class="input-group"><label id="labelKapsH">Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label id="labelKapsNH">Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label id="labelBaris">Jumlah Barisan (Max 6)</label><input type="text" id="barisan" value="1" oninput="handleInput(this, 6)"></div>
+            <div class="input-group"><label id="labelKapsH">Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelKapsNH">Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelBaris">Jumlah Barisan (Max 6)</label><input type="text" id="barisan" inputmode="numeric" pattern="[0-9]*" value="1" oninput="handleInput(this, 6)"></div>
         </div>
     </div>
 
     <div class="section-card">
         <h2 id="titleSkill">Level Skill Bonus</h2>
         <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div class="input-group"><label id="labelKera">Lv. Kera (0-10)</label><input type="text" id="kera" value="0" oninput="handleInput(this, 10)"></div>
-            <div class="input-group"><label id="labelCyrille">Lv. Cyrille (0-10)</label><input type="text" id="cyrille" value="0" oninput="handleInput(this, 10)"></div>
+            <div class="input-group"><label id="labelKera">Lv. Kera (0-10)</label><input type="text" id="kera" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
+            <div class="input-group"><label id="labelCyrille">Lv. Cyrille (0-10)</label><input type="text" id="cyrille" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
         </div>
     </div>
 
@@ -187,9 +152,9 @@
         <h2 id="titleRasioOpen">Rasio Open Rally (%)</h2>
         <div style="text-align: right; font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 5px;"><span id="txtTotal">Total</span>: <span id="totalRasioDisp">0</span>% / Max 100%</div>
         <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-            <div class="input-group"><label style="color:var(--color-inf)">INF %</label><input type="text" id="rInf" value="0" oninput="handleInput(this, 100)"></div>
-            <div class="input-group"><label style="color:var(--color-lan)">LAN %</label><input type="text" id="rLan" value="0" oninput="handleInput(this, 100)"></div>
-            <div class="input-group"><label style="color:var(--color-mm)">MM %</label><input type="text" id="rMar" value="0" oninput="handleInput(this, 100)"></div>
+            <div class="input-group"><label style="color:var(--color-inf)">INF %</label><input type="text" id="rInf" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 100)"></div>
+            <div class="input-group"><label style="color:var(--color-lan)">LAN %</label><input type="text" id="rLan" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 100)"></div>
+            <div class="input-group"><label style="color:var(--color-mm)">MM %</label><input type="text" id="rMar" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 100)"></div>
         </div>
     </div>
 
@@ -274,71 +239,6 @@ const i18n = {
         resUnit: "💂 부대별 병력", resDetail: "🔍 용량 상세 정보",
         errRasio: "⚠️ 비율이 100%를 초과했습니다", copySuccess: "복사되었습니다!",
         withH: "영웅 포함", noH: "영웅 미포함", type: "유형", units: "수량", mode: "모드"
-    },
-    pl: {
-        modalTitle: "❓ Instrukcja",
-        modalBody: "1. <b>Dane wojsk:</b> Wpisz całkowitą liczbę wojsk z podglądu.<br>2. <b>Pojemność:</b> Wpisz pojemność z bohaterem i bez z menu marszu.<br>3. <b>Ratio Open:</b> % wojsk użytych do otwarcia własnej rally.<br>4. <b>Joiner:</b> Ustaw oddział według poniższych wyników.<br><br><b>🔥 Tip Crazy Joe:</b><br>Ustaw Ratio Open i Cyrille na 0. Wpisz poziom Małpy tylko jika używasz buffów zwierzaka.",
-        titlePasukan: "Dane wojsk", titleKaps: "Pojemność i Marsz", titleRasioOpen: "Ratio Rally (%)",
-        labelInf: "Piechota", labelLan: "Lansjerzy", labelMar: "Strzelcy",
-        labelKapsH: "Pojemność Hero (Baza)", labelKapsNH: "Pojemność No-Hero (Baza)", labelBaris: "Liczba marszów (Max 6)",
-        labelKera: "Małpa (0-10)", labelCyrille: "Cyrille (0-10)",
-        btnReset: "Reset", btnSave: "Zapisz", txtTotal: "Suma",
-        resTitle: "WYNIK", resSisa: "🛡️ POZOSTAŁE WOJSKA", resRasio: "📊 RATIO NA MARSZ (ZAKRES)",
-        resUnit: "💂 WOJSKA NA MARSZ", resDetail: "🔍 SZCZEGÓŁY POJEMNOŚCI",
-        errRasio: "⚠️ RATIO PRZEKRACZA 100%", copySuccess: "Skopiowano!",
-        withH: "Z HERO", noH: "BEZ HERO", type: "TYP", units: "JEDNOSTKI", mode: "TRYB"
-    },
-    tr: {
-        modalTitle: "❓ Kullanım Kılavuzu",
-        modalBody: "1. <b>Birlik Verileri:</b> Kadro önizlemesindeki toplam birliği girin.<br>2. <b>Kapasite:</b> Kahramanlı ve kahramansız kapasiteyi girin.<br>3. <b>Açılış Oranı:</b> Kendi rallinizi açmak untuk kullandığınız birlik %'si.<br>4. <b>Katılımcı:</b> Kadroyu aşağıdaki sonuçlara göre ayarlayın.<br><br><b>🔥 Crazy Joe İpucu:</b><br>Açılış Oranını ve Cyrille'i 0 yapın. Sadece pet bonusu kullanıyorsanız maymun seviyesini girin.",
-        titlePasukan: "Toplam Birlik", titleKaps: "Kapasite & Yürüyüş", titleRasioOpen: "Ralli Oranı (%)",
-        labelInf: "Piyade", labelLan: "Mızrakçı", labelMar: "Keskin Nişancı",
-        labelKapsH: "Kahraman Kap. (Temel)", labelKapsNH: "Kahramansız Kap. (Temel)", labelBaris: "Yürüyüş Sayısı (Maks 6)",
-        labelKera: "Maymun Sv. (0-10)", labelCyrille: "Cyrille Sv. (0-10)",
-        btnReset: "Sıfırla", btnSave: "Kaydet", txtTotal: "Toplam",
-        resTitle: "HESAPLAMA SONUCU", resSisa: "🛡️ KALAN BİRLİKLER", resRasio: "📊 KATILIM ORANI (ARALIK)",
-        resUnit: "💂 YÜRÜYÜŞ BAŞINA BİRLİK", resDetail: "🔍 KAPASİTE DETAYI",
-        errRasio: "⚠️ ORAN %100'Ü AŞIYOR", copySuccess: "Kopyalandı!",
-        withH: "KAHRAMANLI", noH: "KAHRAMANSIZ", type: "TÜR", units: "BİRİM", mode: "MOD"
-    },
-    ar: {
-        modalTitle: "❓ دليل الاستخدام",
-        modalBody: "1. <b>بيانات القوات:</b> أدخل إجمالي القوات من معاينة الفرقة.<br>2. <b>السعة الأساسية:</b> أدخل السعة مع وبدون بطل من قائمة المسيرة.<br>3. <b>نسبة الفتح:</b> نسبة القوات المستخدمة لفتح الحشد الخاص بك.<br>4. <b>المنضمين:</b> اضبط الفرقة بناءً على النتائج أدناه.<br><br><b>🔥 نصيحة جو المجنون:</b><br>اضبط نسبة الفتح وسيريل على 0. املأ مستوى القرد فقط jika كنت تستخدم بوفات الحيوانات الأليفة.",
-        titlePasukan: "إجمالي بيانات القوات", titleKaps: "السعة والمسيرة", titleRasioOpen: "نسبة الحشد (%)",
-        labelInf: "إجمالي المشاة", labelLan: "إجمالي الرماح", labelMar: "إجمالي القناصة",
-        labelKapsH: "سعة البطل (أساسي)", labelKapsNH: "سعة بدون بطل (أساسي)", labelBaris: "عدد المسيرات (أقصى 6)",
-        labelKera: "مستوى القرد (0-10)", labelCyrille: "مستوى سيريل (0-10)",
-        btnReset: "إعادة تعيين", btnSave: "حفظ", txtTotal: "الإجمالي",
-        resTitle: "نتيجة الحساب", resSisa: "🛡️ القوات المتبقية", resRasio: "📊 نسبة المنضمين (نطاق)",
-        resUnit: "💂 القوات لكل مسيرة", resDetail: "🔍 تفاصيل السعة",
-        errRasio: "⚠️ النسبة تتجاوز 100%", copySuccess: "تم النسخ!",
-        withH: "مع بطل", noH: "بدون بطل", type: "النوع", units: "الوحدات", mode: "الوضع"
-    },
-    de: {
-        modalTitle: "❓ Anleitung",
-        modalBody: "1. <b>Truppendaten:</b> Gesamtzahl der Truppen aus der Vorschau eingeben.<br>2. <b>Kapazität:</b> Kapazität mit/ohne Helden aus dem Marschmenü eingeben.<br>3. <b>Open Ratio:</b> % der Truppen für die eigene Rally.<br>4. <b>Joiner:</b> Trupp gemäß den Ergebnissen unten einstellen.<br><br><b>🔥 Crazy Joe Tipp:</b><br>Setze Open Ratio und Cyrille auf 0. Affen-Level nur bei Pet-Buffs ausfüllen.",
-        titlePasukan: "Truppendaten", titleKaps: "Kapazität & Marsch", titleRasioOpen: "Rally-Verhältnis (%)",
-        labelInf: "Infanterie", labelLan: "Lanzenreiter", labelMar: "Scharfschützen",
-        labelKapsH: "Helden-Kap. (Basis)", labelKapsNH: "Ohne-Held-Kap. (Basis)", labelBaris: "Anzahl Märsche (Max 6)",
-        labelKera: "Affen (0-10)", labelCyrille: "Cyrille (0-10)",
-        btnReset: "Reset", btnSave: "Speichern", txtTotal: "Gesamt",
-        resTitle: "ERGEBNIS", resSisa: "🛡️ VERBLEIBENDE TRUPPEN", resRasio: "📊 JOINER-RATIO (BEREICH)",
-        resUnit: "💂 TRUPPEN PRO MARSCH", resDetail: "🔍 KAPAZITÄTSDETAILS",
-        errRasio: "⚠️ VERHÄLTNIS ÜBER 100%", copySuccess: "Kopiert!",
-        withH: "MIT HELD", noH: "OHNE HELD", type: "TYP", units: "EINHEITEN", mode: "MODUS"
-    },
-    pt: {
-        modalTitle: "❓ Guia do Usuário",
-        modalBody: "1. <b>Dados de Tropas:</b> Preencha o total de tropas da visualização.<br>2. <b>Capacidade:</b> Insira a kapasitas dengan e sem herói do menu de marcha.<br>3. <b>Ratio Open:</b> % de tropas para abrir seu próprio rally.<br>4. <b>Joiner:</b> Configure o esquadrão com base nos resultados bawah.<br><br><b>🔥 Dica Crazy Joe:</b><br>Defina Ratio Open e Cyrille sebagai 0. Preencha o nível do Macaco apenas se usar buffs de pet.",
-        titlePasukan: "Dados das Tropas", titleKaps: "Capacidade e Marcha", titleRasioOpen: "Proporção de Rally (%)",
-        labelInf: "Total Infantaria", labelLan: "Total Lanceiros", labelMar: "Total Atiradores",
-        labelKapsH: "Cap. Herói (Base)", labelKapsNH: "Cap. Sem Herói (Base)", labelBaris: "Número de Marchas (Máx 6)",
-        labelKera: "Macaco (0-10)", labelCyrille: "Cyrille (0-10)",
-        btnReset: "Resetar", btnSave: "Salvar", txtTotal: "Total",
-        resTitle: "RESULTADO", resSisa: "🛡️ TROPAS RESTANTES", resRasio: "📊 RATIO POR MARCHA (RANGE)",
-        resUnit: "💂 TROPAS POR MARCHA", resDetail: "🔍 DETALHES DE CAPACIDADE",
-        errRasio: "⚠️ RATIO EXCEDE 100%", copySuccess: "Copiado!",
-        withH: "COM HERÓI", noH: "SEM HERÓI", type: "TIPO", units: "UNIDADES", mode: "MODO"
     }
 };
 
