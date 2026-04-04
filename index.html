@@ -40,7 +40,16 @@
         .close-btn { position: absolute; top: 10px; right: 15px; color: var(--text-secondary); font-size: 24px; cursor: pointer; }
 
         .section-card { background: var(--card-bg); padding: 18px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border-color); }
-        h2 { font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); border-left: 3px solid var(--accent-color); padding-left: 10px; margin-bottom: 15px; }
+        h2 { 
+		font-size: 0.8rem; 
+		text-transform: uppercase; 
+		color: var(--text-secondary); 
+		border-left: 3px solid var(--accent-color); 
+		padding-left: 10px; 
+		margin: 0 !important; /* Paksa margin jadi 0 */
+		display: flex;
+		align-items: center;
+		}
         .input-wrapper { display: flex; flex-direction: column; gap: 12px; }
         label { display: block; font-size: 0.7rem; margin-bottom: 5px; color: var(--text-secondary); font-weight: 600; }
         
@@ -90,6 +99,60 @@
         
         .copy-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--accent-color); color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; display: none; z-index: 1000; box-shadow: 0 4px 12px rgba(0, 242, 255, 0.4); }
         .rtl { direction: rtl; text-align: right; }
+		
+		/* Tombol ? Kecil */
+		.info-trigger {
+			width: 20px;
+			height: 20px;
+			background: rgba(0, 242, 255, 0.1);
+			border: 1.5px solid var(--accent-color);
+			border-radius: 50%; /* Membuat jadi lingkaran sempurna */
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--accent-color);
+			font-size: 0.75rem;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			font-weight: 800;
+			-webkit-tap-highlight-color: transparent;
+			box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); /* Efek glow halus */
+		}
+
+		.info-trigger:hover {
+			background: var(--accent-color);
+			color: #000;
+			box-shadow: 0 0 12px var(--accent-color);
+			transform: scale(1.1); /* Sedikit membesar saat disentuh */
+		}
+		
+		/* Styling Modal Gambar (2 Gambar) */
+		.image-modal-content {
+			background-color: var(--card-bg);
+			margin: 5% auto; /* Jarak atas lebih kecil agar muat 2 gambar */
+			padding: 15px;
+			border: 2px solid var(--accent-color);
+			border-radius: 16px;
+			width: 90%;
+			max-width: 450px; /* Sedikit lebih lebar */
+			max-height: 90vh; /* Agar tidak melebihi layar */
+			overflow-y: auto; /* Scroll jika gambar terlalu panjang */
+			position: relative;
+			box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+		}
+
+		.image-container {
+			display: flex;
+			flex-direction: column; /* Gambar atas-bawah */
+			gap: 15px; /* Jarak antar gambar */
+			margin-top: 15px;
+		}
+
+		.image-container img {
+			width: 100%;
+			border-radius: 8px;
+			border: 1px solid var(--border-color);
+		}
     </style>
 </head>
 <body>
@@ -122,41 +185,60 @@
         </div>
     </div>
 
-    <div class="section-card">
-        <h2 id="titlePasukan">Data Pasukan Total</h2>
-        <div class="input-wrapper">
-            <div class="input-group"><label id="labelInf">Total INFANTRY</label><input type="text" id="infantry" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label id="labelLan">Total LANCER</label><input type="text" id="lancer" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label id="labelMar">Total MARKSMAN</label><input type="text" id="marksman" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
-        </div>
-    </div>
+	<div class="section-card">
+		<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+			<h2 id="titlePasukan" style="margin-bottom: 0;">Data Pasukan Total</h2>
+			<div class="info-trigger" onclick="openImageModal('pasukan')">?</div>
+		</div>
+		<div class="input-wrapper">
+			<div class="input-group"><label id="labelInf">Total INFANTRY</label><input type="text" id="infantry" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+			<div class="input-group"><label id="labelLan">Total LANCER</label><input type="text" id="lancer" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+			<div class="input-group"><label id="labelMar">Total MARKSMAN</label><input type="text" id="marksman" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+		</div>
+	</div>
+	
+	<div class="section-card">
+		<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+			<h2 id="titleKaps" style="margin-bottom: 0;">Kapasitas & Barisan</h2>
+			<div class="info-trigger" onclick="openImageModal('kapasitas')">?</div>
+		</div>
+		<div class="input-wrapper">
+			<div class="input-group"><label id="labelKapsH">Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+			<div class="input-group"><label id="labelKapsNH">Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+			<div class="input-group"><label id="labelBaris">Jumlah Barisan (Max 6)</label><input type="text" id="barisan" inputmode="numeric" pattern="[0-9]*" placeholder="0" value="" oninput="handleInput(this, 6)"></div>
+		</div>
+	</div>
 
-    <div class="section-card">
-        <h2 id="titleKaps">Kapasitas & Barisan</h2>
-        <div class="input-wrapper">
-            <div class="input-group"><label id="labelKapsH">Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label id="labelKapsNH">Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
-            <div class="input-group"><label id="labelBaris">Jumlah Barisan (Max 6)</label><input type="text" id="barisan" inputmode="numeric" pattern="[0-9]*" value="1" oninput="handleInput(this, 6)"></div>
-        </div>
-    </div>
-
-    <div class="section-card">
-        <h2 id="titleSkill">Level Skill Bonus</h2>
-        <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div class="input-group"><label id="labelKera">Lv. Kera (0-10)</label><input type="text" id="kera" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
-            <div class="input-group"><label id="labelCyrille">Lv. Cyrille (0-10)</label><input type="text" id="cyrille" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
-        </div>
-    </div>
+	<div class="section-card">
+		<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+			<h2 id="titleSkill" style="margin-bottom: 0;">Level Skill Bonus</h2>
+			<div class="info-trigger" onclick="openImageModal('skill')">?</div>
+		</div>
+		<div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+			<div class="input-group"><label id="labelKera">Lv. Kera (0-10)</label><input type="text" id="kera" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
+			<div class="input-group"><label id="labelCyrille">Lv. Cyrille (0-10)</label><input type="text" id="cyrille" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
+		</div>
+	</div>
 
     <div class="section-card">
         <h2 id="titleRasioOpen">Rasio Open Rally (%)</h2>
         <div style="text-align: right; font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 5px;"><span id="txtTotal">Total</span>: <span id="totalRasioDisp">0</span>% / Max 100%</div>
         <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-            <div class="input-group"><label style="color:var(--color-inf)">INF %</label><input type="text" id="rInf" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 100)"></div>
-            <div class="input-group"><label style="color:var(--color-lan)">LAN %</label><input type="text" id="rLan" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 100)"></div>
-            <div class="input-group"><label style="color:var(--color-mm)">MM %</label><input type="text" id="rMar" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 100)"></div>
+            <div class="input-group"><label style="color:var(--color-inf)">INF %</label><input type="text" id="rInf" inputmode="numeric" pattern="[0-9]*" placeholder="0" value="" oninput="handleInput(this, 100)"></div>
+            <div class="input-group"><label style="color:var(--color-lan)">LAN %</label><input type="text" id="rLan" inputmode="numeric" pattern="[0-9]*" placeholder="0" value="" oninput="handleInput(this, 100)"></div>
+            <div class="input-group"><label style="color:var(--color-mm)">MM %</label><input type="text" id="rMar" inputmode="numeric" pattern="[0-9]*" placeholder="0" value="" oninput="handleInput(this, 100)"></div>
         </div>
     </div>
+	
+	<div id="imageModal" class="modal" onclick="closeImageModal()">
+		<div class="modal-content image-modal-content">
+			<span class="close-btn" onclick="closeImageModal()">&times;</span>
+			<div class="image-container">
+				<img src="" id="popupImg1" alt="Tutorial Gambar 1">
+				<img src="" id="popupImg2" alt="Tutorial Gambar 2">
+			</div>
+		</div>
+	</div>
 
     <div class="btn-group">
         <button class="btn-reset" onclick="resetData()" id="btnReset">Reset</button>
@@ -322,9 +404,11 @@ function getVal(id) {
 
 function resetData() {
     document.querySelectorAll('input').forEach(i => {
-        if(i.id === 'barisan') i.value = "1";
-        else if(['kera','cyrille','rInf','rLan','rMar'].includes(i.id)) i.value = "0";
-        else i.value = "";
+        if(['kera','cyrille','rInf','rLan','rMar'].includes(i.id)) {
+            i.value = "0";
+        } else {
+            i.value = ""; // Sekarang barisan juga akan kosong (mengikuti placeholder)
+        }
     });
     hitung();
 }
@@ -334,6 +418,50 @@ function saveData() {
     navigator.clipboard.writeText(lastSaveText).then(() => {
         alert(i18n[currentLang].copySuccess);
     });
+}
+
+// Konfigurasi Gambar Tutorial (GANTI URL DI SINI)
+const imageSources = {
+    'pasukan': {
+        img1: 'Data_pasukan.jpeg', // Link Gambar 1 Pasukan
+        img2: ''  // Link Gambar 2 Pasukan
+    },
+    'kapasitas': {
+        img1: 'Kaps_barisan_nohero.jpeg', // Link Gambar 1 Kapasitas
+        img2: 'Kaps_barisan_hero.jpeg'  // Link Gambar 2 Kapasitas
+    },
+    'skill': {
+        img1: 'Skill_pet.jpeg', // Link Gambar 1 Skill
+        img2: 'Skill_cyrille.jpeg'  // Link Gambar 2 Skill
+    }
+};
+
+function openImageModal(type) {
+    const modal = document.getElementById('imageModal');
+    const img1 = document.getElementById('popupImg1');
+    const img2 = document.getElementById('popupImg2');
+    const sources = imageSources[type];
+
+    if (sources) {
+        img1.src = sources.img1;
+        img2.src = sources.img2;
+        modal.style.display = 'block';
+    }
+}
+
+function closeImageModal() {
+    document.getElementById('imageModal').style.display = 'none';
+}
+
+// Update fungsi window.onclick yang sudah ada agar bisa menutup modal gambar juga
+window.onclick = function(event) {
+    const tipsModal = document.getElementById("tipsModal");
+    const imageModal = document.getElementById("imageModal");
+    
+    if (event.target == tipsModal) tipsModal.style.display = "none";
+    
+    // Menutup modal gambar jika diklik di area luar modal-content
+    if (event.target == imageModal) closeImageModal();
 }
 
 function hitung() {
