@@ -149,9 +149,10 @@
 		}
 
 		.image-container img {
-			width: 100%;
-			border-radius: 8px;
-			border: 1px solid var(--border-color);
+	    width: 100%;
+	    height: auto;
+	    border-radius: 8px;
+	    margin-bottom: 5px; /* Jarak antar gambar jika ada 2 */
 		}
     </style>
 </head>
@@ -424,6 +425,7 @@ function saveData() {
 const imageSources = {
     'pasukan': {
         img1: 'Data_pasukan.jpeg', // Link Gambar 1 Pasukan
+		img2: ''
     },
     'kapasitas': {
         img1: 'Kaps_barisan_nohero.jpeg', // Link Gambar 1 Kapasitas
@@ -442,8 +444,24 @@ function openImageModal(type) {
     const sources = imageSources[type];
 
     if (sources) {
-        img1.src = sources.img1;
-        img2.src = sources.img2;
+        // Logika Gambar 1
+        if (sources.img1 && sources.img1 !== '') {
+            img1.src = sources.img1;
+            img1.style.display = 'block';
+        } else {
+            img1.style.display = 'none'; // Sembunyikan total jika kosong
+            img1.src = ''; // Bersihkan src agar tidak memicu ikon rusak
+        }
+
+        // Logika Gambar 2
+        if (sources.img2 && sources.img2 !== '') {
+            img2.src = sources.img2;
+            img2.style.display = 'block';
+        } else {
+            img2.style.display = 'none'; // Sembunyikan total jika kosong
+            img2.src = ''; // Bersihkan src agar tidak memicu ikon rusak
+        }
+        
         modal.style.display = 'block';
     }
 }
