@@ -219,6 +219,14 @@
 			<div class="input-group"><label id="labelKera">Lv. Kera (0-10)</label><input type="text" id="kera" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
 			<div class="input-group"><label id="labelCyrille">Lv. Cyrille (0-10)</label><input type="text" id="cyrille" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
 		</div>
+		<div class="input-group" style="grid-column: span 2; margin-top: 10px;">
+			<label id="labelCityBuff">Buff Kota (Expansion)</label>
+			<select id="cityBuff" onchange="hitung()" style="width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 1rem; outline: none;">
+				<option value="0">Tanpa Buff</option>
+				<option value="0.1">Kapasitas (10%)</option>
+				<option value="0.2">Kapasitas (20%)</option>
+			</select>
+		</div>
 	</div>
 
     <div class="section-card">
@@ -260,68 +268,143 @@ let lastSaveText = "";
 const i18n = {
     id: {
         modalTitle: "❓ Panduan Penggunaan",
-        modalBody: "1. <b>Data Pasukan:</b> Isi total pasukan yang kamu miliki di pratinjau skuad.<br>2. <b>Kapasitas Base:</b> Cek di menu barisan. Input kapasitas saat memakai hero dan tanpa hero.<br>3. <b>Rasio Open:</b> Isi berapa % pasukan yang kamu pakai untuk membuka rally sendiri (Max 100%).<br>4. <b>Joiner:</b> Setting sesuai hasil kalkulasi di bawah ke dalam skuad kalian.<br><br><b>🔥 Tips Crazy Joe:</b><br>Kalian juga bisa menghitung untuk Crazy Joe, tinggal atur rasio open menjadi 0% dan 0 juga pada bagian Cyrille, lalu hanya isi level kera jika kalian ingin menggunakan buff pet.",
+        modalBody: "1. <b>Data Pasukan:</b> Isi total pasukan yang kamu miliki di pratinjau skuad.<br>2. <b>Kapasitas Base:</b> Cek di menu barisan. Input kapasitas saat memakai hero dan tanpa hero.<br>3. <b>Rasio Open:</b> Isi berapa % pasukan yang kamu pakai untuk membuka rally sendiri (Max 100%).<br>4. <b>Joiner:</b> Setting sesuai hasil kalkulasi di bawah ke dalam skuad kalian.<br><br><b>🔥 Tips Crazy Joe:</b><br>Atur rasio open menjadi 0% dan Cyrille ke 0. Cukup isi level kera jika menggunakan buff pet.",
         titlePasukan: "Data Pasukan Total", titleKaps: "Kapasitas & Barisan", titleRasioOpen: "Rasio Open Rally (%)",
         labelInf: "Total INFANTRY", labelLan: "Total LANCER", labelMar: "Total MARKSMAN",
         labelKapsH: "Kaps. HERO (Base)", labelKapsNH: "Kaps. TANPA HERO (Base)", labelBaris: "Jumlah Barisan (Max 6)",
-        labelKera: "Lv. Kera (0-10)", labelCyrille: "Lv. Cyrille (0-10)",
-        btnReset: "Reset", btnSave: "Save Data", txtTotal: "Total",
+        labelKera: "Lv. Kera (0-10)", labelCyrille: "Lv. Cyrille (0-10)", labelCityBuff: "Buff Kota (Expansion)",
+        btnReset: "Reset", btnSave: "Simpan Data", txtTotal: "Total",
         resTitle: "HASIL KALKULASI", resSisa: "🛡️ SISA TOTAL PASUKAN", resRasio: "📊 RASIO JOINER PER BARIS (RANGE)",
         resUnit: "💂 PASUKAN PER BARISAN", resDetail: "🔍 DETAIL KAPASITAS PER BARIS",
         errRasio: "⚠️ TOTAL RASIO MELEBIHI 100%", copySuccess: "Data berhasil disalin!",
-        withH: "WITH HERO", noH: "NO HERO", type: "JENIS", units: "JUMLAH", mode: "MODE"
+        withH: "WITH HERO", noH: "NO HERO", type: "JENIS", units: "JUMLAH", mode: "MODE",
+        optNoBuff: "Tanpa Buff", optBuff10: "Kapasitas (10%)", optBuff20: "Kapasitas (20%)"
     },
     en: {
         modalTitle: "❓ User Guide",
-        modalBody: "1. <b>Troop Data:</b> Fill total troops from squad preview.<br>2. <b>Base Capacity:</b> Input hero and no-hero capacity from march menu.<br>3. <b>Open Ratio:</b> % of troops for your own rally (Max 100%).<br>4. <b>Joiner:</b> Set squad based on results below.<br><br><b>🔥 Crazy Joe Tips:</b><br>Set Open Ratio and Cyrille to 0. Only fill Ape level if using pet buffs.",
+        modalBody: "1. <b>Troop Data:</b> Fill total troops from squad preview.<br>2. <b>Base Capacity:</b> Check march menu. Input hero and no-hero capacity.<br>3. <b>Open Ratio:</b> % of troops for your own rally (Max 100%).",
         titlePasukan: "Total Troop Data", titleKaps: "Capacity & March", titleRasioOpen: "Open Rally Ratio (%)",
         labelInf: "Total INFANTRY", labelLan: "Total LANCER", labelMar: "Total MARKSMAN",
         labelKapsH: "HERO Cap. (Base)", labelKapsNH: "NO HERO Cap. (Base)", labelBaris: "Total March (Max 6)",
-        labelKera: "Ape Lv. (0-10)", labelCyrille: "Cyrille Lv. (0-10)",
+        labelKera: "Ape Lv. (0-10)", labelCyrille: "Cyrille Lv. (0-10)", labelCityBuff: "City Buff (Expansion)",
         btnReset: "Reset", btnSave: "Save Data", txtTotal: "Total",
         resTitle: "CALCULATION RESULT", resSisa: "🛡️ REMAINING TROOPS", resRasio: "📊 JOINER RATIO PER MARCH (RANGE)",
         resUnit: "💂 TROOPS PER MARCH", resDetail: "🔍 CAPACITY DETAIL",
         errRasio: "⚠️ RATIO EXCEEDS 100%", copySuccess: "Data copied!",
-        withH: "WITH HERO", noH: "NO HERO", type: "TYPE", units: "UNITS", mode: "MODE"
+        withH: "WITH HERO", noH: "NO HERO", type: "TYPE", units: "UNITS", mode: "MODE",
+        optNoBuff: "No Buff", optBuff10: "Capacity (10%)", optBuff20: "Capacity (20%)"
     },
     zh: {
         modalTitle: "❓ 使用指南",
-        modalBody: "1. <b>部队数据:</b> 填写部队预览中的总兵力。<br>2. <b>基础容量:</b> 填写出征菜单中的英雄和无英雄容量。<br>3. <b>开集结比例:</b> 用于自己开启集结的兵力百分比。<br>4. <b>加入者:</b> 根据下方结果设置部队。<br><br><b>🔥 疯狂乔技巧:</b><br>将开集结比例和Cyrille设为0。仅在使用宠物增益时填写大猩猩等级。",
+        modalBody: "1. <b>部队数据:</b> 填写总兵力。<br>2. <b>基础容量:</b> 输入英雄和无英雄容量。<br>3. <b>集结比例:</b> 开启集结的兵力百分比。",
         titlePasukan: "部队总数", titleKaps: "容量与队列", titleRasioOpen: "集结比例 (%)",
         labelInf: "步兵总量", labelLan: "矛兵总量", labelMar: "射手总量",
         labelKapsH: "英雄容量 (基础)", labelKapsNH: "无英雄容量 (基础)", labelBaris: "队列数量 (最高 6)",
-        labelKera: "大猩猩等级 (0-10)", labelCyrille: "Cyrille等级 (0-10)",
+        labelKera: "宠物等级 (0-10)", labelCyrille: "教官等级 (0-10)", labelCityBuff: "城市增益 (扩容)",
         btnReset: "重置", btnSave: "保存数据", txtTotal: "总计",
-        resTitle: "计算结果", resSisa: "🛡️ 剩余总兵力", resRasio: "📊 每队加入比例 (范围)",
+        resTitle: "计算结果", resSisa: "🛡️ 剩余兵力", resRasio: "📊 每队比例",
         resUnit: "💂 每队兵力", resDetail: "🔍 容量详情",
         errRasio: "⚠️ 比例超过 100%", copySuccess: "数据已复制!",
-        withH: "带英雄", noH: "不带英雄", type: "类型", units: "数量", mode: "模式"
+        withH: "带英雄", noH: "无英雄", type: "类型", units: "数量", mode: "模式",
+        optNoBuff: "无增益", optBuff10: "容量 (10%)", optBuff20: "容量 (20%)"
     },
     ja: {
         modalTitle: "❓ 使用ガイド",
-        modalBody: "1. <b>兵力データ:</b> プレビューの総兵力を入力。<br>2. <b>基本容量:</b> 出撃メニューの英雄あり/なしの容量を入力。<br>3. <b>集結比率:</b> 自分が集結を開く際の兵力割合。<br>4. <b>参加者:</b> 下記の結果に基づいて部隊を設定。<br><br><b>🔥 クレイジー・ジョー:</b><br>集結比率とCyrilleを0に設定。ペットバフを使用する場合のみ猿レベルを入力。",
+        modalBody: "1. <b>兵力データ:</b> 総兵力を入力。<br>2. <b>基本容量:</b> 英雄あり/なしの容量を入力。",
         titlePasukan: "総兵力データ", titleKaps: "容量と行軍", titleRasioOpen: "集結比率 (%)",
         labelInf: "歩兵総数", labelLan: "槍兵総数", labelMar: "弓兵総数",
-        labelKapsH: "英雄容量 (基本)", labelKapsNH: "英雄なし容量 (基本)", labelBaris: "部隊数 (最大 6)",
-        labelKera: "猿レベル (0-10)", labelCyrille: "Cyrilleレベル (0-10)",
+        labelKapsH: "英雄容量 (基本)", labelKapsNH: "英雄なし (基本)", labelBaris: "部隊数 (最大 6)",
+        labelKera: "猿レベル (0-10)", labelCyrille: "教官レベル (0-10)", labelCityBuff: "都市バフ (拡張)",
         btnReset: "リセット", btnSave: "保存", txtTotal: "合計",
-        resTitle: "計算結果", resSisa: "🛡️ 残り兵力合計", resRasio: "📊 参加比率 (範囲)",
-        resUnit: "💂 1部隊あたりの兵数", resDetail: "🔍 容量詳細",
+        resTitle: "計算結果", resSisa: "🛡️ 残り兵力", resRasio: "📊 参加比率",
+        resUnit: "💂 部隊あたりの兵数", resDetail: "🔍 容量詳細",
         errRasio: "⚠️ 比率が100%を超えています", copySuccess: "コピーしました!",
-        withH: "英雄あり", noH: "英雄なし", type: "兵種", units: "兵数", mode: "モード"
+        withH: "英雄あり", noH: "英雄なし", type: "兵種", units: "兵数", mode: "モード",
+        optNoBuff: "バフなし", optBuff10: "容量 (10%)", optBuff20: "容量 (20%)"
     },
     ko: {
         modalTitle: "❓ 사용 가이드",
-        modalBody: "1. <b>병력 데이터:</b> 분대 미리보기의 총 병력을 입력하세요.<br>2. <b>기본 용량:</b> 행군 메뉴의 영웅 포함/미포함 용량을 입력하세요.<br>3. <b>집결 비율:</b> 직접 집결을 열 때 사용할 병력 백분율입니다.<br>4. <b>참가자:</b> 아래 결과에 따라 부대를 설정하세요.<br><br><b>🔥 크레이지 조 팁:</b><br>집결 비율과 Cyrille을 0으로 설정하세요. 펫 버프를 사용하는 경우에만 유인원 레벨을 입력하세요.",
+        modalBody: "1. <b>병력 데이터:</b> 총 병력을 입력하세요.<br>2. <b>기본 용량:</b> 영웅 포함/미포함 용량을 입력하세요.",
         titlePasukan: "총 병력 데이터", titleKaps: "용량 및 행군", titleRasioOpen: "집결 비율 (%)",
         labelInf: "보병 총수", labelLan: "궁병 총수", labelMar: "사수 총수",
-        labelKapsH: "영웅 용량 (기본)", labelKapsNH: "영웅 미포함 용량 (기본)", labelBaris: "행군 수 (최대 6)",
-        labelKera: "유인원 레벨 (0-10)", labelCyrille: "Cyrille 레벨 (0-10)",
+        labelKapsH: "영웅 용량 (기본)", labelKapsNH: "영웅 미포함 (기본)", labelBaris: "행군 수 (최대 6)",
+        labelKera: "유인원 레벨 (0-10)", labelCyrille: "교관 레벨 (0-10)", labelCityBuff: "도시 버프 (확장)",
         btnReset: "초기화", btnSave: "저장", txtTotal: "합계",
-        resTitle: "계산 결과", resSisa: "🛡️ 남은 총 병력", resRasio: "📊 부대별 참가 비율 (범위)",
-        resUnit: "💂 부대별 병력", resDetail: "🔍 용량 상세 정보",
+        resTitle: "계산 결과", resSisa: "🛡️ 남은 병력", resRasio: "📊 참가 비율",
+        resUnit: "💂 부대별 병력", resDetail: "🔍 용량 상세",
         errRasio: "⚠️ 비율이 100%를 초과했습니다", copySuccess: "복사되었습니다!",
-        withH: "영웅 포함", noH: "영웅 미포함", type: "유형", units: "수량", mode: "모드"
+        withH: "영웅 포함", noH: "영웅 미포함", type: "유형", units: "수량", mode: "모드",
+        optNoBuff: "버프 없음", optBuff10: "용량 (10%)", optBuff20: "용량 (20%)"
+    },
+    pl: {
+        modalTitle: "❓ Instrukcja",
+        modalBody: "1. <b>Wojska:</b> Wpisz całkowitą liczbę wojsk.<br>2. <b>Pojemność:</b> Wpisz pojemność bazy.",
+        titlePasukan: "Całkowite Wojska", titleKaps: "Pojemność i Marsz", titleRasioOpen: "Ratio Otwarcia (%)",
+        labelInf: "Suma PIECHOTY", labelLan: "Suma LANCERÓW", labelMar: "Suma STRZELCÓW",
+        labelKapsH: "Pojemność BOH.", labelKapsNH: "Pojemność BEZ BOH.", labelBaris: "Marsze (Maks 6)",
+        labelKera: "Poz. Małpy (0-10)", labelCyrille: "Poz. Cyrille (0-10)", labelCityBuff: "Buff Miasta",
+        btnReset: "Reset", btnSave: "Zapisz", txtTotal: "Suma",
+        resTitle: "WYNIK", resSisa: "🛡️ POZOSTAŁE WOJSKA", resRasio: "📊 RATIO DOŁĄCZANIA",
+        resUnit: "💂 WOJSKA NA MARSZ", resDetail: "🔍 SZCZEGÓŁY",
+        errRasio: "⚠️ RATIO PRZEKRACZA 100%", copySuccess: "Skopiowano!",
+        withH: "Z BOHATEREM", noH: "BEZ BOHATERA", type: "TYP", units: "JEDN.", mode: "TRYB",
+        optNoBuff: "Brak Buffa", optBuff10: "Pojemność (10%)", optBuff20: "Pojemność (20%)"
+    },
+    tr: {
+        modalTitle: "❓ Kılavuz",
+        modalBody: "1. <b>Birlikler:</b> Toplam birliği girin.<br>2. <b>Kapasite:</b> Üs kapasitesini girin.",
+        titlePasukan: "Toplam Birlik", titleKaps: "Kapasite ve Yürüyüş", titleRasioOpen: "Rally Oranı (%)",
+        labelInf: "Toplam PİYADE", labelLan: "Toplam MIZRAKÇI", labelMar: "Toplam AVCI",
+        labelKapsH: "KAHRAMAN Kap.", labelKapsNH: "KAHRAMANSIZ Kap.", labelBaris: "Yürüyüş (Maks 6)",
+        labelKera: "Maymun Sv. (0-10)", labelCyrille: "Cyrille Sv. (0-10)", labelCityBuff: "Şehir Buffı",
+        btnReset: "Sıfırla", btnSave: "Kaydet", txtTotal: "Toplam",
+        resTitle: "SONUÇ", resSisa: "🛡️ KALAN BİRLİK", resRasio: "📊 KATILIM ORANI",
+        resUnit: "💂 YÜRÜYÜŞ BİRLİĞİ", resDetail: "🔍 KAPASİTE DETAYI",
+        errRasio: "⚠️ ORAN %100'Ü GEÇİYOR", copySuccess: "Kopyalandı!",
+        withH: "KAHRAMANLI", noH: "KAHRAMANSIZ", type: "TÜR", units: "BİRİM", mode: "MOD",
+        optNoBuff: "Buff Yok", optBuff10: "Kapasite (10%)", optBuff20: "Kapasite (20%)"
+    },
+    ar: {
+        modalTitle: "❓ دليل الاستخدام",
+        modalBody: "1. <b>بيانات القوات:</b> أدخل إجمالي القوات.<br>2. <b>سعة القاعدة:</b> أدخل السعة.",
+        titlePasukan: "إجمالي القوات", titleKaps: "السعة والمسيرة", titleRasioOpen: "نسبة الفتح (%)",
+        labelInf: "إجمالي المشاة", labelLan: "إجمالي الرماح", labelMar: "إجمالي القناصة",
+        labelKapsH: "سعة البطل", labelKapsNH: "سعة بدون بطل", labelBaris: "المسيرات (أقصى 6)",
+        labelKera: "مستوى القرد (0-10)", labelCyrille: "مستوى Cyrille (0-10)", labelCityBuff: "بف المدينة",
+        btnReset: "إعادة تعيين", btnSave: "حفظ", txtTotal: "الإجمالي",
+        resTitle: "نتيجة الحساب", resSisa: "🛡️ القوات المتبقية", resRasio: "📊 نسبة الانضمام",
+        resUnit: "💂 القوات لكل مسيرة", resDetail: "🔍 تفاصيل السعة",
+        errRasio: "⚠️ النسبة تتجاوز 100%", copySuccess: "تم النسخ!",
+        withH: "مع بطل", noH: "بدون بطل", type: "النوع", units: "الوحدات", mode: "الوضع",
+        optNoBuff: "بدون بف", optBuff10: "السعة (10%)", optBuff20: "السعة (20%)"
+    },
+    de: {
+        modalTitle: "❓ Leitfaden",
+        modalBody: "1. <b>Truppendaten:</b> Gesamttruppen eingeben.<br>2. <b>Kapazität:</b> Basis-Kapazität eingeben.",
+        titlePasukan: "Gesamte Truppen", titleKaps: "Kapazität & Marsch", titleRasioOpen: "Rally-Rate (%)",
+        labelInf: "Gesamt INFANTERIE", labelLan: "Gesamt LANZENREITER", labelMar: "Gesamt SCHÜTZEN",
+        labelKapsH: "HELDEN Kap.", labelKapsNH: "OHNE HELD Kap.", labelBaris: "Marsch-Zahl (Max 6)",
+        labelKera: "Affen Lv. (0-10)", labelCyrille: "Cyrille Lv. (0-10)", labelCityBuff: "Stadtbuff",
+        btnReset: "Reset", btnSave: "Speichern", txtTotal: "Gesamt",
+        resTitle: "ERGEBNIS", resSisa: "🛡️ VERBLEIBENDE TRUPPEN", resRasio: "📊 JOINER-RATIO",
+        resUnit: "💂 TRUPPEN PRO MARSCH", resDetail: "🔍 DETAILS",
+        errRasio: "⚠️ RATIO ÜBERSTEIGT 100%", copySuccess: "Kopiert!",
+        withH: "MIT HELD", noH: "OHNE HELD", type: "TYP", units: "EINH.", mode: "MODUS",
+        optNoBuff: "Kein Buff", optBuff10: "Kapazität (10%)", optBuff20: "Kapazität (20%)"
+    },
+    pt: {
+        modalTitle: "❓ Guia",
+        modalBody: "1. <b>Dados de Tropas:</b> Preencha o total.<br>2. <b>Capacidade:</b> Insira com/sem herói.",
+        titlePasukan: "Dados Totais", titleKaps: "Capacidade e Marcha", titleRasioOpen: "Razão de Abertura (%)",
+        labelInf: "Total INFANTARIA", labelLan: "Total LANCER", labelMar: "Total MARKSMAN",
+        labelKapsH: "Cap. HERÓI (Base)", labelKapsNH: "Cap. SEM HERÓI", labelBaris: "Marchas (Máx 6)",
+        labelKera: "Nv. Macaco (0-10)", labelCyrille: "Nv. Cyrille (0-10)", labelCityBuff: "Buff de Cidade",
+        btnReset: "Resetar", btnSave: "Salvar", txtTotal: "Total",
+        resTitle: "RESULTADO", resSisa: "🛡️ TROPAS RESTANTES", resRasio: "📊 RAZÃO DE ADESÃO",
+        resUnit: "💂 TROPAS POR MARCHA", resDetail: "🔍 DETALHES",
+        errRasio: "⚠️ RAZÃO EXCEDE 100%", copySuccess: "Copiado!",
+        withH: "COM HERÓI", noH: "SEM HERÓI", type: "TIPO", units: "UNID.", mode: "MODO",
+        optNoBuff: "Sem Buff", optBuff10: "Capacidade (10%)", optBuff20: "Capacidade (20%)"
     }
 };
 
@@ -369,6 +452,15 @@ function updateUI() {
     document.getElementById('labelBaris').innerText = t.labelBaris;
     document.getElementById('labelKera').innerText = t.labelKera;
     document.getElementById('labelCyrille').innerText = t.labelCyrille;
+    
+    if(document.getElementById('labelCityBuff')) document.getElementById('labelCityBuff').innerText = t.labelCityBuff;
+    const cbSelect = document.getElementById('cityBuff');
+    if(cbSelect) {
+        cbSelect.options[0].text = t.optNoBuff;
+        cbSelect.options[1].text = t.optBuff10;
+        cbSelect.options[2].text = t.optBuff20;
+    }
+
     document.getElementById('btnReset').innerText = t.btnReset;
     document.getElementById('btnSave').innerText = t.btnSave;
     document.getElementById('txtTotal').innerText = t.txtTotal;
@@ -378,11 +470,6 @@ function updateUI() {
 function toggleModal() {
     const modal = document.getElementById("tipsModal");
     modal.style.display = (modal.style.display === "block") ? "none" : "block";
-}
-
-window.onclick = function(event) {
-    const modal = document.getElementById("tipsModal");
-    if (event.target == modal) modal.style.display = "none";
 }
 
 function handleInput(el, maxVal = null) {
@@ -399,7 +486,9 @@ function handleInput(el, maxVal = null) {
 }
 
 function getVal(id) {
-    let val = document.getElementById(id).value.replace(/\./g, '');
+    let el = document.getElementById(id);
+    if(!el) return 0;
+    let val = el.value.replace(/\./g, '');
     return parseInt(val) || 0;
 }
 
@@ -408,9 +497,11 @@ function resetData() {
         if(['kera','cyrille','rInf','rLan','rMar'].includes(i.id)) {
             i.value = "0";
         } else {
-            i.value = ""; // Sekarang barisan juga akan kosong (mengikuti placeholder)
+            i.value = ""; 
         }
     });
+    const cb = document.getElementById('cityBuff');
+    if(cb) cb.value = "0";
     hitung();
 }
 
@@ -421,20 +512,10 @@ function saveData() {
     });
 }
 
-// Konfigurasi Gambar Tutorial (GANTI URL DI SINI)
 const imageSources = {
-    'pasukan': {
-        img1: 'Data_pasukan.jpeg', // Link Gambar 1 Pasukan
-		img2: ''
-    },
-    'kapasitas': {
-        img1: 'Kaps_barisan_nohero.jpeg', // Link Gambar 1 Kapasitas
-        img2: 'Kaps_barisan_hero.jpeg'  // Link Gambar 2 Kapasitas
-    },
-    'skill': {
-        img1: 'Skill_pet.jpeg', // Link Gambar 1 Skill
-        img2: 'Skill_cyrille.jpeg'  // Link Gambar 2 Skill
-    }
+    'pasukan': { img1: 'Data_pasukan.jpeg', img2: '' },
+    'kapasitas': { img1: 'Kaps_barisan_nohero.jpeg', img2: 'Kaps_barisan_hero.jpeg' },
+    'skill': { img1: 'Skill_pet.jpeg', img2: 'Skill_cyrille.jpeg' }
 };
 
 function openImageModal(type) {
@@ -442,26 +523,11 @@ function openImageModal(type) {
     const img1 = document.getElementById('popupImg1');
     const img2 = document.getElementById('popupImg2');
     const sources = imageSources[type];
-
     if (sources) {
-        // Logika Gambar 1
-        if (sources.img1 && sources.img1 !== '') {
-            img1.src = sources.img1;
-            img1.style.display = 'block';
-        } else {
-            img1.style.display = 'none'; // Sembunyikan total jika kosong
-            img1.src = ''; // Bersihkan src agar tidak memicu ikon rusak
-        }
-
-        // Logika Gambar 2
-        if (sources.img2 && sources.img2 !== '') {
-            img2.src = sources.img2;
-            img2.style.display = 'block';
-        } else {
-            img2.style.display = 'none'; // Sembunyikan total jika kosong
-            img2.src = ''; // Bersihkan src agar tidak memicu ikon rusak
-        }
-        
+        img1.src = sources.img1 || '';
+        img1.style.display = sources.img1 ? 'block' : 'none';
+        img2.src = sources.img2 || '';
+        img2.style.display = sources.img2 ? 'block' : 'none';
         modal.style.display = 'block';
     }
 }
@@ -470,14 +536,10 @@ function closeImageModal() {
     document.getElementById('imageModal').style.display = 'none';
 }
 
-// Update fungsi window.onclick yang sudah ada agar bisa menutup modal gambar juga
 window.onclick = function(event) {
     const tipsModal = document.getElementById("tipsModal");
     const imageModal = document.getElementById("imageModal");
-    
     if (event.target == tipsModal) tipsModal.style.display = "none";
-    
-    // Menutup modal gambar jika diklik di area luar modal-content
     if (event.target == imageModal) closeImageModal();
 }
 
@@ -491,6 +553,9 @@ function hitung() {
     let kHBase = getVal("kapasitasHero"), kNHBase = getVal("kapasitasNoHero");
     let barisan = Math.max(1, getVal("barisan"));
     
+    let cbSelect = document.getElementById("cityBuff");
+    let cBuff = cbSelect ? parseFloat(cbSelect.value) : 0;
+
     let vrI = getVal("rInf"), vrL = getVal("rLan"), vrM = getVal("rMar");
     let totalRasio = vrI + vrL + vrM;
     document.getElementById("totalRasioDisp").innerText = totalRasio;
@@ -504,7 +569,9 @@ function hitung() {
 
     let rI = vrI / 100, rL = vrL / 100, rM = vrM / 100;
     let bKera = sKera[lvK] || 0, bCyrille = sCyrille[lvC] || 0;
-    let capRealH = kHBase + bKera + bCyrille, capRealNH = kNHBase + bKera + bCyrille;
+    
+    let capRealH = Math.floor((kHBase + bKera + bCyrille) * (1 + cBuff));
+    let capRealNH = Math.floor((kNHBase + bKera + bCyrille) * (1 + cBuff));
 
     let sI_total = Math.max(0, infT - (capRealH * rI));
     let sL_total = Math.max(0, lanT - (capRealH * rL));
@@ -548,17 +615,19 @@ function hitung() {
             <p style="font-size:0.75rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">${t.resDetail}</p>
             <div class="calc-detail">
                 <div style="color: var(--text-secondary); font-size: 0.7rem; margin-bottom: 8px; font-weight: bold;">[ ${t.withH} ]</div>
-                <div class="calc-line"><span>Base:</span> <span>${kHBase.toLocaleString('id-ID')}</span></div>
-                <div class="calc-line"><span>Bonus 1:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
-                <div class="calc-line"><span>Bonus 2:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
-                <div class="calc-total calc-line"><span>Total:</span> <span>${capRealH.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Base + Hero:</span> <span>${kHBase.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus Pet:</span> <span>+${(bKera).toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus Expert:</span> <span>+${(bCyrille).toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus City:</span> <span>+${Math.floor((kHBase + bKera + bCyrille) * cBuff).toLocaleString('id-ID')} (${cBuff*100}%)</span></div>
+                <div class="calc-total calc-line"><span>Total Akhir:</span> <span>${capRealH.toLocaleString('id-ID')}</span></div>
             </div>
             <div class="calc-detail" style="margin-top: 10px;">
                 <div style="color: var(--text-secondary); font-size: 0.7rem; margin-bottom: 8px; font-weight: bold;">[ ${t.noH} ]</div>
                 <div class="calc-line"><span>Base:</span> <span>${kNHBase.toLocaleString('id-ID')}</span></div>
-                <div class="calc-line"><span>Bonus 1:</span> <span>+${bKera.toLocaleString('id-ID')}</span></div>
-                <div class="calc-line"><span>Bonus 2:</span> <span>+${bCyrille.toLocaleString('id-ID')}</span></div>
-                <div class="calc-total calc-line"><span>Total:</span> <span>${capRealNH.toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus Pet:</span> <span>+${(bKera).toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus Expert:</span> <span>+${(bCyrille).toLocaleString('id-ID')}</span></div>
+                <div class="calc-line"><span>Bonus City:</span> <span>+${Math.floor((kNHBase + bKera + bCyrille) * cBuff).toLocaleString('id-ID')} (${cBuff*100}%)</span></div>
+                <div class="calc-total calc-line"><span>Total Akhir:</span> <span>${capRealNH.toLocaleString('id-ID')}</span></div>
             </div>
         </div>
     `;
