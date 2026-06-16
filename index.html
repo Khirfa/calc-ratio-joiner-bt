@@ -41,19 +41,18 @@
 
         .section-card { background: var(--card-bg); padding: 18px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border-color); }
         h2 { 
-		font-size: 0.8rem; 
-		text-transform: uppercase; 
-		color: var(--text-secondary); 
-		border-left: 3px solid var(--accent-color); 
-		padding-left: 10px; 
-		margin: 0 !important; /* Paksa margin jadi 0 */
-		display: flex;
-		align-items: center;
-		}
+        font-size: 0.8rem; 
+        text-transform: uppercase; 
+        color: var(--text-secondary); 
+        border-left: 3px solid var(--accent-color); 
+        padding-left: 10px; 
+        margin: 0 !important; 
+        display: flex;
+        align-items: center;
+        }
         .input-wrapper { display: flex; flex-direction: column; gap: 12px; }
         label { display: block; font-size: 0.7rem; margin-bottom: 5px; color: var(--text-secondary); font-weight: 600; }
         
-        /* Input diperbaiki untuk mobile */
         input { 
             width: 100%; 
             padding: 12px; 
@@ -64,10 +63,9 @@
             font-size: 1rem; 
             box-sizing: border-box; 
             outline: none; 
-            -webkit-appearance: none; /* Menghapus style bawaan iOS */
+            -webkit-appearance: none; 
         }
         
-        /* Mencegah auto-zoom di iOS (font minimal 16px) */
         @media screen and (max-width: 768px) {
             input { font-size: 16px; }
         }
@@ -98,62 +96,59 @@
         .author-name { color: var(--accent-color); text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); cursor: pointer; position: relative; transition: 0.3s; display: inline-block; -webkit-tap-highlight-color: transparent; }
         
         .copy-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--accent-color); color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; display: none; z-index: 1000; box-shadow: 0 4px 12px rgba(0, 242, 255, 0.4); }
-        .rtl { direction: rtl; text-align: right; }
-		
-		/* Tombol ? Kecil */
-		.info-trigger {
-			width: 20px;
-			height: 20px;
-			background: rgba(0, 242, 255, 0.1);
-			border: 1.5px solid var(--accent-color);
-			border-radius: 50%; /* Membuat jadi lingkaran sempurna */
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: var(--accent-color);
-			font-size: 0.75rem;
-			cursor: pointer;
-			transition: all 0.3s ease;
-			font-weight: 800;
-			-webkit-tap-highlight-color: transparent;
-			box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); /* Efek glow halus */
-		}
+        
+        .info-trigger {
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 242, 255, 0.1);
+            border: 1.5px solid var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 800;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 0 5px rgba(0, 242, 255, 0.2);
+        }
 
-		.info-trigger:hover {
-			background: var(--accent-color);
-			color: #000;
-			box-shadow: 0 0 12px var(--accent-color);
-			transform: scale(1.1); /* Sedikit membesar saat disentuh */
-		}
-		
-		/* Styling Modal Gambar (2 Gambar) */
-		.image-modal-content {
-			background-color: var(--card-bg);
-			margin: 5% auto; /* Jarak atas lebih kecil agar muat 2 gambar */
-			padding: 15px;
-			border: 2px solid var(--accent-color);
-			border-radius: 16px;
-			width: 90%;
-			max-width: 450px; /* Sedikit lebih lebar */
-			max-height: 90vh; /* Agar tidak melebihi layar */
-			overflow-y: auto; /* Scroll jika gambar terlalu panjang */
-			position: relative;
-			box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
-		}
+        .info-trigger:hover {
+            background: var(--accent-color);
+            color: #000;
+            box-shadow: 0 0 12px var(--accent-color);
+            transform: scale(1.1);
+        }
+        
+        .image-modal-content {
+            background-color: var(--card-bg);
+            margin: 5% auto;
+            padding: 15px;
+            border: 2px solid var(--accent-color);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+        }
 
-		.image-container {
-			display: flex;
-			flex-direction: column; /* Gambar atas-bawah */
-			gap: 15px; /* Jarak antar gambar */
-			margin-top: 15px;
-		}
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
 
-		.image-container img {
-	    width: 100%;
-	    height: auto;
-	    border-radius: 8px;
-	    margin-bottom: 5px; /* Jarak antar gambar jika ada 2 */
-		}
+        .image-container img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -165,14 +160,6 @@
             <select class="lang-select" id="langSelect" onchange="changeLang()">
                 <option value="id">Bahasa Indonesia</option>
                 <option value="en">English</option>
-                <option value="zh">中文 (Chinese)</option>
-                <option value="ja">日本語 (Japanese)</option>
-                <option value="ko">한국어 (Korean)</option>
-                <option value="pl">Polski (Polish)</option>
-                <option value="tr">Türkçe (Turkish)</option>
-                <option value="ar">العربية (Arabic)</option>
-                <option value="de">Deutsch (German)</option>
-                <option value="pt">Português (Brazil)</option>
             </select>
             <div class="tips-icon" onclick="toggleModal()">?</div>
         </div>
@@ -186,51 +173,54 @@
         </div>
     </div>
 
-	<div class="section-card">
-		<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
-			<h2 id="titlePasukan" style="margin-bottom: 0;">Data Pasukan Total</h2>
-			<div class="info-trigger" onclick="openImageModal('pasukan')">?</div>
-		</div>
-		<div class="input-wrapper">
-			<div class="input-group"><label id="labelInf">Total INFANTRY</label><input type="text" id="infantry" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
-			<div class="input-group"><label id="labelLan">Total LANCER</label><input type="text" id="lancer" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
-			<div class="input-group"><label id="labelMar">Total MARKSMAN</label><input type="text" id="marksman" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
-		</div>
-	</div>
-	
-	<div class="section-card">
-		<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
-			<h2 id="titleKaps" style="margin-bottom: 0;">Kapasitas & Barisan</h2>
-			<div class="info-trigger" onclick="openImageModal('kapasitas')">?</div>
-		</div>
-		<div class="input-wrapper">
-			<div class="input-group"><label id="labelKapsH">Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
-			<div class="input-group"><label id="labelKapsNH">Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
-			<div class="input-group"><label id="labelBaris">Jumlah Barisan (Max 6)</label><input type="text" id="barisan" inputmode="numeric" pattern="[0-9]*" placeholder="0" value="" oninput="handleInput(this, 6)"></div>
-		</div>
-	</div>
-
-	<div class="section-card">
-		<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
-			<h2 id="titleSkill" style="margin-bottom: 0;">Level Skill Bonus</h2>
-			<div class="info-trigger" onclick="openImageModal('skill')">?</div>
-		</div>
-		<div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-			<div class="input-group"><label id="labelKera">Lv. Kera (0-10)</label><input type="text" id="kera" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
-			<div class="input-group"><label id="labelCyrille">Lv. Cyrille (0-10)</label><input type="text" id="cyrille" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
-		</div>
-		<div class="input-group" style="grid-column: span 2; margin-top: 10px;">
-			<label id="labelCityBuff">Buff Kota (Expansion)</label>
-			<select id="cityBuff" onchange="hitung()" style="width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 1rem; outline: none;">
-				<option value="0">Tanpa Buff</option>
-				<option value="0.1">Kapasitas (10%)</option>
-				<option value="0.2">Kapasitas (20%)</option>
-			</select>
-		</div>
-	</div>
+    <div class="section-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+            <h2 id="titlePasukan" style="margin-bottom: 0;">Data Pasukan Total</h2>
+            <div class="info-trigger" onclick="openImageModal('pasukan')">?</div>
+        </div>
+        <div class="input-wrapper">
+            <div class="input-group"><label id="labelInf">Total INFANTRY</label><input type="text" id="infantry" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelLan">Total LANCER</label><input type="text" id="lancer" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelMar">Total MARKSMAN</label><input type="text" id="marksman" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+        </div>
+    </div>
+    
+    <div class="section-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+            <h2 id="titleKaps" style="margin-bottom: 0;">Kapasitas & Barisan</h2>
+            <div class="info-trigger" onclick="openImageModal('kapasitas')">?</div>
+        </div>
+        <div class="input-wrapper">
+            <div class="input-group"><label id="labelKapsH">Kaps. HERO (Base)</label><input type="text" id="kapasitasHero" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelKapsNH">Kaps. TANPA HERO (Base)</label><input type="text" id="kapasitasNoHero" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+            <div class="input-group"><label id="labelBaris">Jumlah Barisan (Max 6)</label><input type="text" id="barisan" inputmode="numeric" pattern="[0-9]*" placeholder="0" value="" oninput="handleInput(this, 6)"></div>
+            <div class="input-group"><label id="labelLimitPasukan" style="color: var(--accent-color);">Batas Pasukan per Baris (Opsional)</label><input type="text" id="limitPasukan" inputmode="numeric" pattern="[0-9]*" placeholder="0" oninput="handleInput(this)"></div>
+        </div>
+    </div>
 
     <div class="section-card">
-        <h2 id="titleRasioOpen">Rasio Open Rally (%)</h2>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+            <h2 id="titleSkill" style="margin-bottom: 0;">Level Skill Bonus</h2>
+            <div class="info-trigger" onclick="openImageModal('skill')">?</div>
+        </div>
+        <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="input-group"><label id="labelKera">Lv. Kera (0-10)</label><input type="text" id="kera" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
+            <div class="input-group"><label id="labelCyrille">Lv. Cyrille (0-10)</label><input type="text" id="cyrille" inputmode="numeric" pattern="[0-9]*" value="0" oninput="handleInput(this, 10)"></div>
+        </div>
+        <div class="input-group" style="grid-column: span 2; margin-top: 10px;">
+            <label id="labelCityBuff">Buff Kota (Expansion)</label>
+            <select id="cityBuff" onchange="hitung()" style="width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: white; font-size: 1rem; outline: none;">
+                <option value="0">Tanpa Buff</option>
+                <option value="0.1">Kapasitas (10%)</option>
+                <option value="0.2">Kapasitas (20%)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+            <h2 id="titleRasioOpen">Rasio Joiner / Open Rally (%)</h2>
+        </div>
         <div style="text-align: right; font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 5px;"><span id="txtTotal">Total</span>: <span id="totalRasioDisp">0</span>% / Max 100%</div>
         <div class="input-wrapper" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
             <div class="input-group"><label style="color:var(--color-inf)">INF %</label><input type="text" id="rInf" inputmode="numeric" pattern="[0-9]*" placeholder="0" value="" oninput="handleInput(this, 100)"></div>
@@ -238,16 +228,16 @@
             <div class="input-group"><label style="color:var(--color-mm)">MM %</label><input type="text" id="rMar" inputmode="numeric" pattern="[0-9]*" placeholder="0" value="" oninput="handleInput(this, 100)"></div>
         </div>
     </div>
-	
-	<div id="imageModal" class="modal" onclick="closeImageModal()">
-		<div class="modal-content image-modal-content">
-			<span class="close-btn" onclick="closeImageModal()">&times;</span>
-			<div class="image-container">
-				<img src="" id="popupImg1" alt="Tutorial Gambar 1">
-				<img src="" id="popupImg2" alt="Tutorial Gambar 2">
-			</div>
-		</div>
-	</div>
+    
+    <div id="imageModal" class="modal" onclick="closeImageModal()">
+        <div class="modal-content image-modal-content">
+            <span class="close-btn" onclick="closeImageModal()">&times;</span>
+            <div class="image-container">
+                <img src="" id="popupImg1" alt="Tutorial Gambar 1">
+                <img src="" id="popupImg2" alt="Tutorial Gambar 2">
+            </div>
+        </div>
+    </div>
 
     <div class="btn-group">
         <button class="btn-reset" onclick="resetData()" id="btnReset">Reset</button>
@@ -268,10 +258,11 @@ let lastSaveText = "";
 const i18n = {
     id: {
         modalTitle: "❓ Panduan Penggunaan",
-        modalBody: "1. <b>Data Pasukan:</b> Isi total pasukan yang kamu miliki di pratinjau skuad.<br>2. <b>Kapasitas Base:</b> Cek di menu barisan. Input kapasitas saat memakai hero dan tanpa hero.<br>3. <b>Rasio Open:</b> Isi berapa % pasukan yang kamu pakai untuk membuka rally sendiri (Max 100%).<br>4. <b>Joiner:</b> Setting sesuai hasil kalkulasi di bawah ke dalam skuad kalian.<br><br><b>🔥 Tips Crazy Joe:</b><br>Atur rasio open menjadi 0% dan Cyrille ke 0. Cukup isi level kera jika menggunakan buff pet.",
-        titlePasukan: "Data Pasukan Total", titleKaps: "Kapasitas & Barisan", titleRasioOpen: "Rasio Open Rally (%)",
+        modalBody: "1. <b>Data Pasukan:</b> Isi total pasukan yang kamu miliki di pratinjau skuad.<br>2. <b>Kapasitas Base:</b> Cek di menu barisan. Input kapasitas saat memakai hero dan tanpa hero.<br>3. <b>Batas Pasukan:</b> Isi jika ingin membagi pasukan dengan jumlah fix per baris (misal 150k).<br>4. <b>Rasio:</b> Isi berapa % target pasukan (Max 100%).<br><br><b>🔥 Tips Crazy Joe:</b><br>Atur rasio open menjadi 0% dan Cyrille ke 0. Cukup isi level kera jika menggunakan buff pet.",
+        titlePasukan: "Data Pasukan Total", titleKaps: "Kapasitas & Barisan", titleRasioOpen: "Rasio Joiner / Open Rally (%)",
         labelInf: "Total INFANTRY", labelLan: "Total LANCER", labelMar: "Total MARKSMAN",
         labelKapsH: "Kaps. HERO (Base)", labelKapsNH: "Kaps. TANPA HERO (Base)", labelBaris: "Jumlah Barisan (Max 6)",
+        labelLimitPasukan: "Batas Pasukan per Baris (Opsional)",
         labelKera: "Lv. Kera (0-10)", labelCyrille: "Lv. Cyrille (0-10)", labelCityBuff: "Buff Kota (Expansion)",
         btnReset: "Reset", btnSave: "Simpan Data", txtTotal: "Total",
         resTitle: "HASIL KALKULASI", resSisa: "🛡️ SISA TOTAL PASUKAN", resRasio: "📊 RASIO JOINER PER BARIS (RANGE)",
@@ -282,10 +273,11 @@ const i18n = {
     },
     en: {
         modalTitle: "❓ User Guide",
-        modalBody: "1. <b>Troop Data:</b> Fill total troops from squad preview.<br>2. <b>Base Capacity:</b> Check march menu. Input hero and no-hero capacity.<br>3. <b>Open Ratio:</b> % of troops for your own rally (Max 100%).",
-        titlePasukan: "Total Troop Data", titleKaps: "Capacity & March", titleRasioOpen: "Open Rally Ratio (%)",
+        modalBody: "1. <b>Troop Data:</b> Fill total troops from squad preview.<br>2. <b>Base Capacity:</b> Check march menu. Input hero and no-hero capacity.<br>3. <b>Troop Limit:</b> Fill to split a fixed amount of troops per march (e.g. 150k).<br>4. <b>Ratio:</b> % of troops for your rally/joiner (Max 100%).",
+        titlePasukan: "Total Troop Data", titleKaps: "Capacity & March", titleRasioOpen: "Joiner / Open Ratio (%)",
         labelInf: "Total INFANTRY", labelLan: "Total LANCER", labelMar: "Total MARKSMAN",
         labelKapsH: "HERO Cap. (Base)", labelKapsNH: "NO HERO Cap. (Base)", labelBaris: "Total March (Max 6)",
+        labelLimitPasukan: "Troop Limit per March (Optional)",
         labelKera: "Ape Lv. (0-10)", labelCyrille: "Cyrille Lv. (0-10)", labelCityBuff: "City Buff (Expansion)",
         btnReset: "Reset", btnSave: "Save Data", txtTotal: "Total",
         resTitle: "CALCULATION RESULT", resSisa: "🛡️ REMAINING TROOPS", resRasio: "📊 JOINER RATIO PER MARCH (RANGE)",
@@ -293,118 +285,6 @@ const i18n = {
         errRasio: "⚠️ RATIO EXCEEDS 100%", copySuccess: "Data copied!",
         withH: "WITH HERO", noH: "NO HERO", type: "TYPE", units: "UNITS", mode: "MODE",
         optNoBuff: "No Buff", optBuff10: "Capacity (10%)", optBuff20: "Capacity (20%)"
-    },
-    zh: {
-        modalTitle: "❓ 使用指南",
-        modalBody: "1. <b>部队数据:</b> 填写总兵力。<br>2. <b>基础容量:</b> 输入英雄和无英雄容量。<br>3. <b>集结比例:</b> 开启集结的兵力百分比。",
-        titlePasukan: "部队总数", titleKaps: "容量与队列", titleRasioOpen: "集结比例 (%)",
-        labelInf: "步兵总量", labelLan: "矛兵总量", labelMar: "射手总量",
-        labelKapsH: "英雄容量 (基础)", labelKapsNH: "无英雄容量 (基础)", labelBaris: "队列数量 (最高 6)",
-        labelKera: "宠物等级 (0-10)", labelCyrille: "教官等级 (0-10)", labelCityBuff: "城市增益 (扩容)",
-        btnReset: "重置", btnSave: "保存数据", txtTotal: "总计",
-        resTitle: "计算结果", resSisa: "🛡️ 剩余兵力", resRasio: "📊 每队比例",
-        resUnit: "💂 每队兵力", resDetail: "🔍 容量详情",
-        errRasio: "⚠️ 比例超过 100%", copySuccess: "数据已复制!",
-        withH: "带英雄", noH: "无英雄", type: "类型", units: "数量", mode: "模式",
-        optNoBuff: "无增益", optBuff10: "容量 (10%)", optBuff20: "容量 (20%)"
-    },
-    ja: {
-        modalTitle: "❓ 使用ガイド",
-        modalBody: "1. <b>兵力データ:</b> 総兵力を入力。<br>2. <b>基本容量:</b> 英雄あり/なしの容量を入力。",
-        titlePasukan: "総兵力データ", titleKaps: "容量と行軍", titleRasioOpen: "集結比率 (%)",
-        labelInf: "歩兵総数", labelLan: "槍兵総数", labelMar: "弓兵総数",
-        labelKapsH: "英雄容量 (基本)", labelKapsNH: "英雄なし (基本)", labelBaris: "部隊数 (最大 6)",
-        labelKera: "猿レベル (0-10)", labelCyrille: "教官レベル (0-10)", labelCityBuff: "都市バフ (拡張)",
-        btnReset: "リセット", btnSave: "保存", txtTotal: "合計",
-        resTitle: "計算結果", resSisa: "🛡️ 残り兵力", resRasio: "📊 参加比率",
-        resUnit: "💂 部隊あたりの兵数", resDetail: "🔍 容量詳細",
-        errRasio: "⚠️ 比率が100%を超えています", copySuccess: "コピーしました!",
-        withH: "英雄あり", noH: "英雄なし", type: "兵種", units: "兵数", mode: "モード",
-        optNoBuff: "バフなし", optBuff10: "容量 (10%)", optBuff20: "容量 (20%)"
-    },
-    ko: {
-        modalTitle: "❓ 사용 가이드",
-        modalBody: "1. <b>병력 데이터:</b> 총 병력을 입력하세요.<br>2. <b>기본 용량:</b> 영웅 포함/미포함 용량을 입력하세요.",
-        titlePasukan: "총 병력 데이터", titleKaps: "용량 및 행군", titleRasioOpen: "집결 비율 (%)",
-        labelInf: "보병 총수", labelLan: "궁병 총수", labelMar: "사수 총수",
-        labelKapsH: "영웅 용량 (기본)", labelKapsNH: "영웅 미포함 (기본)", labelBaris: "행군 수 (최대 6)",
-        labelKera: "유인원 레벨 (0-10)", labelCyrille: "교관 레벨 (0-10)", labelCityBuff: "도시 버프 (확장)",
-        btnReset: "초기화", btnSave: "저장", txtTotal: "합계",
-        resTitle: "계산 결과", resSisa: "🛡️ 남은 병력", resRasio: "📊 참가 비율",
-        resUnit: "💂 부대별 병력", resDetail: "🔍 용량 상세",
-        errRasio: "⚠️ 비율이 100%를 초과했습니다", copySuccess: "복사되었습니다!",
-        withH: "영웅 포함", noH: "영웅 미포함", type: "유형", units: "수량", mode: "모드",
-        optNoBuff: "버프 없음", optBuff10: "용량 (10%)", optBuff20: "용량 (20%)"
-    },
-    pl: {
-        modalTitle: "❓ Instrukcja",
-        modalBody: "1. <b>Wojska:</b> Wpisz całkowitą liczbę wojsk.<br>2. <b>Pojemność:</b> Wpisz pojemność bazy.",
-        titlePasukan: "Całkowite Wojska", titleKaps: "Pojemność i Marsz", titleRasioOpen: "Ratio Otwarcia (%)",
-        labelInf: "Suma PIECHOTY", labelLan: "Suma LANCERÓW", labelMar: "Suma STRZELCÓW",
-        labelKapsH: "Pojemność BOH.", labelKapsNH: "Pojemność BEZ BOH.", labelBaris: "Marsze (Maks 6)",
-        labelKera: "Poz. Małpy (0-10)", labelCyrille: "Poz. Cyrille (0-10)", labelCityBuff: "Buff Miasta",
-        btnReset: "Reset", btnSave: "Zapisz", txtTotal: "Suma",
-        resTitle: "WYNIK", resSisa: "🛡️ POZOSTAŁE WOJSKA", resRasio: "📊 RATIO DOŁĄCZANIA",
-        resUnit: "💂 WOJSKA NA MARSZ", resDetail: "🔍 SZCZEGÓŁY",
-        errRasio: "⚠️ RATIO PRZEKRACZA 100%", copySuccess: "Skopiowano!",
-        withH: "Z BOHATEREM", noH: "BEZ BOHATERA", type: "TYP", units: "JEDN.", mode: "TRYB",
-        optNoBuff: "Brak Buffa", optBuff10: "Pojemność (10%)", optBuff20: "Pojemność (20%)"
-    },
-    tr: {
-        modalTitle: "❓ Kılavuz",
-        modalBody: "1. <b>Birlikler:</b> Toplam birliği girin.<br>2. <b>Kapasite:</b> Üs kapasitesini girin.",
-        titlePasukan: "Toplam Birlik", titleKaps: "Kapasite ve Yürüyüş", titleRasioOpen: "Rally Oranı (%)",
-        labelInf: "Toplam PİYADE", labelLan: "Toplam MIZRAKÇI", labelMar: "Toplam AVCI",
-        labelKapsH: "KAHRAMAN Kap.", labelKapsNH: "KAHRAMANSIZ Kap.", labelBaris: "Yürüyüş (Maks 6)",
-        labelKera: "Maymun Sv. (0-10)", labelCyrille: "Cyrille Sv. (0-10)", labelCityBuff: "Şehir Buffı",
-        btnReset: "Sıfırla", btnSave: "Kaydet", txtTotal: "Toplam",
-        resTitle: "SONUÇ", resSisa: "🛡️ KALAN BİRLİK", resRasio: "📊 KATILIM ORANI",
-        resUnit: "💂 YÜRÜYÜŞ BİRLİĞİ", resDetail: "🔍 KAPASİTE DETAYI",
-        errRasio: "⚠️ ORAN %100'Ü GEÇİYOR", copySuccess: "Kopyalandı!",
-        withH: "KAHRAMANLI", noH: "KAHRAMANSIZ", type: "TÜR", units: "BİRİM", mode: "MOD",
-        optNoBuff: "Buff Yok", optBuff10: "Kapasite (10%)", optBuff20: "Kapasite (20%)"
-    },
-    ar: {
-        modalTitle: "❓ دليل الاستخدام",
-        modalBody: "1. <b>بيانات القوات:</b> أدخل إجمالي القوات.<br>2. <b>سعة القاعدة:</b> أدخل السعة.",
-        titlePasukan: "إجمالي القوات", titleKaps: "السعة والمسيرة", titleRasioOpen: "نسبة الفتح (%)",
-        labelInf: "إجمالي المشاة", labelLan: "إجمالي الرماح", labelMar: "إجمالي القناصة",
-        labelKapsH: "سعة البطل", labelKapsNH: "سعة بدون بطل", labelBaris: "المسيرات (أقصى 6)",
-        labelKera: "مستوى القرد (0-10)", labelCyrille: "مستوى Cyrille (0-10)", labelCityBuff: "بف المدينة",
-        btnReset: "إعادة تعيين", btnSave: "حفظ", txtTotal: "الإجمالي",
-        resTitle: "نتيجة الحساب", resSisa: "🛡️ القوات المتبقية", resRasio: "📊 نسبة الانضمام",
-        resUnit: "💂 القوات لكل مسيرة", resDetail: "🔍 تفاصيل السعة",
-        errRasio: "⚠️ النسبة تتجاوز 100%", copySuccess: "تم النسخ!",
-        withH: "مع بطل", noH: "بدون بطل", type: "النوع", units: "الوحدات", mode: "الوضع",
-        optNoBuff: "بدون بف", optBuff10: "السعة (10%)", optBuff20: "السعة (20%)"
-    },
-    de: {
-        modalTitle: "❓ Leitfaden",
-        modalBody: "1. <b>Truppendaten:</b> Gesamttruppen eingeben.<br>2. <b>Kapazität:</b> Basis-Kapazität eingeben.",
-        titlePasukan: "Gesamte Truppen", titleKaps: "Kapazität & Marsch", titleRasioOpen: "Rally-Rate (%)",
-        labelInf: "Gesamt INFANTERIE", labelLan: "Gesamt LANZENREITER", labelMar: "Gesamt SCHÜTZEN",
-        labelKapsH: "HELDEN Kap.", labelKapsNH: "OHNE HELD Kap.", labelBaris: "Marsch-Zahl (Max 6)",
-        labelKera: "Affen Lv. (0-10)", labelCyrille: "Cyrille Lv. (0-10)", labelCityBuff: "Stadtbuff",
-        btnReset: "Reset", btnSave: "Speichern", txtTotal: "Gesamt",
-        resTitle: "ERGEBNIS", resSisa: "🛡️ VERBLEIBENDE TRUPPEN", resRasio: "📊 JOINER-RATIO",
-        resUnit: "💂 TRUPPEN PRO MARSCH", resDetail: "🔍 DETAILS",
-        errRasio: "⚠️ RATIO ÜBERSTEIGT 100%", copySuccess: "Kopiert!",
-        withH: "MIT HELD", noH: "OHNE HELD", type: "TYP", units: "EINH.", mode: "MODUS",
-        optNoBuff: "Kein Buff", optBuff10: "Kapazität (10%)", optBuff20: "Kapazität (20%)"
-    },
-    pt: {
-        modalTitle: "❓ Guia",
-        modalBody: "1. <b>Dados de Tropas:</b> Preencha o total.<br>2. <b>Capacidade:</b> Insira com/sem herói.",
-        titlePasukan: "Dados Totais", titleKaps: "Capacidade e Marcha", titleRasioOpen: "Razão de Abertura (%)",
-        labelInf: "Total INFANTARIA", labelLan: "Total LANCER", labelMar: "Total MARKSMAN",
-        labelKapsH: "Cap. HERÓI (Base)", labelKapsNH: "Cap. SEM HERÓI", labelBaris: "Marchas (Máx 6)",
-        labelKera: "Nv. Macaco (0-10)", labelCyrille: "Nv. Cyrille (0-10)", labelCityBuff: "Buff de Cidade",
-        btnReset: "Resetar", btnSave: "Salvar", txtTotal: "Total",
-        resTitle: "RESULTADO", resSisa: "🛡️ TROPAS RESTANTES", resRasio: "📊 RAZÃO DE ADESÃO",
-        resUnit: "💂 TROPAS POR MARCHA", resDetail: "🔍 DETALHES",
-        errRasio: "⚠️ RAZÃO EXCEDE 100%", copySuccess: "Copiado!",
-        withH: "COM HERÓI", noH: "SEM HERÓI", type: "TIPO", units: "UNID.", mode: "MODO",
-        optNoBuff: "Sem Buff", optBuff10: "Capacidade (10%)", optBuff20: "Capacidade (20%)"
     }
 };
 
@@ -431,14 +311,11 @@ function showToast() {
 
 function changeLang() {
     currentLang = document.getElementById('langSelect').value;
-    const container = document.getElementById('mainContainer');
-    if (currentLang === 'ar') container.classList.add('rtl');
-    else container.classList.remove('rtl');
     updateUI();
 }
 
 function updateUI() {
-    const t = i18n[currentLang] || i18n['en'];
+    const t = i18n[currentLang] || i18n['id'];
     document.getElementById('modalTitle').innerText = t.modalTitle;
     document.getElementById('modalBody').innerHTML = t.modalBody;
     document.getElementById('titlePasukan').innerText = t.titlePasukan;
@@ -450,6 +327,7 @@ function updateUI() {
     document.getElementById('labelKapsH').innerText = t.labelKapsH;
     document.getElementById('labelKapsNH').innerText = t.labelKapsNH;
     document.getElementById('labelBaris').innerText = t.labelBaris;
+    document.getElementById('labelLimitPasukan').innerText = t.labelLimitPasukan;
     document.getElementById('labelKera').innerText = t.labelKera;
     document.getElementById('labelCyrille').innerText = t.labelCyrille;
     
@@ -544,7 +422,7 @@ window.onclick = function(event) {
 }
 
 function hitung() {
-    const t = i18n[currentLang] || i18n['en'];
+    const t = i18n[currentLang] || i18n['id'];
     const sKera = {1:1500,2:3000,3:4500,4:6000,5:7500,6:9000,7:10500,8:12000,9:13500,10:15000};
     const sCyrille = {1:3000,2:6000,3:9000,4:12000,5:15000,6:18000,7:21000,8:24000,9:27000,10:30000};
 
@@ -552,6 +430,7 @@ function hitung() {
     let infT = getVal("infantry"), lanT = getVal("lancer"), mmT = getVal("marksman");
     let kHBase = getVal("kapasitasHero"), kNHBase = getVal("kapasitasNoHero");
     let barisan = Math.max(1, getVal("barisan"));
+    let limitPasukan = getVal("limitPasukan"); 
     
     let cbSelect = document.getElementById("cityBuff");
     let cBuff = cbSelect ? parseFloat(cbSelect.value) : 0;
@@ -573,11 +452,21 @@ function hitung() {
     let capRealH = Math.floor((kHBase + bKera + bCyrille) * (1 + cBuff));
     let capRealNH = Math.floor((kNHBase + bKera + bCyrille) * (1 + cBuff));
 
-    let sI_total = Math.max(0, infT - (capRealH * rI));
-    let sL_total = Math.max(0, lanT - (capRealH * rL));
-    let sM_total = Math.max(0, mmT - (capRealH * rM));
+    let pI, pL, pM;
 
-    let pI = Math.floor(sI_total / barisan), pL = Math.floor(sL_total / barisan), pM = Math.floor(sM_total / barisan);
+    if (limitPasukan > 0) {
+        pI = Math.floor(limitPasukan * rI);
+        pL = Math.floor(limitPasukan * rL);
+        pM = Math.floor(limitPasukan * rM);
+    } else {
+        let sI_total = Math.max(0, infT - (capRealH * rI));
+        let sL_total = Math.max(0, lanT - (capRealH * rL));
+        let sM_total = Math.max(0, mmT - (capRealH * rM));
+
+        pI = Math.floor(sI_total / barisan);
+        pL = Math.floor(sL_total / barisan);
+        pM = Math.floor(sM_total / barisan);
+    }
 
     function getRangeStr(unit, cap) {
         if (cap <= 0) return "0%";
@@ -591,12 +480,27 @@ function hitung() {
 
     lastSaveText = `${t.resTitle}\n\n${t.withH}:\nRatio: ${rInfH}/${rLanH}/${rMarH}\nUnits: ${pI.toLocaleString()}/${pL.toLocaleString()}/${pM.toLocaleString()}\n\n${t.noH}:\nRatio: ${rInfNH}/${rLanNH}/${rMarNH}\nUnits: ${pI.toLocaleString()}/${pL.toLocaleString()}/${pM.toLocaleString()}`;
 
+    let sisaPasukanHtml = "";
+    if (limitPasukan <= 0) {
+        let sI_total = Math.max(0, infT - (capRealH * rI));
+        let sL_total = Math.max(0, lanT - (capRealH * rL));
+        let sM_total = Math.max(0, mmT - (capRealH * rM));
+        sisaPasukanHtml = `
+            <p style="font-size:0.75rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">${t.resSisa}</p>
+            <div class="capacity-info"><span>INFANTRY:</span> <span class="val-highlight">${Math.floor(sI_total).toLocaleString('id-ID')}</span></div>
+            <div class="capacity-info"><span>LANCER:</span> <span class="val-highlight">${Math.floor(sL_total).toLocaleString('id-ID')}</span></div>
+            <div class="capacity-info"><span>MARKSMAN:</span> <span class="val-highlight">${Math.floor(sM_total).toLocaleString('id-ID')}</span></div>
+        `;
+    } else {
+        sisaPasukanHtml = `
+            <p style="font-size:0.75rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">⚙️ MODE BATAS MANUAL AKTIF</p>
+            <div style="font-size:0.7rem; color:var(--text-secondary);">Membagi total <span class="val-highlight">${limitPasukan.toLocaleString('id-ID')}</span> langsung berdasarkan rasio input.</div>
+        `;
+    }
+
     document.getElementById("hasil").innerHTML = `
         <h2 style="border:none; text-align:center; color:white; margin-bottom:15px;">${t.resTitle}</h2>
-        <p style="font-size:0.75rem; color:var(--accent-color); margin-bottom:8px; font-weight:700;">${t.resSisa}</p>
-        <div class="capacity-info"><span>INFANTRY:</span> <span class="val-highlight">${Math.floor(sI_total).toLocaleString('id-ID')}</span></div>
-        <div class="capacity-info"><span>LANCER:</span> <span class="val-highlight">${Math.floor(sL_total).toLocaleString('id-ID')}</span></div>
-        <div class="capacity-info"><span>MARKSMAN:</span> <span class="val-highlight">${Math.floor(sM_total).toLocaleString('id-ID')}</span></div>
+        ${sisaPasukanHtml}
 
         <p style="font-size:0.75rem; color:var(--accent-color); margin: 20px 0 8px 0; font-weight:700;">${t.resRasio}</p>
         <table>
